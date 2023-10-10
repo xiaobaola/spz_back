@@ -1,5 +1,9 @@
 package com.spz.pojo.communicate;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 /**
  * User:我吃饭的时候不饿
  * Date: 2023/10/02 19:58

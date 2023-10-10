@@ -1,71 +1,49 @@
 package com.spz.pojo.scraptrap;
 
-import java.util.Date;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * User:我吃饭的时候不饿
  * Date: 2023/10/02 19:47
  * Description:关于记录废品交易量
+ * -- 废品交易表
+ * create table scrapTrap
+ * (
+ *     id     int primary key auto_increment,
+ *     user_id      int        not null comment '用户id',
+ *     scrap_id     int comment '废品id',
+ *     numbers     int        not null comment '数量',
+ *     image       varchar(80) comment '物品图片',
+ *     `status`    varchar(8) not null default '未交易' comment '废品交易状态',
+ *     type        int                 default 0 comment '描述类型 0计量描述 1度量单位 2其他描述',
+ *     `count`     varchar(20) comment '0 计量描述 如1-5瓶 5-10斤',
+ *     size        varchar(20) comment '1 度量单位 度量单位或类型 kg/斤/g',
+ *     other       varchar(20) comment '2其他描述 其他详细或限制描述',
+ *     create_time datetime comment '创建时间',
+ *     update_time datetime comment '更新时间',
+ *     foreign key (user_id) references userMessage (id),-- 联系用户表的id
+ *     foreign key (scrap_id) references scrap (id)      -- 联系废品表的sid
+ * );
  */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ScrapTrad {
-    private int status;//废品状态 0 是等待卖出 1是已卖出
-    private int size;//尺寸大小
-    private String type;//类型
-    private int userId;//用户Id
-    private Date createTime;//创建订单时间
-    private Date updateTime;//更新订单时间
-
-    //加入交易对象时，需要填入交易的重量（尺寸），类型
-    public ScrapTrad(int size, String type) {
-        this.size = size;
-        this.type = type;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public int getSize() {
-        return size;
-    }
-
-    public void setSize(int size) {
-        this.size = size;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
+    private Integer id;//交易Id
+    private Integer scrapId;//废品id
+    private Integer userId;//用户Id
+    private Integer numbers;//废品数量
+    private String image;//物品图片
+    private String status;//废品交易状态
+    private Integer type;//物品单位描述类型  0计量描述 1度量单位 2其他描述
+    private String count;//0 计量描述 如1-5瓶 5-10斤
+    private String size;//1 度量单位 度量单位或类型 kg/斤/g
+    private String other;//2其他描述 其他详细或限制描述
+    private LocalDateTime createTime; //创建时间
+    private LocalDateTime updateTime;//更新时间
 }

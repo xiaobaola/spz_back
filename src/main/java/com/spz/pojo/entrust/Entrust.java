@@ -1,47 +1,42 @@
 package com.spz.pojo.entrust;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
+
 /**
  * User:我吃饭的时候不饿
  * Date: 2023/10/02 20:04
  * Description:关于发布委托的信息类
+ * -- 委托表
+ * -- 委托表
+ * create table entrust
+ * (
+ *     id       int primary key auto_increment comment '委托id',
+ *     user_id          int          not null comment '用户id',
+ *     info        varchar(200) not null comment '委托的需求（文字）',
+ *     image       varchar(300) comment '委托的图片',
+ *     price       int unsigned not null comment '委托的价格',
+ *     `status`    varchar(8)   not null default '待接单' comment '委托的状态',
+ *     create_time datetime comment '发布时间',
+ *     update_time datetime comment '更新时间',
+ *     foreign key (user_id) references userMessage (id) -- 联系用户表id
+ * );
  */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Entrust {
+    private Integer id;//委托Id
+    private Integer userId;//委托人id
     private String info;//委托的需求（文字）
+    private String image;//委托的图片
     private String price;//委托的价格
-    private int status;//委托的状态 0 是未接 1是已接 2是已完成
-    private int userId;//委托人id
-
-
-
-    public String getInfo() {
-        return info;
-    }
-
-    public void setInfo(String info) {
-        this.info = info;
-    }
-
-    public String getPrice() {
-        return price;
-    }
-
-    public void setPrice(String price) {
-        this.price = price;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
+    private String status;//委托的状态
+    private LocalDateTime createTime; //创建时间
+    private LocalDateTime updateTime;//更新时间
 }
