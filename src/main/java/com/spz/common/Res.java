@@ -15,7 +15,7 @@ public class Res<T> {
 
     private T data; //数据
 
-    private Map map = new HashMap(); //动态数据
+//    private Map map = new HashMap(); //动态数据
 
     public static <T> Res<T> success(T object) {
 
