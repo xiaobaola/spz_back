@@ -1,8 +1,4 @@
-package com.spz.pojo.communicate;
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+package com.spz.entity.communicate;
 
 /**
  * User:我吃饭的时候不饿

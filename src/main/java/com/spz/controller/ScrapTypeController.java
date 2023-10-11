@@ -4,16 +4,13 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.spz.common.Res;
-import com.spz.pojo.scrap.ScrapType;
+import com.spz.entity.scrap.ScrapType;
 import com.spz.service.ScrapTypeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.ArrayList;
 
 @RequestMapping("/spz/scrapType")
 @RestController
@@ -44,5 +41,16 @@ public class ScrapTypeController {
 //        queryWrapper.notifyAll();
 //        list = (ArrayList<ScrapType>) scrapTypeService.list(queryWrapper);
 //        return Res.success(list);
+    }
+    @GetMapping("/test")
+    public Res<ScrapType> test(){
+        log.info("测试中");
+        ScrapType scrapType = scrapTypeService.getById(1);
+        return Res.success(scrapType);
+    }
+    @GetMapping("/login")
+    public Res<String> login(){
+        log.info("接收到登录请求");
+        return Res.success("登录成功");
     }
 }

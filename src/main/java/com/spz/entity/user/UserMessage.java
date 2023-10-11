@@ -1,4 +1,4 @@
-package com.spz.pojo.user;
+package com.spz.entity.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

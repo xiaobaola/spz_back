@@ -1,12 +1,10 @@
-package com.spz.pojo.entrust;
+package com.spz.entity.entrust;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  * User:我吃饭的时候不饿

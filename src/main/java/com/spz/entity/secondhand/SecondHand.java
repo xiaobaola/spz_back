@@ -1,11 +1,10 @@
-package com.spz.pojo.secondhand;
+package com.spz.entity.secondhand;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  * User:我吃饭的时候不饿

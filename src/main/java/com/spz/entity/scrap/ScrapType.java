@@ -1,4 +1,4 @@
-package com.spz.pojo.scrap;
+package com.spz.entity.scrap;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

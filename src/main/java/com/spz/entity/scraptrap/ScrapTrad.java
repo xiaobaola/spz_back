@@ -1,10 +1,9 @@
-package com.spz.pojo.scraptrap;
+package com.spz.entity.scraptrap;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
