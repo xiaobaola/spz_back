@@ -6,6 +6,8 @@ import com.spz.service.UserMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+
 @Service
 public class UserMessageServiceImpl implements UserMessageService {
     @Autowired
@@ -14,5 +16,11 @@ public class UserMessageServiceImpl implements UserMessageService {
     @Override
     public UserMessage getById(UserMessage userMessage) {
         return userMessageMapper.getById(userMessage);
+    }
+
+    @Override
+    public UserMessage getByInfo(UserMessage userMessage) {
+        ArrayList<UserMessage> userMessageArrayList = userMessageMapper.getByAll();
+        return userMessageMapper.getByInfo(userMessage);
     }
 }

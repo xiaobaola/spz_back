@@ -24,8 +24,15 @@ public class UserMessageController {
         return Res.success(userMessage);
     }
     @GetMapping("/login")
-    public Res<String> login(UserMessage userMessage) {
-        log.info("login请求 username:{}, password{}", userMessage.getUsername(), userMessage.getPassword());
-        return Res.success("登录成功");
+    public Res<Integer> login(UserMessage userMessage) {
+        String username = userMessage.getUsername();
+        String password = userMessage.getPassword();
+        log.info("login请求 username:{}, password{}", username, password);
+        UserMessage one = userMessageService.getByInfo(userMessage);
+        if(one != null) {
+            log.info("userId = {}", one.getId());
+            return Res.success(one.getId());
+        }
+        return Res.error("用户名或密码错误");
     }
 }
