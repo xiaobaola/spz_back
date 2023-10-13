@@ -44,8 +44,9 @@ public class ScrapTypeController {
     }
     @GetMapping("/test")
     public Res<ScrapType> test(){
+        scrapTypeService.insert2();
         log.info("测试中");
-        ScrapType scrapType = scrapTypeService.getById(1);
+        ScrapType scrapType = new ScrapType();
         return Res.success(scrapType);
     }
     @GetMapping("/login")
