@@ -26,6 +26,7 @@ import java.time.LocalDateTime;
 public class ScrapType {
     private Integer id;//主键id
     private String name;//废品类型名
+    private String image;//废品类型图片
     private LocalDateTime createTime; //创建时间
     private LocalDateTime updateTime;//更新时间
 }

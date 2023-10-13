@@ -15,7 +15,7 @@ public class ScrapTypeImpl extends ServiceImpl<ScrapTypeMapper, ScrapType> imple
     @Autowired
     private ScrapTypeMapper scrapTypeMapper;
     public void insert2() {
-        ScrapType s = new ScrapType(12,"塑料", LocalDateTime.now(), LocalDateTime.now());
+        ScrapType s = new ScrapType(12,"塑料", "1.jpg", LocalDateTime.now(), LocalDateTime.now());
         scrapTypeMapper.insert2(s);
     }
 

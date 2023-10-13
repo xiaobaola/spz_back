@@ -34,6 +34,7 @@ import java.time.LocalDateTime;
 public class Scrap {
     private Integer id;//废品id
     private String name;//废品名字
+    private Integer price;//废品价格
     private String image;//物品图片
     private String scrapTypeId;//废品类型
     private Integer type;//物品单位描述类型  0计量描述 1度量单位 2其他描述
