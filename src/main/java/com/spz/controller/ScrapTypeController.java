@@ -38,6 +38,7 @@ public class ScrapTypeController {
     @GetMapping("/login")
     public Res<String> login(){
         log.info("接收到登录请求");
-        return Res.success("登录成功");
+//        return Res.success("登录成功");
+        return Res.error("错误");
     }
 }

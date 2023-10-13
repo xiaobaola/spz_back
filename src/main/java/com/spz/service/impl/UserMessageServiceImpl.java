@@ -20,7 +20,7 @@ public class UserMessageServiceImpl implements UserMessageService {
 
     @Override
     public UserMessage getByInfo(UserMessage userMessage) {
-        ArrayList<UserMessage> userMessageArrayList = userMessageMapper.getByAll();
+//        ArrayList<UserMessage> userMessageArrayList = userMessageMapper.getByAll();
         return userMessageMapper.getByInfo(userMessage);
     }
 }

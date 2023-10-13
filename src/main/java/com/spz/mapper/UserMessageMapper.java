@@ -18,5 +18,6 @@ public interface UserMessageMapper {
     @Select("select * from user_message")
     ArrayList<UserMessage> getByAll();
 
+    @Select("select * from user_message where username=#{username} and password=#{password}")
     UserMessage getByInfo(UserMessage userMessage);
 }
