@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 @Service
 public class ScrapTypeImpl extends ServiceImpl<ScrapTypeMapper, ScrapType> implements ScrapTypeService {
@@ -16,5 +17,10 @@ public class ScrapTypeImpl extends ServiceImpl<ScrapTypeMapper, ScrapType> imple
     public void insert2() {
         ScrapType s = new ScrapType(12,"塑料", LocalDateTime.now(), LocalDateTime.now());
         scrapTypeMapper.insert2(s);
+    }
+
+    @Override
+    public ArrayList<ScrapType> list2() {
+        return scrapTypeMapper.list2();
     }
 }

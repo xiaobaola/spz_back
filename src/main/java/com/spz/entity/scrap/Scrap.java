@@ -33,10 +33,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class Scrap {
     private Integer id;//废品id
-    private Integer userId;//用户id
     private String name;//废品名字
     private String image;//物品图片
-    private String scrapType;//废品类型
+    private String scrapTypeId;//废品类型
     private Integer type;//物品单位描述类型  0计量描述 1度量单位 2其他描述
     private String count;//0 计量描述 如1-5瓶 5-10斤
     private String size;//1 度量单位 度量单位或类型 kg/斤/g
