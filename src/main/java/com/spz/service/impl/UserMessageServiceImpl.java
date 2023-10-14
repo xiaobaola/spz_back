@@ -28,6 +28,6 @@ public class UserMessageServiceImpl implements UserMessageService {
     @Override
     public void updeteById(UserMessage userMessage) {
         userMessage.setUpdateTime(LocalDateTime.now());
-
+        userMessageMapper.updateById(userMessage);
     }
 }
