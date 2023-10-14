@@ -6,9 +6,7 @@ import com.spz.service.UserMessageService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/spz/user")
 @RestController
@@ -34,5 +32,11 @@ public class UserMessageController {
             return Res.success(user);
         }
         return Res.error("用户名或密码错误");
+    }
+    @PutMapping
+    public Res<String> updateById(@RequestBody UserMessage userMessage) {
+        log.info("userMessage{}", userMessage);
+        userMessageService.updeteById(userMessage);
+        return Res.success("更新成功");
     }
 }

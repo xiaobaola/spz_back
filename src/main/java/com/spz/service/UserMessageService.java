@@ -7,4 +7,6 @@ public interface UserMessageService {
     public UserMessage getById(UserMessage userMessage);
 
     UserMessage getByInfo(UserMessage userMessage);
+
+    void updeteById(UserMessage userMessage);
 }
