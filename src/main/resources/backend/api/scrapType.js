@@ -10,7 +10,7 @@ const getScrapTypeList = (params) => {
 // 编辑页面反查详情接口
 const queryCategoryById = (id) => {
     return $axios({
-        url: `/category/${id}`,
+        url: `/sqz/scrapType/${id}`,
         method: 'get'
     })
 }
@@ -18,7 +18,7 @@ const queryCategoryById = (id) => {
 // 删除当前列的接口
 const deleteScrapType = (ids) => {
     return $axios({
-        url: '/category',
+        url: '/sqz/scrapType',
         method: 'delete',
         params: {ids}
     })
@@ -27,7 +27,7 @@ const deleteScrapType = (ids) => {
 // 修改接口
 const editScrapType = (params) => {
     return $axios({
-        url: '/category',
+        url: '/sqz/scrapType',
         method: 'put',
         data: {...params}
     })
@@ -36,7 +36,7 @@ const editScrapType = (params) => {
 // 新增接口
 const addScrapType = (params) => {
     return $axios({
-        url: '/category',
+        url: '/sqz/scrapType',
         method: 'post',
         data: {...params}
     })

@@ -129,9 +129,8 @@
                 classData: {
                     'title': '添加废品分类',
                     'dialogVisible': false,
-                    'categoryId': '',
+                    'scrapTypeId': '',
                     'name': '',
-                    sort: ''
                 }
             }
         },
@@ -201,42 +200,15 @@
                 const valid = (classData.name === 0 || classData.name)
                 if (this.action === 'add') {
                     if (valid) {
-                        const reg = /^\d+$/
-                        if (reg.test(classData.sort)) {
-                            addScrapType({'name': classData.name, sort: classData.sort}).then(res => {
-                                console.log(res)
-                                if (res.code === 1) {
-                                    this.$message.success('分类添加成功！')
-                                    if (!st) {
-                                        this.classData.dialogVisible = false
-                                    } else {
-                                        this.classData.name = ''
-                                    }
-                                    this.handleQuery()
-                                } else {
-                                    this.$message.error(res.msg || '操作失败')
-                                }
-                            }).catch(err => {
-                                this.$message.error('请求出错了：' + err)
-                            })
-                        } else {
-                            this.$message.error('排序只能输入数字类型')
-                        }
-
-                    } else {
-                        this.$message.error('请输入分类名称或排序')
-                    }
-                } else if (valid) {
-                    const reg = /^\d+$/
-                    if (reg.test(this.classData.sort)) {
-                        editScrapType({
-                            'id': this.classData.id,
-                            'name': this.classData.name,
-                            sort: this.classData.sort
-                        }).then(res => {
+                        addScrapType({'name': classData.name}).then(res => {
+                            console.log(res)
                             if (res.code === 1) {
-                                this.$message.success('分类修改成功！')
-                                this.classData.dialogVisible = false
+                                this.$message.success('分类添加成功！')
+                                if (!st) {
+                                    this.classData.dialogVisible = false
+                                } else {
+                                    this.classData.name = ''
+                                }
                                 this.handleQuery()
                             } else {
                                 this.$message.error(res.msg || '操作失败')
@@ -245,10 +217,25 @@
                             this.$message.error('请求出错了：' + err)
                         })
                     } else {
-                        this.$message.error('排序只能输入数字类型')
+                        this.$message.error('请输入分类名称')
                     }
+                } else if (valid) {
+                    editScrapType({
+                        'id': this.classData.id,
+                        'name': this.classData.name,
+                    }).then(res => {
+                        if (res.code === 1) {
+                            this.$message.success('分类修改成功！')
+                            this.classData.dialogVisible = false
+                            this.handleQuery()
+                        } else {
+                            this.$message.error(res.msg || '操作失败')
+                        }
+                    }).catch(err => {
+                        this.$message.error('请求出错了：' + err)
+                    })
                 } else {
-                    this.$message.error('请输入分类名称或排序')
+                    this.$message.error('请输入分类名称')
                 }
             },
         }
