@@ -12,4 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class ScrapTradController {
     @Autowired
     ScrapTypeService scrapTypeService;
+
+
 }
