@@ -3,10 +3,12 @@ package com.spz.service.impl;
 import com.spz.entity.manage.Manager;
 import com.spz.mapper.ManagerMapper;
 import com.spz.service.ManagerService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 public class ManagerServiceImpl implements ManagerService {
     @Autowired
     private ManagerMapper managerMapper;

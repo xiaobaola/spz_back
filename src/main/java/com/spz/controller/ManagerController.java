@@ -29,7 +29,7 @@ public class ManagerController {
         if(one != null) {
             //把信息写入session中
             request.getSession().setAttribute("manager", one.getId());
-            return Res.success(manager);
+            return Res.success(one);
         }
         return Res.error("用户名或密码错误");
     }

@@ -36,25 +36,12 @@
             />
             </el-table-column>
             <el-table-column
-                    prop="type"
-                    label="分类类型"
-            >
-                <template slot-scope="scope">
-                    <span>{{ scope.row.type == '1' ? '废品分类' : '套餐分类' }}</span>
-                </template>
-            </el-table-column>
-            <el-table-column
                     prop="updateTime"
                     label="操作时间"
             >
                 <template slot-scope="scope">
                     {{scope.row.updateTime}}
                 </template>
-            </el-table-column>
-            <el-table-column
-                    prop="sort"
-                    label="排序"
-            />
             </el-table-column>
             <el-table-column
                     label="操作"
@@ -81,15 +68,6 @@
                 </template>
             </el-table-column>
         </el-table>
-        <el-pagination
-                class="pageList"
-                :page-sizes="[10, 20, 30, 40]"
-                :page-size="pageSize"
-                layout="total, sizes, prev, pager, next, jumper"
-                :total="counts"
-                @size-change="handleSizeChange"
-                @current-change="handleCurrentChange"
-        ></el-pagination>
     </div>
     <el-dialog
             :title="classData.title"
@@ -107,9 +85,6 @@
                         placeholder="请输入分类名称"
                         maxlength="14"
                 />
-            </el-form-item>
-            <el-form-item label="排序：">
-                <el-input v-model="classData.sort" type="number" placeholder="请输入排序"/>
             </el-form-item>
         </el-form>
         <span
@@ -142,7 +117,7 @@
 <!-- 引入axios -->
 <script src="../../plugins/axios/axios.min.js"></script>
 <script src="../../js/request.js"></script>
-<script src="../../api/category.js"></script>
+<script src="../../api/scrapType.js"></script>
 <script>
     new Vue({
         el: '#category-app',
@@ -150,10 +125,7 @@
             return {
                 action: '',
                 counts: 0,
-                page: 1,
-                pageSize: 10,
                 tableData: [],
-                type: '',
                 classData: {
                     'title': '添加废品分类',
                     'dialogVisible': false,
@@ -171,10 +143,10 @@
         },
         methods: {
             async init() {
-                await getCategoryPage({'page': this.page, 'pageSize': this.pageSize}).then(res => {
+                await getScrapTypeList().then(res => {
                     if (String(res.code) === '1') {
-                        this.tableData = res.data.records
-                        this.counts = Number(res.data.total)
+                        this.tableData = res.data
+                        // this.counts = Number(res.data.total)
                     } else {
                         this.$message.error(res.msg || '操作失败')
                     }
@@ -183,28 +155,21 @@
                 })
             },
             handleQuery() {
-                this.page = 1;
                 this.init();
             },
             // 添加
             addClass(st) {
                 if (st == 'class') {
                     this.classData.title = '新增废品分类'
-                    this.type = '1'
-                } else {
-                    this.classData.title = '新增套餐分类'
-                    this.type = '2'
                 }
                 this.action = 'add'
                 this.classData.name = ''
-                this.classData.sort = ''
                 this.classData.dialogVisible = true
             },
             editHandle(dat) {
                 this.classData.title = '修改分类'
                 this.action = 'edit'
                 this.classData.name = dat.name
-                this.classData.sort = dat.sort
                 this.classData.id = dat.id
                 this.classData.dialogVisible = true
             },
@@ -217,9 +182,8 @@
                 this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
                     'confirmButtonText': '确定',
                     'cancelButtonText': '取消',
-                    'type': 'warning'
                 }).then(() => {
-                    deleCategory(id).then(res => {
+                    deleteScrapType(id).then(res => {
                         if (res.code === 1) {
                             this.$message.success('删除成功！')
                             this.handleQuery()
@@ -234,12 +198,12 @@
             //数据提交
             submitForm(st) {
                 const classData = this.classData
-                const valid = (classData.name === 0 || classData.name) && (classData.sort === 0 || classData.sort)
+                const valid = (classData.name === 0 || classData.name)
                 if (this.action === 'add') {
                     if (valid) {
                         const reg = /^\d+$/
                         if (reg.test(classData.sort)) {
-                            addCategory({'name': classData.name, 'type': this.type, sort: classData.sort}).then(res => {
+                            addScrapType({'name': classData.name, sort: classData.sort}).then(res => {
                                 console.log(res)
                                 if (res.code === 1) {
                                     this.$message.success('分类添加成功！')
@@ -247,7 +211,6 @@
                                         this.classData.dialogVisible = false
                                     } else {
                                         this.classData.name = ''
-                                        this.classData.sort = ''
                                     }
                                     this.handleQuery()
                                 } else {
@@ -266,7 +229,7 @@
                 } else if (valid) {
                     const reg = /^\d+$/
                     if (reg.test(this.classData.sort)) {
-                        editCategory({
+                        editScrapType({
                             'id': this.classData.id,
                             'name': this.classData.name,
                             sort: this.classData.sort
@@ -288,14 +251,6 @@
                     this.$message.error('请输入分类名称或排序')
                 }
             },
-            handleSizeChange(val) {
-                this.pageSize = val
-                this.init()
-            },
-            handleCurrentChange(val) {
-                this.page = val
-                this.init()
-            }
         }
     })
 </script>

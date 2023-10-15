@@ -1,7 +1,7 @@
 // 查询列表接口
-const getCategoryPage = (params) => {
+const getScrapTypeList = (params) => {
     return $axios({
-        url: '/category/page',
+        url: '/spz/scrapType/list',
         method: 'get',
         params
     })
@@ -16,7 +16,7 @@ const queryCategoryById = (id) => {
 }
 
 // 删除当前列的接口
-const deleCategory = (ids) => {
+const deleteScrapType = (ids) => {
     return $axios({
         url: '/category',
         method: 'delete',
@@ -25,7 +25,7 @@ const deleCategory = (ids) => {
 }
 
 // 修改接口
-const editCategory = (params) => {
+const editScrapType = (params) => {
     return $axios({
         url: '/category',
         method: 'put',
@@ -34,7 +34,7 @@ const editCategory = (params) => {
 }
 
 // 新增接口
-const addCategory = (params) => {
+const addScrapType = (params) => {
     return $axios({
         url: '/category',
         method: 'post',
