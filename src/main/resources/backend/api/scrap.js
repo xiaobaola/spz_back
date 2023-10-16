@@ -1,5 +1,5 @@
 // 查询列表接口
-const getDishPage = (params) => {
+const getScrapPage = (params) => {
     return $axios({
         url: '/spz/scrap/page',
         method: 'get',
@@ -8,7 +8,7 @@ const getDishPage = (params) => {
 }
 
 // 删除接口
-const deleteDish = (ids) => {
+const deleteScrap = (ids) => {
     return $axios({
         url: '/spz/scrap',
         method: 'delete',
@@ -17,7 +17,7 @@ const deleteDish = (ids) => {
 }
 
 // 修改接口
-const editDish = (params) => {
+const editScrap = (params) => {
     return $axios({
         url: '/spz/scrap',
         method: 'put',
@@ -26,7 +26,7 @@ const editDish = (params) => {
 }
 
 // 新增接口
-const addDish = (params) => {
+const addScrap = (params) => {
     return $axios({
         url: '/spz/scrap',
         method: 'post',
@@ -35,7 +35,7 @@ const addDish = (params) => {
 }
 
 // 查询详情
-const queryDishById = (id) => {
+const queryScrapById = (id) => {
     return $axios({
         url: `/spz/scrap/${id}`,
         method: 'get'
@@ -52,7 +52,7 @@ const getScrapTypeList = (params) => {
 }
 
 // 查菜品列表的接口
-const queryDishList = (params) => {
+const queryScrapList = (params) => {
     return $axios({
         url: '/spz/scrap/list',
         method: 'get',
@@ -66,17 +66,8 @@ const commonDownload = (params) => {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
         },
-        url: '/common/download',
+        url: '/spz/common/download',
         method: 'get',
         params
-    })
-}
-
-// 起售停售---批量起售停售接口
-const dishStatusByStatus = (params) => {
-    return $axios({
-        url: `/spz/scrap/status/${params.status}`,
-        method: 'post',
-        params: {ids: params.id}
     })
 }

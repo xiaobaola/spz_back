@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -66,5 +67,29 @@ public class ScrapServiceImpl implements ScrapService {
         PageBean pageBean = new PageBean(scrapPage.getTotal(), scrapDtoList);
 
         return pageBean;
+    }
+
+    @Override
+    public Scrap getById(Integer id) {
+        return scrapMapper.getById(id);
+    }
+
+    @Override
+    public void updateById(Scrap scrap) {
+        scrap.setUpdateTime(LocalDateTime.now());
+        scrapMapper.updateById(scrap);
+    }
+
+    @Override
+    public void deleteByIds(List<Integer> ids) {
+        scrapMapper.deleteByIds(ids);
+    }
+
+    @Override
+    public void insert(Scrap scrap) {
+        //补全属性
+        scrap.setUpdateTime(LocalDateTime.now());
+        scrap.setCreateTime(LocalDateTime.now());
+        scrapMapper.insert(scrap);
     }
 }

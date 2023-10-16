@@ -58,7 +58,7 @@
                 <template slot-scope="{ row }">
                     <el-image style="width: auto; height: 40px; border:none;cursor: pointer;"
                               :src="getImage(row.image)"
-                              :preview-src-list="[ `/common/download?name=${row.image}` ]">
+                              :preview-src-list="[ `/spz/common/download?name=${row.image}` ]">
                         <div slot="error" class="image-slot">
                             <img src="./../../images/noImg.png" style="width: auto; height: 40px; border:none;">
                         </div>
@@ -164,7 +164,7 @@
                     pageSize: this.pageSize,
                     name: this.input ? this.input : undefined
                 }
-                await getDishPage(params).then(res => {
+                await getScrapPage(params).then(res => {
                     if (String(res.code) === '1') {
                         this.tableData = res.data.rows || []
                         this.counts = res.data.total
@@ -174,7 +174,7 @@
                 })
             },
             getImage(image) {
-                return `/common/download?name=${image}`
+                return `/spz/common/download?name=${image}`
             },
             handleQuery() {
                 this.page = 1;
@@ -208,7 +208,7 @@
                     'confirmButtonText': '确定',
                     'cancelButtonText': '取消',
                 }).then(() => {
-                    deleteDish(type === '批量' ? this.checkList.join(',') : id).then(res => {
+                    deleteScrap(type === '批量' ? this.checkList.join(',') : id).then(res => {
                         if (res.code === 1) {
                             this.$message.success('删除成功！')
                             this.handleQuery()

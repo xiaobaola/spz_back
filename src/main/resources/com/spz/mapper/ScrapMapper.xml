@@ -16,4 +16,14 @@
         </where>
         order by update_time desc
     </select>
+
+    <delete id="deleteByIds">
+        delete
+        from scrap
+        where id in
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+        order by update_time desc
+    </delete>
 </mapper>

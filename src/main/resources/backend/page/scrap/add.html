@@ -42,7 +42,7 @@
             font-size: 14px;
         }
 
-        #food-add-app .uploadImg .el-form-item__label::before {
+        #scrap-add-app .uploadImg .el-form-item__label::before {
             content: '*';
             color: #F56C6C;
             margin-right: 4px;
@@ -51,7 +51,7 @@
     </style>
 </head>
 <body>
-<div class="addBrand-container" id="food-add-app">
+<div class="addBrand-container" id="scrap-add-app">
     <div class="container">
         <el-form
                 ref="ruleForm"
@@ -103,7 +103,7 @@
                 >
                     <el-upload
                             class="avatar-uploader"
-                            action="/common/upload"
+                            action="/spz/common/upload"
                             :show-file-list="false"
                             :on-success="handleAvatarSuccess"
                             :on-change="onChange"
@@ -127,7 +127,7 @@
                         prop="region"
                 >
                     <el-input
-                            v-model="ruleForm.description"
+                            v-model="ruleForm.other"
                             type="textarea"
                             :rows="3"
                             placeholder="回收品描述，最长200字"
@@ -171,7 +171,7 @@
 <script src="../../api/scrap.js"></script>
 <script>
     new Vue({
-        el: '#food-add-app',
+        el: '#scrap-add-app',
         data() {
             return {
                 id: '',
@@ -181,8 +181,6 @@
                 imageUrl: '',
                 actionType: '',
                 scrapList: [],
-                dishFlavorsData: [],
-                dishFlavors: [],
                 vueRest: '1',
                 index: 0,
                 inputStyle: {'flex': 1},
@@ -192,9 +190,7 @@
                     'price': '',
                     'code': '',
                     'image': '',
-                    'description': '',
-                    'dishFlavors': [],
-                    'status': true,
+                    'other': '',
                     scrapTypeId: ''
                 },
                 mak: false
@@ -236,9 +232,7 @@
             }
         },
         created() {
-            this.getDishList()
-            // 口味临时数据
-            this.getFlavorListHand()
+            this.getScrapList()
             this.id = requestUrlParam('id')
             this.actionType = this.id ? 'edit' : 'add'
             if (this.id) {
@@ -249,143 +243,55 @@
         },
         methods: {
             async init() {
-                queryDishById(this.id).then(res => {
+                queryScrapById(this.id).then(res => {
                     console.log(res)
                     if (String(res.code) === '1') {
                         this.ruleForm = {...res.data}
                         this.ruleForm.price = String(res.data.price / 100)
-                        this.ruleForm.status = res.data.status == '1'
-                        this.dishFlavors = res.data.flavors && res.data.flavors.map(obj => ({
-                            ...obj,
-                            value: JSON.parse(obj.value),
-                            showOption: false
-                        }))
-                        console.log('this.dishFlavors', this.dishFlavors)
                         // this.ruleForm.id = res.data.data.scrapTypeId
                         // this.imageUrl = res.data.data.image
-                        this.imageUrl = `/common/download?name=${res.data.image}`
+                        this.imageUrl = `/spz/common/download?name=${res.data.image}`
                     } else {
                         this.$message.error(res.msg || '操作失败')
                     }
                 })
             },
-            // 按钮 - 添加口味
-            addFlavore() {
-                this.dishFlavors.push({'name': '', 'value': [], showOption: false}) // JSON.parse(JSON.stringify(this.dishFlavorsData))
-            },
 
-            // 按钮 - 删除口味
-            delFlavor(ind) {
-                this.dishFlavors.splice(ind, 1)
-            },
-
-            // 按钮 - 删除口味标签
-            delFlavorLabel(index, ind) {
-                this.dishFlavors[index].value.splice(ind, 1)
-            },
-
-            //口味位置记录
-            flavorPosition(index) {
-                this.index = index
-            },
-
-            // 添加口味标签
-            keyDownHandle(val, index) {
-                console.log('keyDownHandle----val', val)
-                console.log('keyDownHandle----index', index)
-                console.log('keyDownHandle----this.dishFlavors', this.dishFlavors)
-                if (event) {
-                    event.cancelBubble = true
-                    event.preventDefault()
-                    event.stopPropagation()
-                }
-
-                if (val.target.innerText.trim() != '') {
-                    this.dishFlavors[index].value.push(val.target.innerText)
-                    val.target.innerText = ''
-                }
-            },
 
             // 获取回收品分类
-            getDishList() {
+            getScrapList() {
                 getScrapTypeList({'type': 1}).then(res => {
                     if (res.code === 1) {
-                        this.dishList = res.data
+                        this.scrapList = res.data
+                        console.log(res.data)
                     } else {
                         this.$message.error(res.msg || '操作失败')
                     }
                 })
-            },
-
-            // 获取口味列表
-            getFlavorListHand() {
-                // flavor flavorData
-                this.dishFlavorsData = [
-                    {'name': '甜味', 'value': ['无糖', '少糖', '半糖', '多糖', '全糖']},
-                    {'name': '温度', 'value': ['热饮', '常温', '去冰', '少冰', '多冰']},
-                    {'name': '忌口', 'value': ['不要葱', '不要蒜', '不要香菜', '不要辣']},
-                    {'name': '辣度', 'value': ['不辣', '微辣', '中辣', '重辣']}
-                ]
-            },
-
-            selectFlavor(st, index) {
-                console.log('st', st)
-                console.log('index', index)
-                console.log('this.dishFlavors', this.dishFlavors)
-                const obj = JSON.parse(JSON.stringify(this.dishFlavors[index]))
-                obj.showOption = st
-                this.dishFlavors.splice(index, 1, obj)
-                // this.dishFlavors[index].showOption = st
             },
 
             outSelect(st, index) {
                 const _this = this
-                setTimeout(() => {
-                    const obj = JSON.parse(JSON.stringify(_this.dishFlavors[index]))
-                    obj.showOption = st
-                    _this.dishFlavors.splice(index, 1, obj)
-                }, 200)
-            },
-
-            inputHandle(val, index) {
-                // this.selectFlavor(false,index)
-            },
-
-            checkOption(val, ind, index) {
-                this.selectHandle(val.name, index, ind)
-                this.dishFlavors[index].name = val.name
-            },
-
-            selectHandle(val, key, ind) {
-                const arrDate = [...this.dishFlavors]
-                arrDate[key] = JSON.parse(JSON.stringify(this.dishFlavorsData[ind]))
-                this.dishFlavors = arrDate
             },
 
             submitForm(formName, st) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         let params = {...this.ruleForm}
-                        // params.flavors = this.dishFlavors
-                        params.status = this.ruleForm ? 1 : 0
                         params.price *= 100
                         params.scrapTypeId = this.ruleForm.scrapTypeId
-                        params.flavors = this.dishFlavors.map(obj => ({...obj, value: JSON.stringify(obj.value)}))
-                        delete params.dishFlavors
                         if (!this.imageUrl) {
                             this.$message.error('请上传回收品图片')
                             return
                         }
                         if (this.actionType == 'add') {
                             delete params.id
-                            addDish(params).then(res => {
+                            addScrap(params).then(res => {
                                 if (res.code === 1) {
                                     this.$message.success('回收品添加成功！')
                                     if (!st) {
                                         this.goBack()
                                     } else {
-                                        this.dishFlavors = []
-                                        // this.dishFlavorsData = []
                                         this.imageUrl = ''
                                         this.ruleForm = {
                                             'name': '',
@@ -393,9 +299,7 @@
                                             'price': '',
                                             'code': '',
                                             'image': '',
-                                            'description': '',
-                                            'dishFlavors': [],
-                                            'status': true,
+                                            'other': '',
                                             scrapTypeId: ''
                                         }
                                     }
@@ -407,7 +311,7 @@
                             })
                         } else {
                             delete params.updateTime
-                            editDish(params).then(res => {
+                            editScrap(params).then(res => {
                                 if (res.code === 1) {
                                     this.$message.success('回收品修改成功！')
                                     this.goBack()
@@ -429,7 +333,7 @@
                 if (response.code === 0 && response.msg === '未登录') {
                     window.top.location.href = '/backend/page/login/login.html'
                 } else {
-                    this.imageUrl = `/common/download?name=${response.data}`
+                    this.imageUrl = `/spz/common/download?name=${response.data}`
                     this.ruleForm.image = response.data
                 }
             },
@@ -454,7 +358,7 @@
             goBack() {
                 window.parent.menuHandle({
                     id: '4',
-                    url: '/backend/page/food/list.html',
+                    url: '/backend/page/scrap/list.html',
                     name: '回收品管理'
                 }, false)
             }
