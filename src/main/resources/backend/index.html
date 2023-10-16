@@ -116,14 +116,10 @@
         el: '#app',
         data() {
             return {
-                defAct: '2',
-                menuActived: '2',
+                defAct: '1',
+                menuActived: '1',
                 userInfo: {},
                 menuList: [
-                    // {
-                    //   id: '1',
-                    //   name: '门店管理',
-                    //   children: [
                     {
                         id: '1',
                         name: '开发管理',
@@ -145,7 +141,7 @@
                     {
                         id: '4',
                         name: '回收管理',
-                        url: 'page/food/list.html',
+                        url: 'page/scrap/list.html',
                         icon: 'icon-recycle'
                     },
                     {
@@ -157,8 +153,8 @@
                     //   ],
                     // },
                 ],
-                iframeUrl: 'page/member/list.html',
-                headTitle: '员工管理',
+                iframeUrl: 'page/manager/list.html',
+                headTitle: '开发管理',
                 goBackFlag: false,
                 loading: true,
                 timer: null

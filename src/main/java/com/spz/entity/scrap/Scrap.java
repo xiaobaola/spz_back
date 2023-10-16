@@ -36,7 +36,7 @@ public class Scrap {
     private String name;//废品名字
     private Integer price;//废品价格
     private String image;//物品图片
-    private String scrapTypeId;//废品类型
+    private Integer scrapTypeId;//废品类型
     private Integer type;//物品单位描述类型  0计量描述 1度量单位 2其他描述
     private String count;//0 计量描述 如1-5瓶 5-10斤
     private String size;//1 度量单位 度量单位或类型 kg/斤/g

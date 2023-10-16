@@ -22,7 +22,7 @@
                     class="continue"
                     @click="addClass('class')"
             >
-                + 新增废品分类
+                + 新增回收品分类
             </el-button>
         </div>
         <el-table
@@ -127,7 +127,7 @@
                 counts: 0,
                 tableData: [],
                 classData: {
-                    'title': '添加废品分类',
+                    'title': '添加回收品分类',
                     'dialogVisible': false,
                     'scrapTypeId': '',
                     'name': '',
@@ -159,7 +159,7 @@
             // 添加
             addClass(st) {
                 if (st == 'class') {
-                    this.classData.title = '新增废品分类'
+                    this.classData.title = '新增回收品分类'
                 }
                 this.action = 'add'
                 this.classData.name = ''

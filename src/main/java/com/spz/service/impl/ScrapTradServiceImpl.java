@@ -9,4 +9,5 @@ import org.springframework.stereotype.Service;
 public class ScrapTradServiceImpl implements ScrapTradService {
     @Autowired
     ScrapTradMapper scrapTradMapper;
+
 }

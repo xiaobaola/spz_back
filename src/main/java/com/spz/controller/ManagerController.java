@@ -1,7 +1,7 @@
 package com.spz.controller;
 
 import com.spz.common.Res;
-import com.spz.entity.manage.Manager;
+import com.spz.entity.manager.Manager;
 import com.spz.service.ManagerService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;

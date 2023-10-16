@@ -1,6 +1,7 @@
 package com.spz.service.impl;
 
-import com.spz.entity.manage.Manager;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.spz.entity.manager.Manager;
 import com.spz.mapper.ManagerMapper;
 import com.spz.service.ManagerService;
 import lombok.extern.slf4j.Slf4j;

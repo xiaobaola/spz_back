@@ -1,6 +1,6 @@
 package com.spz.service;
 
-import com.spz.entity.manage.Manager;
+import com.spz.entity.manager.Manager;
 
 public interface ManagerService {
 

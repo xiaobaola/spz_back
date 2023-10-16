@@ -1,6 +1,6 @@
 package com.spz.mapper;
 
-import com.spz.entity.manage.Manager;
+import com.spz.entity.manager.Manager;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 

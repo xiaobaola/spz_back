@@ -16,7 +16,7 @@
         <div class="tableBar">
             <el-input
                     v-model="input"
-                    placeholder="请输入菜品名称"
+                    placeholder="请输入回收品名称"
                     style="width: 250px"
                     clearable
                     @keyup.enter.native="handleQuery"
@@ -30,13 +30,13 @@
             </el-input>
             <div class="tableLab">
                 <span class="span-btn delBut non" @click="deleteHandle('批量', null)">批量删除</span>
-                <span class="span-btn blueBug non" @click="statusHandle('1')">批量启售</span>
-                <span style="border:none;" class="span-btn delBut non" @click="statusHandle('0')">批量停售</span>
+<!--                <span class="span-btn blueBug non" @click="statusHandle('1')">批量启售</span>-->
+<!--                <span style="border:none;" class="span-btn delBut non" @click="statusHandle('0')">批量停售</span>-->
                 <el-button
                         type="primary"
-                        @click="addFoodtype('add')"
+                        @click="addScrapType('add')"
                 >
-                    + 新建菜品
+                    + 新建回收品
                 </el-button>
             </div>
         </div>
@@ -52,7 +52,7 @@
             ></el-table-column>
             <el-table-column
                     prop="name"
-                    label="菜品名称"
+                    label="回收品名称"
             ></el-table-column>
             <el-table-column prop="image" label="图片" align="center">
                 <template slot-scope="{ row }">
@@ -66,19 +66,19 @@
                 </template>
             </el-table-column>
             <el-table-column
-                    prop="categoryName"
-                    label="菜品分类"
+                    prop="scrapTypeName"
+                    label="回收品分类"
             ></el-table-column>
-            <el-table-column label="售价">
+            <el-table-column label="价格">
                 <template slot-scope="scope">
                     <span style="margin-right: 10px;">￥{{ scope.row.price / 100 }}</span>
                 </template>
             </el-table-column>
-            <el-table-column label="售卖状态">
-                <template slot-scope="scope">
-                    <span style="margin-right: 10px;">{{ scope.row.status == '0' ? '停售' : '启售' }}</span>
-                </template>
-            </el-table-column>
+<!--            <el-table-column label="售卖状态">-->
+<!--                <template slot-scope="scope">-->
+<!--                    <span style="margin-right: 10px;">{{ scope.row.status == '0' ? '停售' : '启售' }}</span>-->
+<!--                </template>-->
+<!--            </el-table-column>-->
             <el-table-column
                     prop="updateTime"
                     label="最后操作时间"
@@ -94,18 +94,18 @@
                             type="text"
                             size="small"
                             class="blueBug"
-                            @click="addFoodtype(scope.row.id)"
+                            @click="addScrapType(scope.row.id)"
                     >
                         修改
                     </el-button>
-                    <el-button
-                            type="text"
-                            size="small"
-                            class="blueBug"
-                            @click="statusHandle(scope.row)"
-                    >
-                        {{ scope.row.status == '0' ? '启售' : '停售' }}
-                    </el-button>
+<!--                    <el-button-->
+<!--                            type="text"-->
+<!--                            size="small"-->
+<!--                            class="blueBug"-->
+<!--                            @click="statusHandle(scope.row)"-->
+<!--                    >-->
+<!--                        {{ scope.row.status == '0' ? '启售' : '停售' }}-->
+<!--                    </el-button>-->
                     <el-button
                             type="text"
                             size="small"
@@ -136,7 +136,7 @@
 <!-- 引入axios -->
 <script src="../../plugins/axios/axios.min.js"></script>
 <script src="../../js/request.js"></script>
-<script src="../../api/food.js"></script>
+<script src="../../api/scrap.js"></script>
 <script>
     new Vue({
         el: '#food-app',
@@ -166,7 +166,7 @@
                 }
                 await getDishPage(params).then(res => {
                     if (String(res.code) === '1') {
-                        this.tableData = res.data.records || []
+                        this.tableData = res.data.rows || []
                         this.counts = res.data.total
                     }
                 }).catch(err => {
@@ -181,18 +181,18 @@
                 this.init();
             },
             // 添加
-            addFoodtype(st) {
+            addScrapType(st) {
                 if (st === 'add') {
                     window.parent.menuHandle({
                         id: '4',
-                        url: '/backend/page/food/add.html',
-                        name: '添加菜品'
+                        url: '/backend/page/scrap/add.html',
+                        name: '添加回收品'
                     }, true)
                 } else {
                     window.parent.menuHandle({
                         id: '4',
-                        url: '/backend/page/food/add.html?id=' + st,
-                        name: '修改菜品'
+                        url: '/backend/page/scrap/add.html?id=' + st,
+                        name: '修改回收品'
                     }, true)
                 }
             },
@@ -204,7 +204,7 @@
                         return this.$message.error('请选择删除对象')
                     }
                 }
-                this.$confirm('确认删除该菜品, 是否继续?', '确定删除', {
+                this.$confirm('确认删除该回收品, 是否继续?', '确定删除', {
                     'confirmButtonText': '确定',
                     'cancelButtonText': '取消',
                 }).then(() => {
@@ -222,38 +222,38 @@
             },
 
             //状态更改
-            statusHandle(row) {
-                let params = {}
-                if (typeof row === 'string') {
-                    if (this.checkList.length === 0) {
-                        this.$message.error('批量操作，请先勾选操作菜品！')
-                        return false
-                    }
-                    params.id = this.checkList.join(',')
-                    params.status = row
-                } else {
-                    params.id = row.id
-                    params.status = row.status ? '0' : '1'
-                }
-                this.dishState = params
-                this.$confirm('确认更改该菜品状态?', '提示', {
-                    'confirmButtonText': '确定',
-                    'cancelButtonText': '取消',
-                    'type': 'warning'
-                }).then(() => {
-                    // 起售停售---批量起售停售接口
-                    dishStatusByStatus(this.dishState).then(res => {
-                        if (res.code === 1) {
-                            this.$message.success('菜品状态已经更改成功！')
-                            this.handleQuery()
-                        } else {
-                            this.$message.error(res.msg || '操作失败')
-                        }
-                    }).catch(err => {
-                        this.$message.error('请求出错了：' + err)
-                    })
-                })
-            },
+            // statusHandle(row) {
+            //     let params = {}
+            //     if (typeof row === 'string') {
+            //         if (this.checkList.length === 0) {
+            //             this.$message.error('批量操作，请先勾选操作回收品！')
+            //             return false
+            //         }
+            //         params.id = this.checkList.join(',')
+            //         params.status = row
+            //     } else {
+            //         params.id = row.id
+            //         params.status = row.status ? '0' : '1'
+            //     }
+            //     this.dishState = params
+            //     this.$confirm('确认更改该回收品状态?', '提示', {
+            //         'confirmButtonText': '确定',
+            //         'cancelButtonText': '取消',
+            //         'type': 'warning'
+            //     }).then(() => {
+            //         // 起售停售---批量起售停售接口
+            //         dishStatusByStatus(this.dishState).then(res => {
+            //             if (res.code === 1) {
+            //                 this.$message.success('回收品状态已经更改成功！')
+            //                 this.handleQuery()
+            //             } else {
+            //                 this.$message.error(res.msg || '操作失败')
+            //             }
+            //         }).catch(err => {
+            //             this.$message.error('请求出错了：' + err)
+            //         })
+            //     })
+            // },
 
             // 全部操作
             handleSelectionChange(val) {
