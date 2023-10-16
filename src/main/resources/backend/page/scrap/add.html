@@ -63,129 +63,41 @@
         >
             <div>
                 <el-form-item
-                        label="菜品名称:"
+                        label="回收品名称:"
                         prop="name"
                 >
                     <el-input
                             v-model="ruleForm.name"
-                            placeholder="请填写菜品名称"
+                            placeholder="请填写回收品名称"
                             maxlength="20"
                     />
                 </el-form-item>
                 <el-form-item
-                        label="菜品分类:"
-                        prop="categoryId"
+                        label="回收品分类:"
+                        prop="scrapTypeId"
                 >
                     <el-select
-                            v-model="ruleForm.categoryId"
-                            placeholder="请选择菜品分类"
+                            v-model="ruleForm.scrapTypeId"
+                            placeholder="请选择回收品分类"
                     >
-                        <el-option v-for="(item,index) in dishList" :key="index" :label="item.name" :value="item.id"/>
+                        <el-option v-for="(item,index) in scrapList" :key="index" :label="item.name" :value="item.id"/>
                     </el-select>
                 </el-form-item>
             </div>
             <div>
                 <el-form-item
-                        label="菜品价格:"
+                        label="回收品价格:"
                         prop="price"
                 >
                     <el-input
                             v-model="ruleForm.price"
-                            placeholder="请设置菜品价格"
+                            placeholder="请设置回收品价格"
                     />
                 </el-form-item>
             </div>
-            <el-form-item label="口味做法配置:">
-                <el-form-item>
-                    <div class="flavorBox">
-              <span
-                      v-if="dishFlavors.length == 0"
-                      class="addBut"
-                      @click="addFlavore"
-              > + 添加口味</span>
-                        <div
-                                v-if="dishFlavors.length != 0"
-                                class="flavor"
-                        >
-                            <div class="title">
-                                <span>口味名（3个字内）</span><span>口味标签（输入标签回车添加）</span>
-                            </div>
-                            <div class="cont">
-                                <div
-                                        v-for="(item, index) in dishFlavors"
-                                        :key="index"
-                                        class="items"
-                                >
-                                    <div class="itTit">
-                                        <!-- <SelectInput
-                                          :dish-flavors-data="dishFlavorsData"
-                                          :index="index"
-                                          :value="item.name"
-                                          @select="selectHandle"
-                                        /> -->
-                                        <div class="selectInput">
-                                            <div>
-                                                <el-input
-                                                        v-model="item.name"
-                                                        type="text"
-                                                        style="width: 100%"
-                                                        placeholder="请输入口味"
-                                                        @focus="selectFlavor(true,index)"
-                                                        @blur="outSelect(false,index)"
-                                                        @input="inputHandle(index)"
-                                                />
-                                            </div>
-                                            <div v-show="item.showOption" class="flavorSelect">
-                          <span
-                                  v-for="(it, ind) in dishFlavorsData"
-                                  :key="ind"
-                                  class="items"
-                                  @click="checkOption(it,ind,index)"
-                          >{{ it.name }}</span>
-                                                <span
-                                                        v-if="dishFlavorsData == []"
-                                                        class="none"
-                                                >无数据</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div
-                                            class="labItems"
-                                            style="display: flex"
-                                    >
-                      <span
-                              v-for="(it, ind) in item.value"
-                              :key="ind"
-                      >{{ it }} <i @click="delFlavorLabel(index, ind)">X</i></span>
-                                        <div
-                                                class="inputBox"
-                                                :style="inputStyle"
-                                                contenteditable="true"
-                                                @focus="flavorPosition(index)"
-                                                @keydown.enter="(val)=>keyDownHandle(val,index)"
-                                        ></div>
-                                    </div>
-                                    <span
-                                            class="delFlavor delBut non"
-                                            @click="delFlavor(index)"
-                                    >删除</span>
-                                </div>
-                            </div>
-                            <div
-                                    class="addBut"
-                                    @click="addFlavore"
-                            >
-                                添加口味
-                            </div>
-                        </div>
-                    </div>
-                </el-form-item>
-            </el-form-item>
-            <div>
-            </div>
             <div>
                 <el-form-item
-                        label="菜品图片:"
+                        label="回收品图片:"
                         prop="region"
                         class="uploadImg"
                 >
@@ -211,14 +123,14 @@
             </div>
             <div class="address">
                 <el-form-item
-                        label="菜品描述:"
+                        label="回收品描述:"
                         prop="region"
                 >
                     <el-input
                             v-model="ruleForm.description"
                             type="textarea"
                             :rows="3"
-                            placeholder="菜品描述，最长200字"
+                            placeholder="回收品描述，最长200字"
                             maxlength="200"
                     />
                 </el-form-item>
@@ -240,7 +152,7 @@
                             class="continue"
                             @click="submitForm('ruleForm','goAnd')"
                     >
-                        保存并继续添加菜品
+                        保存并继续添加回收品
                     </el-button>
                 </el-form-item>
             </div>
@@ -268,7 +180,7 @@
                 value: '',
                 imageUrl: '',
                 actionType: '',
-                dishList: [],
+                scrapList: [],
                 dishFlavorsData: [],
                 dishFlavors: [],
                 vueRest: '1',
@@ -283,7 +195,7 @@
                     'description': '',
                     'dishFlavors': [],
                     'status': true,
-                    categoryId: ''
+                    scrapTypeId: ''
                 },
                 mak: false
             }
@@ -292,28 +204,28 @@
             rules() {
                 return {
                     'name': [
-                        {'required': true, 'message': '请填写菜品名称', 'trigger': 'blur'}
+                        {'required': true, 'message': '请填写回收品名称', 'trigger': 'blur'}
                     ],
-                    'categoryId': [
-                        {'required': true, 'message': '请选择菜品分类', 'trigger': 'change'}
+                    'scrapTypeId': [
+                        {'required': true, 'message': '请选择回收品分类', 'trigger': 'change'}
                     ],
                     'price': [
                         {
                             'required': true,
-                            // 'message': '请填写菜品价格',
+                            // 'message': '请填写回收品价格',
                             validator: (rules, value, callback) => {
                                 if (!value) {
-                                    callback(new Error('请填写菜品价格'))
+                                    callback(new Error('请填写回收品价格'))
                                 } else {
                                     const reg = /^\d+(\.\d{0,2})?$/
                                     if (reg.test(value)) {
                                         if (value < 10000) {
                                             callback()
                                         } else {
-                                            callback(new Error('菜品价格小于10000'))
+                                            callback(new Error('回收品价格小于10000'))
                                         }
                                     } else {
-                                        callback(new Error('菜品价格格式只能为数字,且最多保留两位小数'))
+                                        callback(new Error('回收品价格格式只能为数字,且最多保留两位小数'))
                                     }
                                 }
                             },
@@ -349,7 +261,7 @@
                             showOption: false
                         }))
                         console.log('this.dishFlavors', this.dishFlavors)
-                        // this.ruleForm.id = res.data.data.categoryId
+                        // this.ruleForm.id = res.data.data.scrapTypeId
                         // this.imageUrl = res.data.data.image
                         this.imageUrl = `/common/download?name=${res.data.image}`
                     } else {
@@ -394,9 +306,9 @@
                 }
             },
 
-            // 获取菜品分类
+            // 获取回收品分类
             getDishList() {
-                getCategoryList({'type': 1}).then(res => {
+                getScrapTypeList({'type': 1}).then(res => {
                     if (res.code === 1) {
                         this.dishList = res.data
                     } else {
@@ -457,18 +369,18 @@
                         // params.flavors = this.dishFlavors
                         params.status = this.ruleForm ? 1 : 0
                         params.price *= 100
-                        params.categoryId = this.ruleForm.categoryId
+                        params.scrapTypeId = this.ruleForm.scrapTypeId
                         params.flavors = this.dishFlavors.map(obj => ({...obj, value: JSON.stringify(obj.value)}))
                         delete params.dishFlavors
                         if (!this.imageUrl) {
-                            this.$message.error('请上传菜品图片')
+                            this.$message.error('请上传回收品图片')
                             return
                         }
                         if (this.actionType == 'add') {
                             delete params.id
                             addDish(params).then(res => {
                                 if (res.code === 1) {
-                                    this.$message.success('菜品添加成功！')
+                                    this.$message.success('回收品添加成功！')
                                     if (!st) {
                                         this.goBack()
                                     } else {
@@ -484,7 +396,7 @@
                                             'description': '',
                                             'dishFlavors': [],
                                             'status': true,
-                                            categoryId: ''
+                                            scrapTypeId: ''
                                         }
                                     }
                                 } else {
@@ -497,7 +409,7 @@
                             delete params.updateTime
                             editDish(params).then(res => {
                                 if (res.code === 1) {
-                                    this.$message.success('菜品修改成功！')
+                                    this.$message.success('回收品修改成功！')
                                     this.goBack()
                                 } else {
                                     this.$message.error(res.msg || '操作失败')
@@ -543,7 +455,7 @@
                 window.parent.menuHandle({
                     id: '4',
                     url: '/backend/page/food/list.html',
-                    name: '菜品管理'
+                    name: '回收品管理'
                 }, false)
             }
         }

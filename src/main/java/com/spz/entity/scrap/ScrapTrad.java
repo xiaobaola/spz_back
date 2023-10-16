@@ -36,11 +36,10 @@ public class ScrapTrad {
     private Integer id;//交易Id
     private Integer scrapId;//废品id
     private Integer userId;//用户Id
-    private Integer numbers;//废品数量
     private String image;//物品图片
     private String status;//废品交易状态
     private Integer type;//物品单位描述类型  0计量描述 1度量单位 2其他描述
-    private String count;//0 计量描述 如1-5瓶 5-10斤
+    private String count;//记录交易量
     private String size;//1 度量单位 度量单位或类型 kg/斤/g
     private String other;//2其他描述 其他详细或限制描述
     private LocalDateTime createTime; //创建时间

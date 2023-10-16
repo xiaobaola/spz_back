@@ -38,7 +38,7 @@ public class Scrap {
     private String image;//物品图片
     private Integer scrapTypeId;//废品类型
     private Integer type;//物品单位描述类型  0计量描述 1度量单位 2其他描述
-    private String count;//0 计量描述 如1-5瓶 5-10斤
+    private Integer count;//服务于前端
     private String size;//1 度量单位 度量单位或类型 kg/斤/g
     private String other;//2其他描述 其他详细或限制描述
     private LocalDateTime createTime; //创建时间
