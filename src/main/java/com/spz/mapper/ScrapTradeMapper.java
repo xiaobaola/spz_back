@@ -3,5 +3,5 @@ package com.spz.mapper;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface ScrapTradMapper {
+public interface ScrapTradeMapper {
 }

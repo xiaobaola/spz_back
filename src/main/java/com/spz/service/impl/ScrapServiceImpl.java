@@ -7,7 +7,6 @@ import com.spz.entity.page.PageBean;
 import com.spz.entity.scrap.Scrap;
 import com.spz.entity.scrap.ScrapType;
 import com.spz.mapper.ScrapMapper;
-import com.spz.mapper.ScrapTradMapper;
 import com.spz.mapper.ScrapTypeMapper;
 import com.spz.service.ScrapService;
 import lombok.extern.slf4j.Slf4j;

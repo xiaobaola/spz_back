@@ -32,16 +32,15 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ScrapTrad {
+public class ScrapTrade {
     private Integer id;//交易Id
-    private Integer scrapId;//废品id
+    private String number; //订单编号
     private Integer userId;//用户Id
+    private Integer status;//回收品交易状态 0: 上传 1: 确认 2: 交易
+    private String address; //用户地址
+    private String phone; //用户手机号
+    private Integer price; //交易总金额
     private String image;//物品图片
-    private String status;//废品交易状态
-    private Integer type;//物品单位描述类型  0计量描述 1度量单位 2其他描述
-    private String count;//记录交易量
-    private String size;//1 度量单位 度量单位或类型 kg/斤/g
-    private String other;//2其他描述 其他详细或限制描述
     private LocalDateTime createTime; //创建时间
     private LocalDateTime updateTime;//更新时间
 }

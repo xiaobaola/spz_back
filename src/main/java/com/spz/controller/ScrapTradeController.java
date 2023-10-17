@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping
 @Slf4j
-public class ScrapTradController {
+public class ScrapTradeController {
     @Autowired
     ScrapTypeService scrapTypeService;
 
