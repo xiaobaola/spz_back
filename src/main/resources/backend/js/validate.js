@@ -18,8 +18,8 @@ function isCellPhone(val) {
 function checkUserName(rule, value, callback) {
     if (value == "") {
         callback(new Error("请输入账号"))
-    } else if (value.length > 20 || value.length < 3) {
-        callback(new Error("账号长度应是3-20"))
+    } else if (value.length > 20 || value.length < 1) {
+        callback(new Error("账号长度应是1-20"))
     } else {
         callback()
     }

@@ -1,6 +1,6 @@
 function getMemberList(params) {
     return $axios({
-        url: '/employee/page',
+        url: '/spz/user/page',
         method: 'get',
         params
     })
@@ -9,34 +9,34 @@ function getMemberList(params) {
 // 修改---启用禁用接口
 function enableOrDisableEmployee(params) {
     return $axios({
-        url: '/employee',
+        url: '/spz/user',
         method: 'put',
         data: {...params}
     })
 }
 
 // 新增---添加员工
-function addEmployee(params) {
+function addUser(params) {
     return $axios({
-        url: '/employee',
+        url: '/spz/user',
         method: 'post',
         data: {...params}
     })
 }
 
 // 修改---添加员工
-function editEmployee(params) {
+function editUser(params) {
     return $axios({
-        url: '/employee',
+        url: '/spz/user',
         method: 'put',
         data: {...params}
     })
 }
 
 // 修改页面反查详情接口
-function queryEmployeeById(id) {
+function queryUserById(id) {
     return $axios({
-        url: `/employee/${id}`,
+        url: `/spz/user/${id}`,
         method: 'get'
     })
 }

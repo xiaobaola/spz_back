@@ -136,7 +136,7 @@
                 const params = {
                     page: this.page,
                     pageSize: this.pageSize,
-                    name: this.input ? this.input : undefined
+                    username: this.input ? this.input : undefined
                 }
                 await getMemberList(params).then(res => {
                     if (String(res.code) === '1') {

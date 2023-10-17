@@ -24,16 +24,16 @@
             <el-form-item label="账号:" prop="username">
                 <el-input v-model="ruleForm.username" placeholder="请输入账号" maxlength="20"/>
             </el-form-item>
-            <el-form-item
-                    label="用户姓名:"
-                    prop="name"
-            >
-                <el-input
-                        v-model="ruleForm.name"
-                        placeholder="请输入用户姓名"
-                        maxlength="20"
-                />
-            </el-form-item>
+<!--            <el-form-item-->
+<!--                    label="用户姓名:"-->
+<!--                    prop="name"-->
+<!--            >-->
+<!--                <el-input-->
+<!--                        v-model="ruleForm.name"-->
+<!--                        placeholder="请输入用户姓名"-->
+<!--                        maxlength="20"-->
+<!--                />-->
+<!--            </el-form-item>-->
 
             <el-form-item
                     label="手机号:"
@@ -47,23 +47,23 @@
             </el-form-item>
             <el-form-item
                     label="性别:"
-                    prop="sex"
+                    prop="gender"
             >
-                <el-radio-group v-model="ruleForm.sex">
+                <el-radio-group v-model="ruleForm.gender">
                     <el-radio label="男"></el-radio>
                     <el-radio label="女"></el-radio>
                 </el-radio-group>
             </el-form-item>
-            <el-form-item
-                    label="身份证号:"
-                    prop="idNumber"
-            >
-                <el-input
-                        v-model="ruleForm.idNumber"
-                        placeholder="请输入身份证号"
-                        maxlength="20"
-                />
-            </el-form-item>
+<!--            <el-form-item-->
+<!--                    label="身份证号:"-->
+<!--                    prop="idNumber"-->
+<!--            >-->
+<!--                <el-input-->
+<!--                        v-model="ruleForm.idNumber"-->
+<!--                        placeholder="请输入身份证号"-->
+<!--                        maxlength="20"-->
+<!--                />-->
+<!--            </el-form-item>-->
             <div class="subBox address">
                 <el-form-item>
                     <el-button @click="goBack()">
@@ -108,8 +108,8 @@
                 ruleForm: {
                     'name': '',
                     'phone': '',
-                    'sex': '男',
-                    'idNumber': '',
+                    'gender': '男',
+                    // 'idNumber': '',
                     username: ''
                 }
             }
@@ -126,7 +126,7 @@
                     //姓名
                     name: [{required: true, 'validator': checkName, 'trigger': 'blur'}],
                     'phone': [{'required': true, 'validator': checkPhone, 'trigger': 'blur'}],
-                    'idNumber': [{'required': true, 'validator': validID, 'trigger': 'blur'}]
+                    // 'idNumber': [{'required': true, 'validator': validID, 'trigger': 'blur'}]
                 }
             }
         },
@@ -141,12 +141,12 @@
         },
         methods: {
             async init() {
-                queryEmployeeById(this.id).then(res => {
+                queryUserById(this.id).then(res => {
                     console.log(res)
                     if (String(res.code) === '1') {
                         console.log(res.data)
                         this.ruleForm = res.data
-                        this.ruleForm.sex = res.data.sex === '0' ? '女' : '男'
+                        this.ruleForm.gender = res.data.gender === '0' ? '女' : '男'
                         // this.ruleForm.password = ''
                     } else {
                         this.$message.error(res.msg || '操作失败')
@@ -159,9 +159,9 @@
                         if (this.actionType === 'add') {
                             const params = {
                                 ...this.ruleForm,
-                                sex: this.ruleForm.sex === '女' ? '0' : '1'
+                                gender: this.ruleForm.gender === '女' ? '0' : '1'
                             }
-                            addEmployee(params).then(res => {
+                            addUser(params).then(res => {
                                 if (res.code === 1) {
                                     this.$message.success('用户添加成功！')
                                     if (!st) {
@@ -173,8 +173,8 @@
                                             'phone': '',
                                             // 'password': '',
                                             // 'rePassword': '',/
-                                            'sex': '男',
-                                            'idNumber': ''
+                                            'gender': '男',
+                                            // 'idNumber': ''
                                         }
                                     }
                                 } else {
@@ -186,9 +186,9 @@
                         } else {
                             const params = {
                                 ...this.ruleForm,
-                                sex: this.ruleForm.sex === '女' ? '0' : '1'
+                                gender: this.ruleForm.gender === '女' ? '0' : '1'
                             }
-                            editEmployee(params).then(res => {
+                            editUser(params).then(res => {
                                 if (res.code === 1) {
                                     this.$message.success('用户信息修改成功！')
                                     this.goBack()

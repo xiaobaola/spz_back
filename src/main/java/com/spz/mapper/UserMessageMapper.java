@@ -1,10 +1,13 @@
 package com.spz.mapper;
 
 import com.spz.entity.user.UserMessage;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 @Mapper
 public interface UserMessageMapper {
@@ -22,4 +25,13 @@ public interface UserMessageMapper {
     UserMessage getByInfo(UserMessage userMessage);
 
     void updateById(UserMessage userMessage);
+
+    List<UserMessage> list(String username, LocalDate begin, LocalDate end);
+
+    @Select("select * from user_message where id = #{id}")
+    UserMessage getByIdNumber(Integer id);
+
+    @Insert("insert into user_message(username, phone, gender, create_time, update_time) " +
+            "VALUES(#{username}, #{phone}, #{gender}, #{createTime}, #{updateTime}) ")
+    void insert(UserMessage userMessage);
 }

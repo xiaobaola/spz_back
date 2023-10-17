@@ -30,4 +30,19 @@
         </set>
         where id = #{id}
     </update>
+
+    <select id="list" resultType="com.spz.entity.user.UserMessage">
+        select *
+        from user_message
+        <where>
+            <if test="username != null and username != ''">
+                username like concat('%',#{username},'%')
+            </if>
+            <if test="begin != null and end != null">
+                and update_time between #{begin} and #{end}
+            </if>
+        </where>
+        order by update_time desc
+    </select>
+
 </mapper>
