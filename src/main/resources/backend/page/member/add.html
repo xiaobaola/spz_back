@@ -25,12 +25,12 @@
                 <el-input v-model="ruleForm.username" placeholder="请输入账号" maxlength="20"/>
             </el-form-item>
             <el-form-item
-                    label="员工姓名:"
+                    label="用户姓名:"
                     prop="name"
             >
                 <el-input
                         v-model="ruleForm.name"
-                        placeholder="请输入员工姓名"
+                        placeholder="请输入用户姓名"
                         maxlength="20"
                 />
             </el-form-item>
@@ -163,7 +163,7 @@
                             }
                             addEmployee(params).then(res => {
                                 if (res.code === 1) {
-                                    this.$message.success('员工添加成功！')
+                                    this.$message.success('用户添加成功！')
                                     if (!st) {
                                         this.goBack()
                                     } else {
@@ -190,7 +190,7 @@
                             }
                             editEmployee(params).then(res => {
                                 if (res.code === 1) {
-                                    this.$message.success('员工信息修改成功！')
+                                    this.$message.success('用户信息修改成功！')
                                     this.goBack()
                                 } else {
                                     this.$message.error(res.msg || '操作失败')
@@ -209,7 +209,7 @@
                 window.parent.menuHandle({
                     id: '2',
                     url: '/backend/page/member/list.html',
-                    name: '员工管理'
+                    name: '用户管理'
                 }, false)
             }
         }

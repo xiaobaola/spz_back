@@ -11,8 +11,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Manager {
     private Integer id; //管理员唯一标识
+    private String name; //名字
     private String username; //管理员用户名
     private String password; //密码
+    private String phone; //手机号
     private LocalDateTime updateTime; //更新时间
     private LocalDateTime createTime; //创建时间
 }
