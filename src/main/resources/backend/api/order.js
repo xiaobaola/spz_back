@@ -1,7 +1,7 @@
 // 查询列表页接口
 const getOrderDetailPage = (params) => {
     return $axios({
-        url: '/order/page',
+        url: '/spz/scrapTrade/page',
         method: 'get',
         params
     })
@@ -10,7 +10,7 @@ const getOrderDetailPage = (params) => {
 // 查看接口
 const queryOrderDetailById = (id) => {
     return $axios({
-        url: `/orderDetail/${id}`,
+        url: `/spz/scrapTradeDetail/${id}`,
         method: 'get'
     })
 }
@@ -18,7 +18,7 @@ const queryOrderDetailById = (id) => {
 // 取消，派送，完成接口
 const editOrderDetail = (params) => {
     return $axios({
-        url: '/order',
+        url: '/spz/scrapTrade',
         method: 'put',
         data: {...params}
     })

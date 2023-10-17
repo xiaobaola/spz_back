@@ -75,13 +75,13 @@
                     <span>{{ getOrderType(row) }}</span>
                 </template>
             </el-table-column>
-            <el-table-column prop="userName" label="用户"></el-table-column>
+            <el-table-column prop="consignee" label="用户"></el-table-column>
             <el-table-column prop="phone" label="手机号"></el-table-column>
             <el-table-column prop="address" label="地址" show-overflow-tooltip></el-table-column>
-            <el-table-column prop="orderTime" label="下单时间" min-width="100"></el-table-column>
-            <el-table-column prop="amount" label="实收金额">
+            <el-table-column prop="createTime" label="下单时间" min-width="100"></el-table-column>
+            <el-table-column prop="price" label="实收金额">
                 <template slot-scope="{ row }">
-                    <span>￥{{ row.amount }}</span>
+                    <span>￥{{ row.price }}</span>
                 </template>
             </el-table-column>
             <el-table-column prop="btn" label="操作">
@@ -131,7 +131,7 @@
                 <span class="des">{{ getOrderType(diaForm) }}</span>
             </div>
             <div class="item-box">
-                <span class="label">收货人：</span>
+                <span class="label">交易人员：</span>
                 <span class="des">{{ diaForm.consignee }}</span>
             </div>
             <div class="item-box">
@@ -144,11 +144,11 @@
             </div>
             <div class="item-box">
                 <span class="label">支付金额：</span>
-                <span class="des">{{ diaForm.amount }}</span>
+                <span class="des">{{ diaForm.price }}</span>
             </div>
             <div class="item-box">
                 <span class="label">下单时间：</span>
-                <span class="des">{{ diaForm.orderTime }}</span>
+                <span class="des">{{ diaForm.createTime }}</span>
             </div>
         </div>
         <!-- <el-form ref="diaForm" :model="diaForm" class="dia-form">
@@ -168,7 +168,7 @@
             <span>{{ diaForm.address }}</span>
           </el-form-item>
           <el-form-item label="支付金额">
-            <span>{{ diaForm.amount }}</span>
+            <span>{{ diaForm.price }}</span>
           </el-form-item>
           <el-form-item label="下单时间">
             <span>{{ diaForm.orderTime }}</span>
@@ -193,7 +193,7 @@
         data() {
             return {
                 input: '',
-                orderTime: '',
+                createTime: '',
                 beginTime: '',
                 endTime: '',
                 counts: 0,
@@ -233,7 +233,7 @@
                     endTime: this.endTime || undefined
                 }).then(res => {
                     if (String(res.code) === '1') {
-                        this.tableData = res.data.records || []
+                        this.tableData = res.data.rows || []
                         this.counts = res.data.total
                     }
                 }).catch(err => {
@@ -247,6 +247,9 @@
             getOrderType(row) {
                 let str = ''
                 switch (row.status) {
+                    case 0:
+                        str = '待确认'
+                        break;
                     case 1:
                         str = '待付款'
                         break;

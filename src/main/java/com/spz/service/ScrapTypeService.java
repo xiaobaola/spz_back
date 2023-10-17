@@ -1,7 +1,9 @@
 package com.spz.service;
 
+import com.spz.entity.page.PageBean;
 import com.spz.entity.scrap.ScrapType;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public interface ScrapTypeService {
@@ -12,4 +14,5 @@ public interface ScrapTypeService {
     void updateById(ScrapType scrapType);
 
     void deleteById(Integer id);
+
 }

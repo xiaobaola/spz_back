@@ -36,6 +36,8 @@ public class ScrapTrade {
     private Integer id;//交易Id
     private String number; //订单编号
     private Integer userId;//用户Id
+    private String consignee; //交易员名称
+//    private String userName; //用户名
     private Integer status;//回收品交易状态 0: 上传 1: 确认 2: 交易
     private String address; //用户地址
     private String phone; //用户手机号
