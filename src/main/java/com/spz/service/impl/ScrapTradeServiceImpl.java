@@ -1,5 +1,6 @@
 package com.spz.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.spz.entity.manager.Manager;
@@ -7,13 +8,16 @@ import com.spz.entity.page.PageBean;
 import com.spz.entity.scrap.ScrapTrade;
 import com.spz.mapper.ScrapTradeMapper;
 import com.spz.service.ScrapTradeService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
+@Slf4j
 public class ScrapTradeServiceImpl implements ScrapTradeService {
     @Autowired
     ScrapTradeMapper scrapTradeMapper;
@@ -33,5 +37,22 @@ public class ScrapTradeServiceImpl implements ScrapTradeService {
         PageBean pageBean = new PageBean(scrapTradePage.getTotal(), scrapTradePage.getResult());
 
         return pageBean;
+    }
+
+    @Override
+    public String insert(ScrapTrade scrapTrade) {
+        //1 创建订单编号
+        long orderId = IdWorker.getId();
+        String number = String.valueOf(orderId);
+        //2 补全信息
+        scrapTrade.setUpdateTime(LocalDateTime.now());
+        scrapTrade.setCreateTime(LocalDateTime.now());
+        scrapTrade.setNumber(number);
+        // 0待确认
+        scrapTrade.setStatus(0);
+        log.info("{}", scrapTrade);
+        //3 插入数据
+        scrapTradeMapper.insert(scrapTrade);
+        return number;
     }
 }

@@ -27,6 +27,7 @@ public class ScrapType {
     private Integer id;//主键id
     private String name;//废品类型名
     private String image;//废品类型图片
+    private Integer price; //默认为0 服务于前端
     private LocalDateTime createTime; //创建时间
     private LocalDateTime updateTime;//更新时间
 }

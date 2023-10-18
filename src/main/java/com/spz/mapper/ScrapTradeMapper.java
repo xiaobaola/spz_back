@@ -1,6 +1,7 @@
 package com.spz.mapper;
 
 import com.spz.entity.scrap.ScrapTrade;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.time.LocalDate;
@@ -9,4 +10,8 @@ import java.util.List;
 @Mapper
 public interface ScrapTradeMapper {
     List<ScrapTrade> list(String number, LocalDate begin, LocalDate end);
+
+    @Insert("insert into scrap_trade(number, user_id, consignee, address, phone, price, image, update_time, create_time) " +
+            "VALUES (#{number}, #{userId}, #{consignee}, #{address}, #{phone}, #{price}, #{image}, #{updateTime}, #{createTime})")
+    void insert(ScrapTrade scrapTrade);
 }
