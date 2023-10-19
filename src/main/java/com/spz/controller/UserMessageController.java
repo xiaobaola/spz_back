@@ -5,6 +5,7 @@ import com.spz.entity.manager.Manager;
 import com.spz.entity.page.PageBean;
 import com.spz.entity.user.UserMessage;
 import com.spz.service.UserMessageService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,18 +27,29 @@ public class UserMessageController {
         userMessage = userMessageService.getById(userMessage);
         return Res.success(userMessage);
     }
-    @GetMapping("/login")
-    public Res<UserMessage> login(UserMessage userMessage) {
+    @PostMapping("/login")
+    //HttpServletRequest request,
+    public Res<UserMessage> login(@RequestBody UserMessage userMessage) {
         String username = userMessage.getUsername();
         String password = userMessage.getPassword();
         log.info("login请求 username:{}, password{}", username, password);
         UserMessage user = userMessageService.getByInfo(userMessage);
         if(user != null) {
             log.info("user = {}", user);
+//            request.getSession().setAttribute("user", user.getId());
             return Res.success(user);
         }
         return Res.error("用户名或密码错误");
     }
+
+    @PostMapping("/logout")
+    //HttpServletRequest request,
+    public Res<String> logout(@RequestBody UserMessage userMessage) {
+        // 清理session中保存的管理员id
+//        request.getSession().removeAttribute("user");
+        return Res.success("退出成功");
+    }
+
     @PutMapping
     public Res<String> updateById(@RequestBody UserMessage userMessage) {
         log.info("userMessage{}", userMessage);
