@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spz.mapper.ScrapTradeDetailMapper">
+<!--    <insert id="insertList">-->
+<!--        <foreach collection="scrapTradeDetails" item="sTD" separator="," open="(" close=")">-->
+<!--            #{id}-->
+<!--        </foreach>-->
+<!--        insert into scrap_trade_detail(user_id, scrap_id, scrap_trade_id, count, price, update_time, create_time) VALUES-->
+
+<!--    </insert>-->
+</mapper>

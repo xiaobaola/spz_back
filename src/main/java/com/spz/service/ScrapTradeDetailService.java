@@ -6,5 +6,5 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface ScrapTradeDetailService {
-    void insertList(List<ScrapTradeDetail> scrapTradeDetails, String number);
+    void insertList(List<ScrapTradeDetail> scrapTradeDetails, Integer id);
 }

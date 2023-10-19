@@ -55,4 +55,9 @@ public class ScrapTradeServiceImpl implements ScrapTradeService {
         scrapTradeMapper.insert(scrapTrade);
         return number;
     }
+
+    @Override
+    public ScrapTrade getByNumber(ScrapTrade scrapTrade) {
+        return scrapTradeMapper.getByNumber(scrapTrade);
+    }
 }

@@ -81,7 +81,7 @@
             <el-table-column prop="createTime" label="下单时间" min-width="100"></el-table-column>
             <el-table-column prop="price" label="实收金额">
                 <template slot-scope="{ row }">
-                    <span>￥{{ row.price }}</span>
+                    <span>￥{{ row.price/100 }}</span>
                 </template>
             </el-table-column>
             <el-table-column prop="btn" label="操作">
@@ -89,13 +89,13 @@
                     <el-button type="text" @click="goDetail(row)" class="blueBug">
                         查看
                     </el-button>
-                    <el-divider v-if="row.status === 2" direction="vertical"></el-divider>
-                    <el-button v-if="row.status === 2" type="text" @click="cancelOrDeliveryOrComplete(3, row.id)"
+                    <el-divider v-if="row.status === 0" direction="vertical"></el-divider>
+                    <el-button v-if="row.status === 0" type="text" @click="cancelOrDeliveryOrComplete(1, row.id)"
                                class="blueBug">
                         派送
                     </el-button>
-                    <el-divider v-if="row.status === 3" direction="vertical"></el-divider>
-                    <el-button v-if="row.status === 3" type="text" @click="cancelOrDeliveryOrComplete(4, row.id)"
+                    <el-divider v-if="row.status === 1" direction="vertical"></el-divider>
+                    <el-button v-if="row.status === 1" type="text" @click="cancelOrDeliveryOrComplete(4, row.id)"
                                class="blueBug">
                         完成
                     </el-button>
@@ -144,7 +144,7 @@
             </div>
             <div class="item-box">
                 <span class="label">支付金额：</span>
-                <span class="des">{{ diaForm.price }}</span>
+                <span class="des">{{ diaForm.price/100 }}</span>
             </div>
             <div class="item-box">
                 <span class="label">下单时间：</span>

@@ -42,9 +42,9 @@ public class ScrapTradeController {
         ScrapTrade scrapTrade = (ScrapTrade) scrapTradeDto;
         //插入总账单并返回订单编号
         String number = scrapTradeService.insert(scrapTrade);
-//        ScrapTrade scrapTrade1
+        ScrapTrade scrapTradeId = scrapTradeService.getByNumber(scrapTrade);
         //批量插入订单细节信息
-        scrapTradeDetailService.insertList(scrapTradeDto.getScrapTradeDetails(), number);
+        scrapTradeDetailService.insertList(scrapTradeDto.getScrapTradeDetails(), scrapTradeId.getId());
         return Res.success("上传记录成功");
     }
 }
