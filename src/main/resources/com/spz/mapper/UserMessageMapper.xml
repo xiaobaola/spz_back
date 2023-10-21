@@ -21,6 +21,12 @@
             <if test="phone != null and phone != ''">
                 phone = #{phone},
             </if>
+            <if test="address != null and address != ''">
+                address = #{address},
+            </if>
+            <if test="introduction != null and introduction != ''">
+                introduction = #{introduction},
+            </if>
             <if test="headImage != null and headImage != ''">
                 head_image = #{headImage},
             </if>

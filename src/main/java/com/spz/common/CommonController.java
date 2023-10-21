@@ -19,9 +19,12 @@ import java.util.UUID;
 public class CommonController {
     @Value("${spzStore.path}")
     private String basePath;
+    @Value("${spzStore.path2}")
+    private String basePath2;
 
     @GetMapping("/download")
     public void download(String name, HttpServletResponse response) {
+        log.info("name{}",name);
 
         try {
             //通过输入流读取文件内容
@@ -68,10 +71,19 @@ public class CommonController {
             //目录不存在 创建目录
             dir.mkdirs();
         }
+        //创建一个目录对象2
+        File dir2 = new File(basePath2);
+        //判断当前目录是否存在
+        if (!dir2.exists()) {
+            //目录不存在 创建目录
+            dir2.mkdirs();
+        }
 
         try {
             //将临时文件转存到指定路径
             file.transferTo(new File(basePath + fileName));
+            //将临时文件转存到指定路径
+            file.transferTo(new File(basePath2 + fileName));
         } catch (IOException e) {
             e.printStackTrace();
         }
