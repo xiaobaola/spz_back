@@ -35,6 +35,19 @@
                     label="分类名称"
             />
             </el-table-column>
+
+            <el-table-column prop="image" label="图片" align="center">
+                <template slot-scope="{ row }">
+                    <el-image style="width: auto; height: 40px; border:none;cursor: pointer;"
+                              :src="getImage(row.image)"
+                              :preview-src-list="[ `/spz/common/download?name=${row.image}` ]">
+                        <div slot="error" class="image-slot">
+                            <img src="./../../images/noImg.png" style="width: auto; height: 40px; border:none;">
+                        </div>
+                    </el-image>
+                </template>
+            </el-table-column>
+
             <el-table-column
                     prop="updateTime"
                     label="操作时间"
@@ -86,6 +99,36 @@
                         maxlength="14"
                 />
             </el-form-item>
+
+            <el-form-item
+                    label="分类图片:"
+                    prop="region"
+                    class="uploadImg"
+            >
+                <el-upload
+                        class="avatar-uploader"
+                        action="/spz/common/upload"
+                        :show-file-list="false"
+                        :on-success="handleAvatarSuccess"
+                        :on-change="onChange"
+                        ref="upload"
+                >
+                    <img
+                            v-if="imageUrl"
+                            :src="imageUrl"
+                            class="avatar"
+                            width="40px"
+                            height="auto"
+                    ></img>
+                    <i
+                            v-else
+                            class="el-icon-plus avatar-uploader-icon"
+                    ></i>
+                </el-upload>
+            </el-form-item>
+
+
+
         </el-form>
         <span
                 slot="footer"
@@ -123,6 +166,8 @@
         el: '#category-app',
         data() {
             return {
+                image:'',
+                imageUrl: '',
                 action: '',
                 counts: 0,
                 tableData: [],
@@ -146,6 +191,7 @@
                     if (String(res.code) === '1') {
                         this.tableData = res.data
                         // this.counts = Number(res.data.total)
+                        this.imageUrl = `/spz/common/download?name=${res.data.image}`
                     } else {
                         this.$message.error(res.msg || '操作失败')
                     }
@@ -198,6 +244,10 @@
             submitForm(st) {
                 const classData = this.classData
                 const valid = (classData.name === 0 || classData.name)
+                if (!this.imageUrl) {
+                    this.$message.error('请上传分类图片')
+                    return
+                }
                 if (this.action === 'add') {
                     if (valid) {
                         addScrapType({'name': classData.name}).then(res => {
@@ -207,7 +257,9 @@
                                 if (!st) {
                                     this.classData.dialogVisible = false
                                 } else {
+                                    this.imageUrl = ''
                                     this.classData.name = ''
+                                    this.image= ''
                                 }
                                 this.handleQuery()
                             } else {
@@ -238,6 +290,38 @@
                     this.$message.error('请输入分类名称')
                 }
             },
+
+
+
+            getImage(image) {
+                return `/spz/common/download?name=${image}`
+            },
+            handleAvatarSuccess(response, file, fileList) {
+                // 拼接down接口预览
+                if (response.code === 0 && response.msg === '未登录') {
+                    window.top.location.href = '/backend/page/login/login.html'
+                } else {
+                    this.imageUrl = `/spz/common/download?name=${response.data}`
+                    this.image = response.data
+                }
+            },
+            onChange(file) {
+                if (file) {
+                    const suffix = file.name.split('.')[1]
+                    const size = file.size / 1024 / 1024 < 2
+                    if (['png', 'jpeg', 'jpg'].indexOf(suffix) < 0) {
+                        this.$message.error('上传图片只支持 png、jpeg、jpg 格式！')
+                        this.$refs.upload.clearFiles()
+                        return false
+                    }
+                    if (!size) {
+                        this.$message.error('上传文件大小不能超过 2MB!')
+                        return false
+                    }
+                    return file
+                }
+            },
+
         }
     })
 </script>
