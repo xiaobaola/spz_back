@@ -7,10 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.util.UUID;
 
 @Slf4j
@@ -82,8 +79,21 @@ public class CommonController {
         try {
             //将临时文件转存到指定路径
             file.transferTo(new File(basePath + fileName));
-            //将临时文件转存到指定路径
-            file.transferTo(new File(basePath2 + fileName));
+            //文件拷贝
+            File sourceFile = new File(basePath + fileName);
+            File destinationFile = new File(basePath2 + fileName);
+
+            FileInputStream fis = new FileInputStream(sourceFile);
+            FileOutputStream fos = new FileOutputStream(destinationFile);
+
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = fis.read(buffer)) != -1) {
+                fos.write(buffer, 0, bytesRead);
+            }
+            fos.close();
+            fis.close();
+
         } catch (IOException e) {
             e.printStackTrace();
         }

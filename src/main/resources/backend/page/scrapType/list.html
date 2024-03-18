@@ -176,6 +176,7 @@
                     'dialogVisible': false,
                     'scrapTypeId': '',
                     'name': '',
+                    'image': '',
                 }
             }
         },
@@ -216,6 +217,8 @@
                 this.action = 'edit'
                 this.classData.name = dat.name
                 this.classData.id = dat.id
+                this.classData.image = dat.image
+                this.imageUrl = 'store/image'+dat.image
                 this.classData.dialogVisible = true
             },
             // 关闭弹窗
@@ -243,6 +246,7 @@
             //数据提交
             submitForm(st) {
                 const classData = this.classData
+                // 分类名称校验
                 const valid = (classData.name === 0 || classData.name)
                 if (!this.imageUrl) {
                     this.$message.error('请上传分类图片')
@@ -250,7 +254,7 @@
                 }
                 if (this.action === 'add') {
                     if (valid) {
-                        addScrapType({'name': classData.name}).then(res => {
+                        addScrapType({'name': classData.name, 'image': this.classData.image}).then(res => {
                             console.log(res)
                             if (res.code === 1) {
                                 this.$message.success('分类添加成功！')
@@ -275,6 +279,7 @@
                     editScrapType({
                         'id': this.classData.id,
                         'name': this.classData.name,
+                        'image': this.classData.image,
                     }).then(res => {
                         if (res.code === 1) {
                             this.$message.success('分类修改成功！')
@@ -292,17 +297,19 @@
             },
 
 
-
             getImage(image) {
                 return `/spz/common/download?name=${image}`
             },
+            //上传图片
             handleAvatarSuccess(response, file, fileList) {
                 // 拼接down接口预览
                 if (response.code === 0 && response.msg === '未登录') {
                     window.top.location.href = '/backend/page/login/login.html'
                 } else {
+                    //自定义核心
                     this.imageUrl = `/spz/common/download?name=${response.data}`
-                    this.image = response.data
+                    // this.image = response.data
+                    this.classData.image = response.data
                 }
             },
             onChange(file) {

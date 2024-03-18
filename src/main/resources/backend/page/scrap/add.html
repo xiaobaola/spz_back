@@ -280,10 +280,11 @@
                         let params = {...this.ruleForm}
                         params.price *= 100
                         params.scrapTypeId = this.ruleForm.scrapTypeId
-                        if (!this.imageUrl) {
-                            this.$message.error('请上传回收品图片')
-                            return
-                        }
+                        // 取消对图片的检查
+                        // if (!this.imageUrl) {
+                        //     this.$message.error('请上传回收品图片')
+                        //     return
+                        // }
                         if (this.actionType == 'add') {
                             delete params.id
                             addScrap(params).then(res => {
