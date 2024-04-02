@@ -94,7 +94,7 @@
     <el-dialog
             :title="classData.title"
             :visible.sync="classData.dialogVisible"
-            width="30%"
+            width="40%"
             :before-close="handleClose"
     >
         <el-form
@@ -118,11 +118,20 @@
             </el-form-item>
 
             <el-form-item label="交易时间：">
-                <el-input
-                        v-model="classData.tradeTime"
-                        placeholder="请输入交易时间"
-                        maxlength="14"
-                />
+                <template>
+                    <el-date-picker v-model="orderTime"
+                                    clearable
+                                    value-format="yyyy-MM-dd HH:mm:ss"
+                                    type="datetimerange"
+                                    placeholder="选择交易日期"
+                                    range-separator="至"
+                                    start-placeholder="开始日期"
+                                    end-placeholder="结束日期"
+                                    :default-time="['00:00:00', '23:59:59']"
+                                    style="width: 100%"
+                    ></el-date-picker>
+
+                </template>
             </el-form-item>
 
         </el-form>
@@ -165,6 +174,7 @@
                 action: '',
                 counts: 0,
                 tableData: [],
+                value1: [new Date(), new Date()],
                 classData: {
                     'title': '添加信息条',
                     'dialogVisible': false,
