@@ -258,9 +258,9 @@
             //数据提交
             submitForm(st) {
                 const classData = this.classData
-                console.log(new Date(this.tradeTime[0]).format(this.pattern))
-                classData.tradeTimeStart = new Date(this.tradeTime[0]).format(this.pattern)
-                classData.tradeTimeFinish = this.tradeTime[1]
+                console.log(this.DateToStr(this.tradeTime[0]))
+                classData.tradeTimeStart = this.DateToStr(this.tradeTime[0])
+                classData.tradeTimeFinish = this.DateToStr(this.tradeTime[1])
                 // 分类名称校验
                 const valid = (this.tradeTime[0] !== 0 && this.tradeTime[1] !== 0)
                 // if (!this.tradeTime) {
@@ -328,6 +328,17 @@
                 if (response.code === 0 && response.msg === '未登录') {
                     window.top.location.href = '/backend/page/login/login.html'
                 }
+            },
+
+            // date格式转成yy-MM-dd HH:mm:ss
+            DateToStr(dd) {
+                var y = dd.getFullYear();
+                var m = (dd.getMonth() + 1) < 10 ? '0' + (dd.getMonth() + 1) : (dd.getMonth() + 1);//获取当前月份的日期，不足10补0
+                var d = dd.getDate() < 10 ? '0' + dd.getDate() : dd.getDate(); //获取当前几号，不足10补0
+                var h = dd.getHours() < 10 ? '0' + dd.getHours() : dd.getHours();
+                var n = dd.getMinutes() <10 ? '0' + dd.getMinutes() : dd.getMinutes();
+                var s = dd.getSeconds() <10 ? '0' + dd.getSeconds() : dd.getSeconds();
+                return y + '-' + m + '-' + d + ' ' + h + ':' + n + ':' + s;
             },
         }
     })
