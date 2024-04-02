@@ -258,9 +258,12 @@
             //数据提交
             submitForm(st) {
                 const classData = this.classData
-                console.log(this.DateToStr(this.tradeTime[0]))
-                classData.tradeTimeStart = this.DateToStr(this.tradeTime[0])
-                classData.tradeTimeFinish = this.DateToStr(this.tradeTime[1])
+                const params = {}
+                params.id = ''
+                params.name = classData.name
+                params.message = classData.message
+                params.tradeTimeStart = this.DateToStr(this.tradeTime[0])
+                params.tradeTimeFinish = this.DateToStr(this.tradeTime[1])
                 // 分类名称校验
                 const valid = (this.tradeTime[0] !== 0 && this.tradeTime[1] !== 0)
                 // if (!this.tradeTime) {
@@ -270,13 +273,11 @@
                 if(!classData.name || classData.name === 0) {
                     classData.name = '信息条'+classData.tradeTimeStart
                 }
-                console.log(classData)
+                console.log(params)
                 // console.log(valid)
                 if (this.action === 'add') {
                     if (valid) {
-                        addMessageTrade({'name': classData.name, 'message': this.classData.message,
-                                'tradeTimeStart': classData.tradeTimeStart, 'tradeTimeFinish' : classData.tradeTimeFinish})
-                            .then(res => {
+                        addMessageTrade(params).then(res => {
                             console.log(res)
                             if (res.code === 1) {
                                 this.$message.success('信息条添加成功！')

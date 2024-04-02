@@ -21,15 +21,8 @@ public class MessageTradeController {
     private MessageTradeService messageTradeService;
 
     @PostMapping
-    public Res<String> createMessageTrade(@RequestParam String name,
-                                          @RequestParam String message,
-                                          @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate tradeTimeStart,
-                                          @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate tradeTimeFinish){
-        MessageTrade messageTrade = new MessageTrade();
-        messageTrade.setName(name);
-        messageTrade.setMessage(message);
-        messageTrade.setTradeTimeStart(tradeTimeStart.atStartOfDay());
-        messageTrade.setTradeTimeStart(tradeTimeFinish.atStartOfDay());
+    public Res<String> createMessageTrade(@RequestBody MessageTrade messageTrade){
+        log.info(String.valueOf(messageTrade));
         log.info("新增: {}", messageTrade);
         messageTradeService.insert3(messageTrade);
         return Res.success("新增信息成功");
