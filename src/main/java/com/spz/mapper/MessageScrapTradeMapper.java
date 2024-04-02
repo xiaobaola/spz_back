@@ -9,5 +9,7 @@ public interface MessageScrapTradeMapper {
     @Select("select message_trade_id from message_scrap_trade where id=#{id}")
     MessageScrapTrade getMessageTradeIdById(Integer id);
 
+    @Select("select scrap_trade_id from message_scrap_trade where id=#{id}")
+    MessageScrapTrade getScrapTradeIdById(Integer id);
 
 }
