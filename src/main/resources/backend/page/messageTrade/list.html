@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="../../plugins/element-ui/index.css"/>
+    <link rel="stylesheet" href="../../styles/common.css"/>
+    <link rel="stylesheet" href="../../styles/page.css"/>
+</head>
+<body>
+<div class="dashboard-container" id="category-app">
+    <div class="container">
+        <div
+                class="tableBar"
+                style="display: inline-block"
+        >
+            <el-button
+                    type="primary"
+                    class="continue"
+                    @click="addClass('class')"
+            >
+                + 新增信息条
+            </el-button>
+        </div>
+        <el-table
+                :data="tableData"
+                stripe
+                class="tableBox"
+        >
+            <el-table-column
+                    prop="name"
+                    label="信息条名称"
+            />
+                <template slot-scope="scope">
+                    {{scope.row.name}}
+                </template>
+            </el-table-column>
+
+            <el-table-column
+                    prop="message"
+                    label="信息内容"
+            />
+                <template slot-scope="scope">
+                    {{scope.row.message}}
+                </template>
+            </el-table-column>
+
+            <el-table-column
+                    prop="tradeTime"
+                    label="交易时间"
+            />
+                <template slot-scope="scope">
+                    {{scope.row.tradeTime}}
+                </template>
+            </el-table-column>
+
+            <el-table-column
+                    prop="updateTime"
+                    label="操作时间"
+            >
+                <template slot-scope="scope">
+                    {{scope.row.updateTime}}
+                </template>
+            </el-table-column>
+            <el-table-column
+                    label="操作"
+                    width="160"
+                    align="center"
+            >
+                <template slot-scope="scope">
+                    <el-button
+                            type="text"
+                            size="small"
+                            class="blueBug"
+                            @click="editHandle(scope.row)"
+                    >
+                        修改
+                    </el-button>
+                    <el-button
+                            type="text"
+                            size="small"
+                            class="delBut non"
+                            @click="deleteHandle(scope.row.id)"
+                    >
+                        删除
+                    </el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+    </div>
+    <el-dialog
+            :title="classData.title"
+            :visible.sync="classData.dialogVisible"
+            width="30%"
+            :before-close="handleClose"
+    >
+        <el-form
+                class="demo-form-inline"
+                label-width="100px"
+        >
+            <el-form-item label="信息条名称：">
+                <el-input
+                        v-model="classData.name"
+                        placeholder="请输入信息条名称"
+                        maxlength="14"
+                />
+            </el-form-item>
+
+            <el-form-item label="信息内容：">
+                <el-input
+                        v-model="classData.message"
+                        placeholder="请输入信息内容"
+                        maxlength="14"
+                />
+            </el-form-item>
+
+            <el-form-item label="交易时间：">
+                <el-input
+                        v-model="classData.tradeTime"
+                        placeholder="请输入交易时间"
+                        maxlength="14"
+                />
+            </el-form-item>
+
+        </el-form>
+        <span
+                slot="footer"
+                class="dialog-footer"
+        >
+        <el-button
+                size="medium"
+                @click="classData.dialogVisible = false"
+        >取 消</el-button>
+        <el-button
+                type="primary"
+                size="medium"
+                @click="submitForm()"
+        >确 定</el-button>
+        <el-button
+                v-if="action != 'edit'"
+                type="primary"
+                size="medium"
+                class="continue"
+                @click="submitForm('go')"
+        > 保存并继续添加 </el-button>
+      </span>
+    </el-dialog>
+</div>
+<!-- 开发环境版本，包含了有帮助的命令行警告 -->
+<script src="../../plugins/vue/vue.js"></script>
+<!-- 引入组件库 -->
+<script src="../../plugins/element-ui/index.js"></script>
+<!-- 引入axios -->
+<script src="../../plugins/axios/axios.min.js"></script>
+<script src="../../js/request.js"></script>
+<script src="../../api/messageTrade.js"></script>
+<script>
+    new Vue({
+        el: '#category-app',
+        data() {
+            return {
+                action: '',
+                counts: 0,
+                tableData: [],
+                classData: {
+                    'title': '添加信息条',
+                    'dialogVisible': false,
+                    'messageTradeId': '',
+                    'name': '',
+                    'message': '',
+                    'tradeTime': ''
+                }
+            }
+        },
+        computed: {},
+        created() {
+            this.init()
+        },
+        mounted() {
+        },
+        methods: {
+            async init() {
+                await getMessageTradeList().then(res => {
+                    if (String(res.code) === '1') {
+                        this.tableData = res.data
+                    } else {
+                        this.$message.error(res.msg || '操作失败')
+                    }
+                }).catch(err => {
+                    this.$message.error('请求出错了：' + err)
+                })
+            },
+            handleQuery() {
+                this.init();
+            },
+            // 添加
+            addClass(st) {
+                if (st == 'class') {
+                    this.classData.title = '新增信息条'
+                }
+                this.action = 'add'
+                this.classData.name = ''
+                this.classData.message = '我们可以一下时间进行交易'
+                // this.classData.message = ''
+                // this.classData.tradeTime = new Date().toLocaleString()
+                this.classData.tradeTime = ''
+                this.classData.dialogVisible = true
+            },
+            editHandle(dat) {
+                this.classData.title = '修改信息条'
+                this.action = 'edit'
+                this.classData.name = dat.name
+                this.classData.id = dat.id
+                this.classData.message = dat.message
+                this.classData.tradeTime = dat.tradeTime
+                this.classData.dialogVisible = true
+            },
+            // 关闭弹窗
+            handleClose(st) {
+                this.classData.dialogVisible = false
+            },
+            //删除
+            deleteHandle(id) {
+                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                    'confirmButtonText': '确定',
+                    'cancelButtonText': '取消',
+                }).then(() => {
+                    deleteMessageTrade(id).then(res => {
+                        if (res.code === 1) {
+                            this.$message.success('删除成功！')
+                            this.handleQuery()
+                        } else {
+                            this.$message.error(res.msg || '操作失败')
+                        }
+                    }).catch(err => {
+                        this.$message.error('请求出错了：' + err)
+                    })
+                })
+            },
+            //数据提交
+            submitForm(st) {
+                const classData = this.classData
+                // 分类名称校验
+                const valid = (classData.tradeTime === 0 || classData.tradeTime)
+                if (!this.tradeTime) {
+                    this.$message.error('请确定交易时间')
+                    return
+                }
+                if(!this.name || this.name === 0) {
+                    this.name = '信息条'+this.tradeTime
+                }
+                if (this.action === 'add') {
+                    if (valid) {
+                        addMessageTrade(
+                            {'name': classData.name, 'message': this.classData.message,
+                                'tradeTime': this.classData.tradeTime}).then(res => {
+                            console.log(res)
+                            if (res.code === 1) {
+                                this.$message.success('信息条添加成功！')
+                                if (!st) {
+                                    this.classData.dialogVisible = false
+                                } else {
+                                    this.classData.message = ''
+                                    this.classData.name = ''
+                                    this.classData.tradeTime = ''
+                                }
+                                this.handleQuery()
+                            } else {
+                                this.$message.error(res.msg || '操作失败')
+                            }
+                        }).catch(err => {
+                            this.$message.error('请求出错了：' + err)
+                        })
+                    } else {
+                        this.$message.error('请输入交易时间')
+                    }
+                } else if (valid) {
+                    editMessageTrade({
+                        'id': this.classData.id,
+                        'name': this.classData.name,
+                        'message': this.classData.message,
+                        'tradeTime': this.classData.message,
+                    }).then(res => {
+                        if (res.code === 1) {
+                            this.$message.success('信息条修改成功！')
+                            this.classData.dialogVisible = false
+                            this.handleQuery()
+                        } else {
+                            this.$message.error(res.msg || '操作失败')
+                        }
+                    }).catch(err => {
+                        this.$message.error('请求出错了：' + err)
+                    })
+                } else {
+                    this.$message.error('请输入分类交易时间')
+                }
+            },
+
+            //登录校验
+            handleAvatarSuccess(response, file, fileList) {
+                // 拼接down接口预览
+                if (response.code === 0 && response.msg === '未登录') {
+                    window.top.location.href = '/backend/page/login/login.html'
+                }
+            },
+        }
+    })
+</script>
+</body>
+</html>
