@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("spz/messagetrade")
+@RequestMapping("spz/messageTrade")
 @Slf4j
 public class MessageTradeController {
     @Autowired
@@ -24,7 +24,7 @@ public class MessageTradeController {
         return Res.success("新增信息成功");
     }
 
-    @GetMapping
+    @GetMapping("list")
     public Res<List<MessageTrade>> selectMessageTradeall(){
         log.info("get 信息列表");
         return Res.success(messageTradeService.list3());
