@@ -203,8 +203,8 @@
                 }
                 this.action = 'add'
                 this.classData.name = ''
-                this.classData.message = '我们可以一下时间进行交易'
-                // this.classData.message = ''
+                // this.classData.message = '我们可以在以下时间进行交易'
+                this.classData.message = ''
                 // this.classData.tradeTime = new Date().toLocaleString()
                 this.classData.tradeTime = ''
                 this.classData.dialogVisible = true
@@ -244,14 +244,16 @@
             submitForm(st) {
                 const classData = this.classData
                 // 分类名称校验
-                const valid = (classData.tradeTime === 0 || classData.tradeTime)
-                if (!this.tradeTime) {
-                    this.$message.error('请确定交易时间')
-                    return
-                }
+                const valid = (classData.tradeTime !== 0)
+                // if (!this.tradeTime) {
+                //     this.$message.error('请确定交易时间')
+                //     return
+                // }
                 if(!this.name || this.name === 0) {
                     this.name = '信息条'+this.tradeTime
                 }
+                // console.log(classData)
+                // console.log(valid)
                 if (this.action === 'add') {
                     if (valid) {
                         addMessageTrade(
