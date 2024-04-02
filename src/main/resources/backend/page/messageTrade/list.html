@@ -118,11 +118,24 @@
             </el-form-item>
 
             <el-form-item label="交易时间：">
-                <el-input
-                        v-model="classData.tradeTime"
-                        placeholder="请输入交易时间"
-                        maxlength="14"
-                />
+                <template>
+<!--                    <div class="block">-->
+<!--                        <span class="demonstration">请输入交易时间</span>-->
+                        <el-date-picker
+                                v-model="value1"
+                                type="datetimerange"
+                                range-separator="至"
+                                start-placeholder="开始日期"
+                                end-placeholder="结束日期">
+                        </el-date-picker>
+<!--                    </div>-->
+
+                </template>
+<!--                <el-input-->
+<!--                        v-model="classData.tradeTime"-->
+<!--                        placeholder="请输入交易时间"-->
+<!--                        maxlength="14"-->
+<!--                />-->
             </el-form-item>
 
         </el-form>
@@ -165,6 +178,7 @@
                 action: '',
                 counts: 0,
                 tableData: [],
+                value1: [new Date(), new Date()],
                 classData: {
                     'title': '添加信息条',
                     'dialogVisible': false,
