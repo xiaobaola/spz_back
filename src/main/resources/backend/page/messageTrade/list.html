@@ -119,7 +119,7 @@
 
             <el-form-item label="交易时间：">
                 <template>
-                    <el-date-picker v-model="orderTime"
+                    <el-date-picker v-model="this.tradeTime"
                                     clearable
                                     value-format="yyyy-MM-dd HH:mm:ss"
                                     type="datetimerange"
@@ -174,14 +174,17 @@
                 action: '',
                 counts: 0,
                 tableData: [],
-                value1: [new Date(), new Date()],
+                pattern : "yyyy-MM-dd hh:mm:ss",
+                tradeTime: [new Date(), new Date()],
                 classData: {
                     'title': '添加信息条',
                     'dialogVisible': false,
                     'messageTradeId': '',
                     'name': '',
                     'message': '',
-                    'tradeTime': ''
+                    // 'tradeTime': [new Date(), new Date()],
+                    'tradeTimeStart': '',
+                    'tradeTimeFinish': ''
                 }
             }
         },
@@ -216,7 +219,8 @@
                 // this.classData.message = '我们可以在以下时间进行交易'
                 this.classData.message = ''
                 // this.classData.tradeTime = new Date().toLocaleString()
-                this.classData.tradeTime = ''
+                this.classData.tradeTimeStart = ''
+                this.classData.tradeTimeFinish = ''
                 this.classData.dialogVisible = true
             },
             editHandle(dat) {
@@ -225,7 +229,8 @@
                 this.classData.name = dat.name
                 this.classData.id = dat.id
                 this.classData.message = dat.message
-                this.classData.tradeTime = dat.tradeTime
+                this.classData.tradeTimeStart = dat.tradeTimeStart
+                this.classData.tradeTimeFinish = dat.tradeTimeFinish
                 this.classData.dialogVisible = true
             },
             // 关闭弹窗
@@ -253,22 +258,25 @@
             //数据提交
             submitForm(st) {
                 const classData = this.classData
+                console.log(new Date(this.tradeTime[0]).format(this.pattern))
+                classData.tradeTimeStart = new Date(this.tradeTime[0]).format(this.pattern)
+                classData.tradeTimeFinish = this.tradeTime[1]
                 // 分类名称校验
-                const valid = (classData.tradeTime !== 0)
+                const valid = (this.tradeTime[0] !== 0 && this.tradeTime[1] !== 0)
                 // if (!this.tradeTime) {
                 //     this.$message.error('请确定交易时间')
                 //     return
                 // }
-                if(!this.name || this.name === 0) {
-                    this.name = '信息条'+this.tradeTime
+                if(!classData.name || classData.name === 0) {
+                    classData.name = '信息条'+classData.tradeTimeStart
                 }
-                // console.log(classData)
+                console.log(classData)
                 // console.log(valid)
                 if (this.action === 'add') {
                     if (valid) {
-                        addMessageTrade(
-                            {'name': classData.name, 'message': this.classData.message,
-                                'tradeTime': this.classData.tradeTime}).then(res => {
+                        addMessageTrade({'name': classData.name, 'message': this.classData.message,
+                                'tradeTimeStart': classData.tradeTimeStart, 'tradeTimeFinish' : classData.tradeTimeFinish})
+                            .then(res => {
                             console.log(res)
                             if (res.code === 1) {
                                 this.$message.success('信息条添加成功！')
@@ -277,7 +285,8 @@
                                 } else {
                                     this.classData.message = ''
                                     this.classData.name = ''
-                                    this.classData.tradeTime = ''
+                                    this.classData.tradeTimeStart = ''
+                                    this.classData.tradeTimeFinish = ''
                                 }
                                 this.handleQuery()
                             } else {
@@ -294,7 +303,9 @@
                         'id': this.classData.id,
                         'name': this.classData.name,
                         'message': this.classData.message,
-                        'tradeTime': this.classData.message,
+                        'tradeTime': this.tradeTime,
+                        'tradeTimeStart': this.classData.tradeTimeStart,
+                        'tradeTimeFinish': this.classData.tradeTimeFinish,
                     }).then(res => {
                         if (res.code === 1) {
                             this.$message.success('信息条修改成功！')
