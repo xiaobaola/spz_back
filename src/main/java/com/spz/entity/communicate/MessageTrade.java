@@ -27,7 +27,8 @@ public class MessageTrade {
     private Integer id;
     private String name;
     private String message;
-    private LocalDateTime tradeTime;
+    private LocalDateTime tradeTimeStart;
+    private LocalDateTime tradeTimeFinish;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
 
