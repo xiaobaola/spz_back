@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 
 @Mapper
-@Component
+//@Component
 public interface ScrapTypeMapper {
     @Insert("insert into scrap_type(name, image, create_time, update_time)  values (#{name}, #{image}, #{createTime}, #{updateTime})")
     public void insert2(ScrapType scrapType);
