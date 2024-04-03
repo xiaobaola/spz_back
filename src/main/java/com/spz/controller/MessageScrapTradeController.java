@@ -15,12 +15,12 @@ public class MessageScrapTradeController {
     @Autowired
     private MessageScrapTradeService messageScrapTradeService;
 
-    @GetMapping("/{id}")
+    @GetMapping("/message/{id}")
     public Res<MessageScrapTrade> getMessageTradeId(@PathVariable Integer id){
         return Res.success(messageScrapTradeService.getMessageTradeIdById(id));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/scrap/{id}")
     public Res<MessageScrapTrade> getScrapTradeId(@PathVariable Integer id){
         return Res.success(messageScrapTradeService.getScrapTradeIdById(id));
     }

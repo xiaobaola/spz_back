@@ -55,17 +55,33 @@
             <el-input v-model="input" placeholder="请输入订单号" style="width: 250px">
                 <i slot="prefix" class="el-input__icon el-icon-search" style="cursor: pointer" @click="init"></i>
             </el-input>
-            <el-date-picker v-model="orderTime"
-                            clearable
-                            value-format="yyyy-MM-dd HH:mm:ss"
-                            type="datetimerange"
-                            placeholder="选择日期"
-                            range-separator="至"
-                            start-placeholder="开始日期"
-                            end-placeholder="结束日期"
-                            :default-time="['00:00:00', '23:59:59']"
-                            style="width: 400px;margin-left: 20px;"
+
+            <el-date-picker
+                v-model="this.tradeTime"
+                clearable
+                value-format="yyyy-MM-dd HH:mm:ss"
+                type="datetimerange"
+                placeholder="选择日期"
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                :default-time="['00:00:00', '23:59:59']"
+                style="width: 400px;margin-left: 20px;"
+                @change = "changeTime"
             ></el-date-picker>
+
+            <el-select v-model="statusType"
+                       placeholder="请选择"
+                       style="margin-left: 20px;"
+                       @change = "changeStatus">
+                <el-option
+                        v-for="item in options"
+                        :key="item.key"
+                        :label="item.label"
+                        :value="item.key">
+                </el-option>
+            </el-select>
+
             <el-button type="primary" class="search-btn" @click="init">查询</el-button>
         </div>
         <el-table :data="tableData" stripe class="tableBox">
@@ -194,29 +210,35 @@
             return {
                 input: '',
                 createTime: '',
-                beginTime: '',
-                endTime: '',
                 counts: 0,
                 page: 1,
                 pageSize: 10,
                 tableData: [],
                 dialogVisible: false,
                 diaForm: {},
-                loading: false
+                tradeTime: [],
+                statusType: '',
+                loading: false,
+                // 回收品交易状态 0: 创建订单 1: 回收员接单 2: 确认交易 3: 完成交易 4: 取消订单
+                options: [{
+                    key: '0',
+                    label: '创建订单'
+                }, {
+                    key: '1',
+                    label: '回收员接单'
+                }, {
+                    key: '2',
+                    label: '确认交易'
+                }, {
+                    key: '3',
+                    label: '完成交易'
+                }, {
+                    key: '4',
+                    label: '取消订单'
+                }],
             }
         },
         computed: {},
-        watch: {
-            orderTime(val) {
-                if (val && val.length >= 2) {
-                    this.beginTime = val[0]
-                    this.endTime = val[1]
-                } else {
-                    this.beginTime = ''
-                    this.endTime = ''
-                }
-            }
-        },
         created() {
             this.init()
         },
@@ -229,8 +251,9 @@
                     page: this.page,
                     pageSize: this.pageSize,
                     number: this.input || undefined,
-                    beginTime: this.beginTime || undefined,
-                    endTime: this.endTime || undefined
+                    status: this.statusType || undefined,
+                    beginTime: this.tradeTime[0] || undefined,
+                    endTime: this.tradeTime[1] || undefined
                 }).then(res => {
                     if (String(res.code) === '1') {
                         this.tableData = res.data.rows || []
@@ -240,6 +263,7 @@
                     this.$message.error('请求出错了：' + err)
                 })
             },
+
             handleQuery() {
                 this.page = 1;
                 this.init();
@@ -248,24 +272,20 @@
                 let str = ''
                 switch (row.status) {
                     case 0:
-                        str = '待确认'
+                        str = '创建订单'
                         break;
                     case 1:
-                        str = '待付款'
+                        str = '回收员接单'
                         break;
                     case 2:
-                        str = '正在派送'
+                        str = '确认交易'
                         break;
                     case 3:
-                        str = '已派送'
+                        str = '完成交易'
                         break;
                     case 4:
-                        str = '已完成'
+                        str = '取消订单'
                         break;
-                    case 5:
-                        str = '已取消'
-                        break;
-
                 }
                 return str
             },
@@ -308,6 +328,13 @@
             handleCurrentChange(val) {
                 this.page = val
                 this.init()
+            },
+            changeTime(timeArr) {
+              this.tradeTime[0] = timeArr[0]
+              this.tradeTime[1] = timeArr[1]
+            },
+            changeStatus(statusChange) {
+                this.statusType = statusChange
             }
         }
     })

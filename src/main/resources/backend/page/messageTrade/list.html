@@ -49,12 +49,21 @@
             </el-table-column>
 
             <el-table-column
-                    prop="tradeTime"
-                    label="交易时间"
+                    prop="tradeTimeStart"
+                    label="开始交易时间"
             />
                 <template slot-scope="scope">
-                    {{scope.row.tradeTime}}
+                    {{scope.row.tradeTimeStart}}
                 </template>
+            </el-table-column>
+
+            <el-table-column
+                    prop="tradeTimeFinish"
+                    label="结束交易时间"
+            />
+            <template slot-scope="scope">
+                {{scope.row.tradeTimeFinish}}
+            </template>
             </el-table-column>
 
             <el-table-column
@@ -94,7 +103,7 @@
     <el-dialog
             :title="classData.title"
             :visible.sync="classData.dialogVisible"
-            width="40%"
+            width="45%"
             :before-close="handleClose"
     >
         <el-form
@@ -119,7 +128,7 @@
 
             <el-form-item label="交易时间：">
                 <template>
-                    <el-date-picker v-model="this.tradeTime"
+                    <el-date-picker v-model="tradeTime"
                                     clearable
                                     value-format="yyyy-MM-dd HH:mm:ss"
                                     type="datetimerange"
@@ -129,6 +138,7 @@
                                     end-placeholder="结束日期"
                                     :default-time="['00:00:00', '23:59:59']"
                                     style="width: 100%"
+                                    @change = "changeTradeTime"
                     ></el-date-picker>
 
                 </template>
@@ -174,17 +184,14 @@
                 action: '',
                 counts: 0,
                 tableData: [],
-                pattern : "yyyy-MM-dd hh:mm:ss",
-                tradeTime: [new Date(), new Date()],
+                // pattern : "yyyy-MM-dd hh:mm:ss",
+                tradeTime: [],
                 classData: {
                     'title': '添加信息条',
                     'dialogVisible': false,
                     'messageTradeId': '',
                     'name': '',
-                    'message': '',
-                    // 'tradeTime': [new Date(), new Date()],
-                    'tradeTimeStart': '',
-                    'tradeTimeFinish': ''
+                    'message': ''
                 }
             }
         },
@@ -216,9 +223,8 @@
                 }
                 this.action = 'add'
                 this.classData.name = ''
-                // this.classData.message = '我们可以在以下时间进行交易'
-                this.classData.message = ''
-                // this.classData.tradeTime = new Date().toLocaleString()
+                this.classData.message = '如果对此时间没疑问，您可以在历史记录中点击确认'
+                // this.classData.message = ''
                 this.classData.tradeTimeStart = ''
                 this.classData.tradeTimeFinish = ''
                 this.classData.dialogVisible = true
@@ -231,6 +237,8 @@
                 this.classData.message = dat.message
                 this.classData.tradeTimeStart = dat.tradeTimeStart
                 this.classData.tradeTimeFinish = dat.tradeTimeFinish
+                this.tradeTime[0] = dat.tradeTimeStart
+                this.tradeTime[1] = dat.tradeTimeFinish
                 this.classData.dialogVisible = true
             },
             // 关闭弹窗
@@ -262,8 +270,15 @@
                 params.id = ''
                 params.name = classData.name
                 params.message = classData.message
-                params.tradeTimeStart = this.DateToStr(this.tradeTime[0])
-                params.tradeTimeFinish = this.DateToStr(this.tradeTime[1])
+                if(this.tradeTime.length === 0) {
+                    params.tradeTimeStart = ''
+                    params.tradeTimeStart = ''
+                } else {
+                    // params.tradeTimeStart = this.DateToStr(this.tradeTime[0])
+                    params.tradeTimeStart = this.tradeTime[0]
+                    // params.tradeTimeFinish = this.DateToStr(this.tradeTime[1])
+                    params.tradeTimeFinish = this.tradeTime[1]
+                }
                 // 分类名称校验
                 const valid = (this.tradeTime[0] !== 0 && this.tradeTime[1] !== 0)
                 // if (!this.tradeTime) {
@@ -271,7 +286,7 @@
                 //     return
                 // }
                 if(!classData.name || classData.name === 0) {
-                    classData.name = '信息条'+classData.tradeTimeStart
+                    classData.name = '信息条'+params.tradeTimeStart
                 }
                 console.log(params)
                 // console.log(valid)
@@ -330,9 +345,14 @@
                     window.top.location.href = '/backend/page/login/login.html'
                 }
             },
+            changeTradeTime(timeArr) {
+                this.tradeTime[0] = timeArr[0]
+                this.tradeTime[1] = timeArr[1]
+            },
 
             // date格式转成yy-MM-dd HH:mm:ss
             DateToStr(dd) {
+                console.log(dd)
                 var y = dd.getFullYear();
                 var m = (dd.getMonth() + 1) < 10 ? '0' + (dd.getMonth() + 1) : (dd.getMonth() + 1);//获取当前月份的日期，不足10补0
                 var d = dd.getDate() < 10 ? '0' + dd.getDate() : dd.getDate(); //获取当前几号，不足10补0
