@@ -274,10 +274,14 @@
                     params.tradeTimeStart = ''
                     params.tradeTimeStart = ''
                 } else {
+                    // console.log(this.tradeTime[0])
+                    // console.log(this.tradeTime[1])
                     // params.tradeTimeStart = this.DateToStr(this.tradeTime[0])
                     params.tradeTimeStart = this.tradeTime[0]
                     // params.tradeTimeFinish = this.DateToStr(this.tradeTime[1])
                     params.tradeTimeFinish = this.tradeTime[1]
+                    // console.log(params.tradeTimeStart)
+                    // console.log(params.tradeTimeFinish)
                 }
                 // 分类名称校验
                 const valid = (this.tradeTime[0] !== 0 && this.tradeTime[1] !== 0)

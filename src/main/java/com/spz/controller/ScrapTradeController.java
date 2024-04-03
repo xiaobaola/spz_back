@@ -14,6 +14,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("spz/scrapTrade")
@@ -26,12 +27,13 @@ public class ScrapTradeController {
     ScrapTradeDetailService scrapTradeDetailService;
 
     @GetMapping("/page")
-    public Res<PageBean> page(@RequestParam(defaultValue = "1")Integer page,
-                              @RequestParam(defaultValue = "10")Integer pageSize,
-                              String number,
-                              @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate begin,
-                              @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate end) {
-        log.info("分页查询中，第{}页，{}条,其他参数：{},{},{},{}", page, pageSize, number, begin, end);
+    public Res<PageBean> page(@PathVariable @RequestParam(defaultValue = "1")Integer page,
+                              @PathVariable @RequestParam(defaultValue = "10")Integer pageSize,
+                              @PathVariable @RequestParam(defaultValue = "null")String number,
+                              @PathVariable @RequestParam(defaultValue = "5")Integer statusType,
+                              @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime begin,
+                              @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime end) {
+        log.info("分页查询中，第{}页，{}条,其他参数：{},{},{},{}", page, pageSize, number, statusType, begin, end);
         PageBean pageBean = scrapTradeService.page(page, pageSize, number, begin, end);
         return Res.success(pageBean);
     }

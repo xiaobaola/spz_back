@@ -21,6 +21,7 @@ public class MessageTradeServiceImpl implements MessageTradeService {
 
     @Override
     public void insert3(MessageTrade messageTrade) {
+//        log.info(messageTrade.toString());
         messageTrade.setCreateTime(LocalDateTime.now());
         messageTrade.setUpdateTime(LocalDateTime.now());
         messageTradeMapper.insert3(messageTrade);
