@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @RestController
 @RequestMapping("spz/scrapTrade")
@@ -36,6 +37,18 @@ public class ScrapTradeController {
         log.info("分页查询中，第{}页，{}条,其他参数：{},{},{}", page, pageSize, number, begin, end);
         PageBean pageBean = scrapTradeService.page(page, pageSize, number, begin, end);
         return Res.success(pageBean);
+    }
+
+    @PutMapping
+    public Res<String> updateStatus(@RequestBody ScrapTrade scrapTrade){
+        scrapTradeService.updateStatus(scrapTrade);
+        return Res.success("状态修改成功");
+    }
+
+    @GetMapping("/{userId}")
+    public Res<String> getNumberByUserId(@PathVariable Integer userId){
+        scrapTradeService.getNumberByUserId(userId);
+        return Res.success("查询成功");
     }
 
     @PostMapping

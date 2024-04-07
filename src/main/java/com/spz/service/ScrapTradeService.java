@@ -5,6 +5,7 @@ import com.spz.entity.scrap.ScrapTrade;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public interface ScrapTradeService {
     PageBean page(Integer page, Integer pageSize, String number, LocalDateTime begin, LocalDateTime end);
@@ -12,4 +13,8 @@ public interface ScrapTradeService {
     String insert(ScrapTrade scrapTrade);
 
     ScrapTrade getByNumber(ScrapTrade scrapTrade);
+
+    void updateStatus(ScrapTrade scrapTrade);
+
+    List<ScrapTrade> getNumberByUserId(Integer userId);
 }
