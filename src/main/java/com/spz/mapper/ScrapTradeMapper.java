@@ -24,6 +24,6 @@ public interface ScrapTradeMapper {
     @Update("update scrap_trade set status=#{status} where id=#{id}")
     void updateStatus(ScrapTrade scrapTrade);
 
-    @Select("select number from scrap_trade where user_id=#{userId}")
+    @Select("select * from scrap_trade where user_id=#{userId}")
     List<ScrapTrade> getNumberByUserId(Integer userId);
 }
