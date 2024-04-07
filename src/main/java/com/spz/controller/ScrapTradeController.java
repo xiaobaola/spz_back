@@ -29,11 +29,11 @@ public class ScrapTradeController {
     @GetMapping("/page")
     public Res<PageBean> page(@PathVariable @RequestParam(defaultValue = "1")Integer page,
                               @PathVariable @RequestParam(defaultValue = "10")Integer pageSize,
-                              @PathVariable @RequestParam(defaultValue = "null")String number,
-                              @PathVariable @RequestParam(defaultValue = "5")Integer statusType,
-                              @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime begin,
-                              @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime end) {
-        log.info("分页查询中，第{}页，{}条,其他参数：{},{},{},{}", page, pageSize, number, statusType, begin, end);
+                              String number,
+//                              @RequestParam(defaultValue = "5")Integer statusType,
+                              @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime begin,
+                              @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime end) {
+        log.info("分页查询中，第{}页，{}条,其他参数：{},{},{}", page, pageSize, number, begin, end);
         PageBean pageBean = scrapTradeService.page(page, pageSize, number, begin, end);
         return Res.success(pageBean);
     }
