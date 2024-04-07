@@ -46,9 +46,9 @@ public class ScrapTradeController {
     }
 
     @GetMapping("/{userId}")
-    public Res<String> getNumberByUserId(@PathVariable Integer userId){
-        scrapTradeService.getNumberByUserId(userId);
-        return Res.success("查询成功");
+    public Res<List<ScrapTrade>> getNumberByUserId(@PathVariable Integer userId){
+        List<ScrapTrade> numberByUserId = scrapTradeService.getNumberByUserId(userId);
+        return Res.success(numberByUserId);
     }
 
     @PostMapping
