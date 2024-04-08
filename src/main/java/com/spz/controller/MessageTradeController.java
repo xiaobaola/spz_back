@@ -3,6 +3,7 @@ package com.spz.controller;
 
 import com.spz.common.Res;
 import com.spz.entity.communicate.MessageTrade;
+import com.spz.entity.communicate.MessageTradeDto;
 import com.spz.service.MessageTradeService;
 import jakarta.websocket.server.PathParam;
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +42,7 @@ public class MessageTradeController {
     }
 
     @GetMapping()
-    public Res<List<MessageTrade>> getAllByMessageTradeId(@RequestParam Integer userId){
+    public Res<List<MessageTradeDto>> getAllByMessageTradeId(@RequestParam Integer userId){
         log.info("get1 信息列表");
         return Res.success(messageTradeService.getByUserId(userId));
     }

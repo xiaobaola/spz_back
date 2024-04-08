@@ -1,6 +1,7 @@
 package com.spz.mapper;
 
 import com.spz.entity.communicate.MessageTrade;
+import com.spz.entity.communicate.MessageTradeDto;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -16,8 +17,8 @@ public interface MessageTradeMapper {
     List<MessageTrade> list3();
 
     @Select("select * from message_trade where id=#{id}")
-    MessageTrade getById(Integer id);
+    MessageTradeDto getById(Integer id);
 
     @Select("select * from message_trade where id=#{userId};")
-    List<MessageTrade> getByUserId(Integer userId);
+    List<MessageTradeDto> getByUserId(Integer userId);
 }

@@ -31,7 +31,8 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Scrap {
+public class
+Scrap {
     private Integer id;//废品id
     private String name;//废品名字
     private Integer price;//废品价格

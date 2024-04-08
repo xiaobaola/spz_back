@@ -2,8 +2,10 @@ package com.spz.service.impl;
 
 import com.spz.entity.communicate.MessageScrapTrade;
 import com.spz.entity.communicate.MessageTrade;
+import com.spz.entity.communicate.MessageTradeDto;
 import com.spz.entity.user.UserMessage;
 import com.spz.mapper.MessageScrapTradeMapper;
+import com.spz.mapper.MessageTradeDtoMapper;
 import com.spz.mapper.MessageTradeMapper;
 import com.spz.mapper.ScrapTradeMapper;
 import com.spz.service.ManagerService;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -29,6 +32,9 @@ public class MessageTradeServiceImpl implements MessageTradeService {
 
     @Autowired
     private MessageScrapTradeMapper messageScrapTradeMapper;
+
+    @Autowired
+    private MessageTradeDtoMapper messageTradeDtoMapper;
 
     @Override
     public void insert3(MessageTrade messageTrade) {
@@ -49,14 +55,17 @@ public class MessageTradeServiceImpl implements MessageTradeService {
     }
 
     @Override
-    public List<MessageTrade> getByUserId(Integer userId) {
-        List<MessageTrade> list = new ArrayList<>();
+    public List<MessageTradeDto> getByUserId(Integer userId) {
+        List<MessageTradeDto> list = new ArrayList<>();
         List<Integer> messageTradeIdById = messageScrapTradeMapper.getMessageTradeIdById(userId);
         //获取信息
         for (Integer element: messageTradeIdById){
-            MessageTrade messageTradeMapperById = messageTradeMapper.getById(element);
+            MessageTradeDto messageTradeMapperById = messageTradeMapper.getById(element);
+            messageTradeMapperById.setNumber(messageTradeDtoMapper.selectNumberByMessageTradeId(element));
+            messageTradeMapperById.setPrice(messageTradeDtoMapper.selectPriceByMessageTradeId(element));
             list.add(messageTradeMapperById);
         }
+        list.sort(Comparator.comparing(MessageTrade::getCreateTime));
         return list;
     }
 }
