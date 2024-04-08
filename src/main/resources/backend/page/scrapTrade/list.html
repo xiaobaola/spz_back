@@ -50,6 +50,7 @@
 </head>
 
 <body>
+</div>
     <div class="dashboard-container" id="trade-app" v-loading="loading">
         <div class="container">
             <!-- 搜索项 -->
@@ -251,10 +252,17 @@
                         this.$message.error('请求出错了：' + err)
                     })
                 },
-
                 handleQuery() {
                     this.page = 1;
                     this.init();
+                },
+                addClass(st) {
+                    if (st == 'class') {
+                        this.classData.title = '新增回收品分类'
+                    }
+                    this.action = 'add'
+                    this.classData.name = ''
+                    this.classData.dialogVisible = true
                 },
                 getTradeType(row) {
                     let str = ''
@@ -338,7 +346,8 @@
                             return this.$message.error('请选择接收的订单')
                         }
                     }
-                    this.$confirm('确认删除该回收品, 是否继续?', '确定删除', {
+                    this.$confirm('确认删除该回收品, 是否继续?',
+                        '确定删除', {
                         'confirmButtonText': '确定',
                         'cancelButtonText': '取消',
                     }).then(() => {
