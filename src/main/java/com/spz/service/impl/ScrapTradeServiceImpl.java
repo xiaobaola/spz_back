@@ -11,7 +11,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -21,20 +24,38 @@ public class ScrapTradeServiceImpl implements ScrapTradeService {
     ScrapTradeMapper scrapTradeMapper;
 
     @Override
-    public PageBean page(Integer page, Integer pageSize, String number, LocalDateTime begin, LocalDateTime end) {
-        //1、设置分页参数
-        PageHelper.startPage(page,pageSize);
+    public PageBean page(Integer page, Integer pageSize, String number, Integer status, String begin, String end) {
 
-        //2、正常查询
-        List<ScrapTrade> scrapTradeList = scrapTradeMapper.list(number, begin, end);
+        try {
+            // 定义输出格式
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date beginDate = null;
+            Date endDate = null;
+            // 将字符串转化为日期
+            if(begin != null && !begin.isEmpty() && !"null".equals(begin)) {
+                beginDate = sdf.parse(begin);
+            }
+            if(end != null && !end.isEmpty() && !"null".equals(end)) {
+                endDate = sdf.parse(end);
+            }
 
-        //为了获取total
-        Page<ScrapTrade> scrapTradePage = (Page<ScrapTrade>) scrapTradeList;
+            log.info("开始时间: {}, 结束时间: {}", beginDate, endDate);
+            //1、设置分页参数
+            PageHelper.startPage(page,pageSize);
 
-        //3、封装pageBean对象
-        PageBean pageBean = new PageBean(scrapTradePage.getTotal(), scrapTradePage.getResult());
+            //2、正常查询
+            List<ScrapTrade> scrapTradeList = scrapTradeMapper.list(number, status, beginDate, endDate);
 
-        return pageBean;
+            //为了获取total
+            Page<ScrapTrade> scrapTradePage = (Page<ScrapTrade>) scrapTradeList;
+
+            //3、封装pageBean对象
+            PageBean pageBean = new PageBean(scrapTradePage.getTotal(), scrapTradePage.getResult());
+
+            return pageBean;
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

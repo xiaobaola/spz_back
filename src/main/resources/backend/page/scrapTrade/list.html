@@ -227,8 +227,8 @@
                     getTradeDetailPage({
                         page: this.page,
                         pageSize: this.pageSize,
-                        number: this.input || undefined,
-                        status: this.statusType || undefined,
+                        number: String(input) || undefined,
+                        status: praseInt(this.statusType) || undefined,
                         begin: this.tradeTime[0] || undefined,
                         end: this.tradeTime[1] || undefined
                     }).then(res => {
