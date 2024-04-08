@@ -190,8 +190,8 @@
         <div class="info-box">
             <div class="item-box">
                 <span style="align-self: auto">信息条：</span>
-                <el-select v-model="statusType" placeholder="请选择" style="margin-left: 20px;" @change="changeStatus">
-                    <el-option v-for="item in options" :key="item.key" :label="item.label" :value="item.key">
+                <el-select v-model="statusType" placeholder="您的选择是" style="margin-left: 20px;" @change="changeStatus">
+                    <el-option v-for="message in messageList" :key="message.messageid" :label="message.messageid" :value="message.messagename">
                     </el-option>
                 </el-select>
             </div>
@@ -227,6 +227,7 @@
 <script src="../../plugins/axios/axios.min.js"></script>
 <script src="../../js/request.js"></script>
 <script src="../../api/trade.js"></script>
+<script src="../../api/messageTrade.js"></script>
 <script>
     new Vue({
         el: '#trade-app',
@@ -241,6 +242,27 @@
                 dialogVisible: false,
                 diaForm: {},
                 tradeTime: [],
+                messageList: [
+                    {
+                        messageid: '123',
+                        messagename: '123'
+                    }, {
+                        messageid: '123',
+                        messagename: '123'
+                    }, {
+                        messageid: '123',
+                        messagename: '123'
+                    }, {
+                        messageid: '123',
+                        messagename: '123成交易'
+                    }, {
+                        messageid: '123',
+                        messagename: '123订单'
+                    },{
+                        messageid: '123',
+                        messagename: '取123单'
+                    }
+                ],
                 statusType: '',
                 checkList: [],
                 loading: false,
@@ -262,6 +284,7 @@
                     key: '4',
                     label: '取消订单'
                 }
+
                 ],
                 classData: {
                     'title': '绑定订单与消息',
@@ -334,6 +357,7 @@
                 }
                 return str
             },
+
             // 查看详情
             goDetail(row) {
                 this.diaForm = {}
@@ -397,6 +421,41 @@
                 // }
                 // this.classData.name = ''
                 this.classData.dialogVisible = true;
+                //1发请求
+                //1.1 发messageTrade.js
+                //1.2 修改一下
+                getMessageTradeList().then(res => {
+                    if (res.code === 1) {
+                        this.$message.success(status === 3 ? '订单已确认' : '订单已完成')
+                        this.init()
+                    } else {
+                        this.$message.error(res.msg || '操作失败')
+                    }
+                }).catch(err => {
+                    this.$message.error('请求出错了：' + err)
+                })
+
+            },
+            getmessageTradeType(row) {
+                let str = ''
+                switch (row.status) {
+                    case 0:
+                        str = '123'
+                        break;
+                    case 1:
+                        str = '456'
+                        break;
+                    case 2:
+                        str = '789'
+                        break;
+                    case 3:
+                        str = '123'
+                        break;
+                    case 4:
+                        str = '123'
+                        break;
+                }
+                return str
             },
             // 批量接单
             sendMessageHandle(type, id) {
@@ -405,7 +464,7 @@
                         return this.$message.error('请选择接收的订单')
                     }
                 }
-                this.$confirm('确认删除该回收品, 是否继续?',
+                this.$confirm('确认删除该回收品, 一定继续要继续?',
                     '确定删除', {
                         'confirmButtonText': '确定',
                         'cancelButtonText': '取消',
