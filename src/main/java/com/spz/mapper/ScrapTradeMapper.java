@@ -6,13 +6,12 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Mapper
 public interface ScrapTradeMapper {
-    List<ScrapTrade> list(String number, LocalDateTime begin, LocalDateTime end);
+    List<ScrapTrade> list(String number, Integer status, Date begin, Date end);
 
     @Insert("insert into scrap_trade(number, user_id, consignee, address, phone, price, image, update_time, create_time) " +
             "VALUES (#{number}, #{userId}, #{consignee}, #{address}, #{phone}, #{price}, #{image}, #{updateTime}, #{createTime})")

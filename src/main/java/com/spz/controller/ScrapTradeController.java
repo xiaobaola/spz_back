@@ -8,13 +8,16 @@ import com.spz.service.ScrapTradeDetailService;
 import com.spz.service.ScrapTradeService;
 import com.spz.service.ScrapTypeService;
 import lombok.extern.slf4j.Slf4j;
+import net.sf.jsqlparser.expression.DateTimeLiteralExpression;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -28,15 +31,16 @@ public class ScrapTradeController {
     ScrapTradeDetailService scrapTradeDetailService;
 
     @GetMapping("/page")
-    public Res<PageBean> page(@PathVariable @RequestParam(defaultValue = "1")Integer page,
-                              @PathVariable @RequestParam(defaultValue = "10")Integer pageSize,
-                              String number,
-//                              @RequestParam(defaultValue = "5")Integer statusType,
-                              @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime begin,
-                              @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime end) {
-        log.info("分页查询中，第{}页，{}条,其他参数：{},{},{}", page, pageSize, number, begin, end);
-        PageBean pageBean = scrapTradeService.page(page, pageSize, number, begin, end);
+    public Res<PageBean> page(@RequestParam(defaultValue = "1")Integer page,
+                              @RequestParam(defaultValue = "10")Integer pageSize,
+                              @RequestParam(required = false)String number,
+                              @RequestParam(required = false)Integer status,
+                              @RequestParam(required = false) String begin,
+                              @RequestParam(required = false) String end) {
+        log.info("分页查询中，第{}页，{}条,其他参数：订单编号:{},状态{},开始{},结束{}", page, pageSize, number, status, begin, end);
+        PageBean pageBean = scrapTradeService.page(page, pageSize, number,status, begin, end);
         return Res.success(pageBean);
+//        return Res.success(new PageBean());
     }
 
     @PutMapping
