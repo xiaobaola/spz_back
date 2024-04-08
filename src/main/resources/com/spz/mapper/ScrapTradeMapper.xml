@@ -10,7 +10,7 @@
             <if test="number != null and number != ''">
                 number like concat('%',#{number},'%')
             </if>
-            <if test="status != null">
+            <if test="status != -1">
                 status = #{status})
             </if>
             <if test="begin != null and end != null">

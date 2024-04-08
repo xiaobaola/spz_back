@@ -34,7 +34,7 @@ public class ScrapTradeController {
     public Res<PageBean> page(@RequestParam(defaultValue = "1")Integer page,
                               @RequestParam(defaultValue = "10")Integer pageSize,
                               @RequestParam(required = false)String number,
-                              @RequestParam(required = false)Integer status,
+                              @RequestParam(defaultValue = "-1",required = false)Integer status,
                               @RequestParam(required = false) String begin,
                               @RequestParam(required = false) String end) {
         log.info("分页查询中，第{}页，{}条,其他参数：订单编号:{},状态{},开始{},结束{}", page, pageSize, number, status, begin, end);
