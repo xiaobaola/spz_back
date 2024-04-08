@@ -1,6 +1,7 @@
 package com.spz.service;
 
 import com.spz.entity.communicate.MessageTrade;
+import com.spz.entity.communicate.MessageTradeDto;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 
@@ -15,5 +16,5 @@ public interface MessageTradeService {
 
     MessageTrade getById(Integer id);
 
-    List<MessageTrade> getByUserId(Integer userId);
+    List<MessageTradeDto> getByUserId(Integer userId);
 }
