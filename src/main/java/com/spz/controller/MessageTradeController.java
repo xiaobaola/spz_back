@@ -39,4 +39,10 @@ public class MessageTradeController {
         return Res.success(messageTradeService.getById(id));
     }
 
+    @GetMapping("/{userId}")
+    public Res<List<MessageTrade>> getAllByMessageTradeId(@PathVariable Integer userId){
+        log.info("get 信息列表");
+        return Res.success(messageTradeService.getByUserId(userId));
+    }
+
 }

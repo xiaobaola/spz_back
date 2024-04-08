@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("spz/messageScrapTrade")
 public class MessageScrapTradeController {
@@ -16,12 +18,12 @@ public class MessageScrapTradeController {
     private MessageScrapTradeService messageScrapTradeService;
 
     @GetMapping("/message/{id}")
-    public Res<MessageScrapTrade> getMessageTradeId(@PathVariable Integer id){
+    public Res<List<Integer>> getMessageTradeId(@PathVariable Integer id){
         return Res.success(messageScrapTradeService.getMessageTradeIdById(id));
     }
 
     @GetMapping("/scrap/{id}")
-    public Res<MessageScrapTrade> getScrapTradeId(@PathVariable Integer id){
+    public Res<List<MessageScrapTrade>> getScrapTradeId(@PathVariable Integer id){
         return Res.success(messageScrapTradeService.getScrapTradeIdById(id));
     }
 

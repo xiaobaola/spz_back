@@ -6,6 +6,8 @@ import com.spz.service.MessageScrapTradeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class MessageScrapTradeServiceImpl implements MessageScrapTradeService {
     @Autowired
@@ -13,12 +15,12 @@ public class MessageScrapTradeServiceImpl implements MessageScrapTradeService {
 
 
     @Override
-    public MessageScrapTrade getMessageTradeIdById(Integer id) {
+    public List<Integer> getMessageTradeIdById(Integer id) {
         return messageScrapTradeMapper.getMessageTradeIdById(id);
     }
 
     @Override
-    public MessageScrapTrade getScrapTradeIdById(Integer id) {
+    public List<MessageScrapTrade> getScrapTradeIdById(Integer id) {
         return messageScrapTradeMapper.getScrapTradeIdById(id);
     }
 }
