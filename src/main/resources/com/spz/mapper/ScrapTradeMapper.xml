@@ -11,7 +11,7 @@
                 number like concat('%',#{number},'%')
             </if>
             <if test="status != -1">
-                status = #{status})
+                and status = #{status}
             </if>
             <if test="begin != null and end != null">
                 and update_time between #{begin} and #{end}

@@ -40,4 +40,8 @@
 .icon-recycle:before {
     content: "\e60c";
 }
+.icon-messageTrade:before {
+    content: "\e001";
+}
+
 
