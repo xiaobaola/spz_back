@@ -47,4 +47,10 @@ public class MessageTradeController {
         return Res.success(messageTradeService.getByUserId(userId));
     }
 
+    @GetMapping("/total")
+    public Res<Integer> getTotalByUserId(@RequestParam Integer userId){
+        log.info("get2 总数");
+        return Res.success(messageTradeService.getTotalByMessageScrapTrade(userId));
+    }
+
 }

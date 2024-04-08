@@ -23,7 +23,7 @@ public class MessageScrapTradeController {
     }
 
     @GetMapping("/scrap/{id}")
-    public Res<List<MessageScrapTrade>> getScrapTradeId(@PathVariable Integer id){
+    public Res<List<Integer>> getScrapTradeId(@PathVariable Integer id){
         return Res.success(messageScrapTradeService.getScrapTradeIdById(id));
     }
 

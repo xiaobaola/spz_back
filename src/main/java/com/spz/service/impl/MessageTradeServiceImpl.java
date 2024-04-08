@@ -68,4 +68,9 @@ public class MessageTradeServiceImpl implements MessageTradeService {
         list.sort(Comparator.comparing(MessageTrade::getCreateTime));
         return list;
     }
+
+    @Override
+    public Integer getTotalByMessageScrapTrade(Integer userId) {
+        return messageScrapTradeMapper.getCountBystatus(0,userId);
+    }
 }
