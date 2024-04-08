@@ -8,8 +8,8 @@ import java.util.List;
 
 @Mapper
 public interface MessageScrapTradeMapper {
-    @Select("select message_trade_id from message_scrap_trade where scrap_trade_id=#{id}")
-    List<Integer> getMessageTradeIdById(Integer id);
+    @Select("select message_trade_id from message_scrap_trade where scrap_trade_id=#{userId}")
+    List<Integer> getMessageTradeIdById(Integer userId);
 
     @Select("select scrap_trade_id from message_scrap_trade where id=#{id}")
     List<MessageScrapTrade> getScrapTradeIdById(Integer id);

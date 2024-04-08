@@ -15,5 +15,5 @@ public interface MessageTradeService {
 
     MessageTrade getById(Integer id);
 
-    List<MessageTrade> getByUserId(Integer id);
+    List<MessageTrade> getByUserId(Integer userId);
 }

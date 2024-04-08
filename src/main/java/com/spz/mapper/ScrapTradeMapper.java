@@ -26,6 +26,5 @@ public interface ScrapTradeMapper {
     @Select("select * from scrap_trade where user_id=#{userId}")
     List<ScrapTrade> getNumberByUserId(Integer userId);
 
-    @Select("select user_id from scrap_trade where user_id=#{userId}")
-    Integer getUserIdById(Integer userId);
+
 }

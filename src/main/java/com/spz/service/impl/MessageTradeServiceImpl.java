@@ -51,10 +51,7 @@ public class MessageTradeServiceImpl implements MessageTradeService {
     @Override
     public List<MessageTrade> getByUserId(Integer userId) {
         List<MessageTrade> list = new ArrayList<>();
-        //获取userid
-        Integer userIdById = scrapTradeMapper.getUserIdById(userId);
-        //获取message_trade_id
-        List<Integer> messageTradeIdById = messageScrapTradeMapper.getMessageTradeIdById(userIdById);
+        List<Integer> messageTradeIdById = messageScrapTradeMapper.getMessageTradeIdById(userId);
         //获取信息
         for (Integer element: messageTradeIdById){
             MessageTrade messageTradeMapperById = messageTradeMapper.getById(element);
