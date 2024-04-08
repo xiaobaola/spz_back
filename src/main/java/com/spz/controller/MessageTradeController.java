@@ -4,6 +4,7 @@ package com.spz.controller;
 import com.spz.common.Res;
 import com.spz.entity.communicate.MessageTrade;
 import com.spz.service.MessageTradeService;
+import jakarta.websocket.server.PathParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -39,8 +40,8 @@ public class MessageTradeController {
         return Res.success(messageTradeService.getById(id));
     }
 
-    @GetMapping("/{userId}")
-    public Res<List<MessageTrade>> getAllByMessageTradeId(@PathVariable Integer userId){
+    @GetMapping()
+    public Res<List<MessageTrade>> getAllByMessageTradeId(@RequestParam Integer userId){
         log.info("get 信息列表");
         return Res.success(messageTradeService.getByUserId(userId));
     }
