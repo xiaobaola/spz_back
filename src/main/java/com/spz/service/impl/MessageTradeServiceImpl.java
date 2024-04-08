@@ -65,7 +65,7 @@ public class MessageTradeServiceImpl implements MessageTradeService {
             messageTradeMapperById.setPrice(messageTradeDtoMapper.selectPriceByMessageTradeId(element));
             list.add(messageTradeMapperById);
         }
-        list.sort(Comparator.comparing(MessageTrade::getCreateTime));
+        list.sort(Comparator.comparing(MessageTrade::getCreateTime).reversed());
         return list;
     }
 

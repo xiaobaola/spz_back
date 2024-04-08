@@ -43,7 +43,7 @@ public class MessageTradeController {
 
     @GetMapping()
     public Res<List<MessageTradeDto>> getAllByMessageTradeId(@RequestParam Integer userId){
-        log.info("get1 信息列表");
+        log.info("get 信息列表");
         return Res.success(messageTradeService.getByUserId(userId));
     }
 
