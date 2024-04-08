@@ -18,6 +18,6 @@ public interface MessageTradeMapper {
     @Select("select * from message_trade where id=#{id}")
     MessageTrade getById(Integer id);
 
-    @Select("select * from message_trade where id=#{id};")
-    List<MessageTrade> getByUserId(Integer id);
+    @Select("select * from message_trade where id=#{userId};")
+    List<MessageTrade> getByUserId(Integer userId);
 }
