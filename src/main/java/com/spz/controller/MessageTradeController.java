@@ -4,6 +4,7 @@ package com.spz.controller;
 import com.spz.common.Res;
 import com.spz.entity.communicate.MessageTrade;
 import com.spz.entity.communicate.MessageTradeDto;
+import com.spz.entity.user.UserMessage;
 import com.spz.service.MessageTradeService;
 import jakarta.websocket.server.PathParam;
 import lombok.extern.slf4j.Slf4j;
@@ -52,5 +53,8 @@ public class MessageTradeController {
         log.info("get2 总数");
         return Res.success(messageTradeService.getTotalByMessageScrapTrade(userId));
     }
+
+
+
 
 }

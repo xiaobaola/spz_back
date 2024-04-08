@@ -4,6 +4,7 @@ import com.spz.common.Res;
 import com.spz.entity.manager.Manager;
 import com.spz.entity.page.PageBean;
 import com.spz.entity.user.UserMessage;
+import com.spz.service.MessageTradeService;
 import com.spz.service.UserMessageService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +14,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @RequestMapping("/spz/user")
 @RestController
@@ -20,6 +22,8 @@ import java.time.LocalDate;
 public class UserMessageController {
     @Autowired
     private UserMessageService userMessageService;
+
+    private MessageTradeService messageTradeService;
 
     @GetMapping
     public Res<UserMessage> getById(UserMessage userMessage) {
@@ -80,5 +84,11 @@ public class UserMessageController {
         log.info("新增: {}", userMessage);
         userMessageService.insert(userMessage);
         return Res.success("新增用户成功");
+    }
+
+    @GetMapping("/friend")
+    public Res<List<UserMessage>> getUserByUserId(@RequestParam Integer userId){
+        log.info("get 好友列表");
+        return Res.success(messageTradeService.getUserMessage(userId));
     }
 }
