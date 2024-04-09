@@ -32,4 +32,12 @@ const addMessageScrapTrade = (params) => {
         data: {...params}
     })
 }
-w
+
+// 更改订单状态的接口
+const changeScrapTradeStatus = (params) => {
+    return $axios({
+        url: `/spz/messageScrapTrade`,
+        method: 'put',
+        data: {...params}
+    })
+}

@@ -72,8 +72,8 @@
 
             <el-button type="primary" class="search-btn" @click="init">查询</el-button>
             <div class="tableLab">
-                <span class="span-btn delBut non" @click="addBinding('批量', null)">批量接单</span>
-                <!--                <span class="span-btn blueBug non" @click="statusHandle('1')">批量启售</span>-->
+                <span class="span-btn blueBug non" @click="addBinding('批量', null)">批量接单</span>
+                <span class="span-btn blueBug non" @click="scrapTradeFinish('批量', 3)">批量完成</span>
                 <!--                <span style="border:none;" class="span-btn delBut non" @click="statusHandle('0')">批量停售</span>-->
             </div>
         </div>
@@ -106,7 +106,7 @@
                         接单
                     </el-button>
                     <el-divider v-if="row.status === 2" direction="vertical"></el-divider>
-                    <el-button v-if="row.status === 2" type="text" @click="cancelOrDeliveryOrComplete(4, row.id)"
+                    <el-button v-if="row.status === 2" type="text" @click="changeScarpTradeStatus(3, row.id)"
                                class="blueBug">
                         完成
                     </el-button>
@@ -348,6 +348,32 @@
                     this.$message.error('请求出错了：' + err)
                 })
             },
+            // 删除
+            scrapTradeFinish(type, id) {
+                if (this.checkList.length === 0) {
+                    return this.$message.error('请选择要更改的对象')
+                }
+                this.$confirm('确认更改回订单状态, 是否继续?', '确定更改', {
+                    'confirmButtonText': '确定',
+                    'cancelButtonText': '取消',
+                }).then(() => {
+                    const params = {}
+                    params.scrapTradeIds = this.checkList
+                    params.status = id
+                    console.log(params.status)
+                    console.log(params.scrapTradeIds)
+                    changeScrapTradeStatus(params).then(res => {
+                        if (res.code === 1) {
+                            this.$message.success('更改成功！')
+                            this.handleQuery()
+                        } else {
+                            this.$message.error(res.msg || '操作失败')
+                        }
+                    }).catch(err => {
+                        this.$message.error('请求出错了：' + err)
+                    })
+                })
+            },
             changeMessageId(id) {
                 console.log(id)
                 const list = this.messageList
@@ -397,7 +423,7 @@
                 this.diaForm = {...row}
             },
             // 取消，派送，完成
-            cancelOrDeliveryOrComplete(status, id) {
+            changeScarpTradeStatus(status, id) {
                 this.$confirm('确认更改该订单状态?', '提示', {
                     'confirmButtonText': '确定',
                     'cancelButtonText': '取消',
