@@ -3,6 +3,7 @@ package com.spz.mapper;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -22,5 +23,8 @@ public interface MessageScrapTradeMapper {
 
     Integer getStatusCountByScrapTradeIdsAndStatus(List<Integer> scrapTradeIds, Integer status);
 
-    void updateStatusByScrapTradeIdsAndStatus(List<Integer> scrapTradeIds, Integer status);
+    @Update("update message_scrap_trade set status = #{status} where scrap_trade_id = #{id}")
+    void updateStatusByScrapTradeId(Integer id, Integer status);
+
+//    void updateStatusByScrapTradeIdsAndStatus(List<Integer> scrapTradeIds, Integer status);
 }

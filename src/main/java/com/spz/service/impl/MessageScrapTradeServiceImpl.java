@@ -61,7 +61,10 @@ public class MessageScrapTradeServiceImpl implements MessageScrapTradeService {
         // 1.根据userId 获取 scrapTradeIds
         List<Integer> scrapTradeIds = scrapTradeMapper.getIdsByUserId(userId);
         // 2.根据ids 更新 关联表的status
-        messageScrapTradeMapper.updateStatusByScrapTradeIdsAndStatus(scrapTradeIds, 1);
+        for(Integer scrapTradeId : scrapTradeIds) {
+            messageScrapTradeMapper.updateStatusByScrapTradeId(scrapTradeId, 1);
+        }
+//        messageScrapTradeMapper.updateStatusByScrapTradeIdsAndStatus(scrapTradeIds, 1);
     }
 
 }

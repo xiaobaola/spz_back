@@ -11,12 +11,12 @@
             #{id}
         </foreach>
     </select>
-    <update id="updateStatusByScrapTradeIdsAndStatus">
-        update message_scrap_trade
-        set status = #{status}
-        where scrap_trade_id in
-        <foreach collection="scrapTradeIds" item="id" separator="," open="(" close=")">
-            #{id}
-        </foreach>
-    </update>
+<!--    <update id="updateStatusByScrapTradeIdsAndStatus">-->
+<!--        update message_scrap_trade as mst-->
+<!--        set mst.status = #{status}-->
+<!--        where mst.scrap_trade_id in-->
+<!--        <foreach collection="scrapTradeIds" item="id" separator="," open="(" close=")">-->
+<!--            #{id}-->
+<!--        </foreach>-->
+<!--    </update>-->
 </mapper>
