@@ -161,6 +161,7 @@
                                 ...this.ruleForm,
                                 gender: this.ruleForm.gender === '女' ? '0' : '1'
                             }
+                            console.log(params)
                             addUser(params).then(res => {
                                 if (res.code === 1) {
                                     this.$message.success('用户添加成功！')

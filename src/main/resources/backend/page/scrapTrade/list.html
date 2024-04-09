@@ -333,6 +333,7 @@
                 const params = {}
                 params.scrapTradeIds = this.checkList
                 params.messageTradeId = this.messageData.id
+                console.log(params)
                 // console.log('scrapTradeIds')
                 // console.log(params.scrapTradeIds)
                 // console.log('messageTradeId')
@@ -348,7 +349,7 @@
                     this.$message.error('请求出错了：' + err)
                 })
             },
-            // 删除
+            // 更改
             scrapTradeFinish(type, id) {
                 if (this.checkList.length === 0) {
                     return this.$message.error('请选择要更改的对象')

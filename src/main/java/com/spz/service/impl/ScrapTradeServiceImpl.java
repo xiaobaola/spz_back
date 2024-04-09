@@ -87,7 +87,7 @@ public class ScrapTradeServiceImpl implements ScrapTradeService {
 
     @Override
     public List<ScrapTrade> getNumberByUserId(Integer userId) {
-        return scrapTradeMapper.getNumberByUserId(userId);
+        return scrapTradeMapper.getByUserId(userId);
     }
 
     @Override

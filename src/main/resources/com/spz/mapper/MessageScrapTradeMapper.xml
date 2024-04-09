@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spz.mapper.MessageScrapTradeMapper">
+<!--    <insert id="insertById"-->
+    <select id="getStatusCountByScrapTradeIds" resultType="Integer">
+        select count(*)
+        from message_scrap_trade
+        where status = #{status} and scrap_trade_id in
+        <foreach collection="scrapTradeIds" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </select>
+</mapper>
