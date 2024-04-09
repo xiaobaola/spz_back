@@ -19,7 +19,5 @@ public interface MessageTradeService {
 
     List<MessageTradeDto> getByUserId(Integer userId);
 
-    Integer getTotalByMessageScrapTrade(Integer userId);
-
     List<UserMessage> getUserMessage(Integer userId);
 }
