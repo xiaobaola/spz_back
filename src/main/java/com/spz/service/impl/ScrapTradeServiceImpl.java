@@ -15,6 +15,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -88,7 +89,9 @@ public class ScrapTradeServiceImpl implements ScrapTradeService {
 
     @Override
     public List<ScrapTrade> getNumberByUserId(Integer userId) {
-        return scrapTradeMapper.getByUserId(userId);
+        List<ScrapTrade> scrapTrades = scrapTradeMapper.getByUserId(userId);
+        scrapTrades.sort(Comparator.comparing(ScrapTrade::getCreateTime).reversed());
+        return scrapTrades;
     }
 
     @Override
