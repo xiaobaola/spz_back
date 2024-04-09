@@ -14,4 +14,5 @@ public interface MessageScrapTradeService {
     List<Integer> getScrapTradeIdById(Integer id);
 
 
+    Integer getTotalByMessageScrapTrade(Integer userId);
 }
