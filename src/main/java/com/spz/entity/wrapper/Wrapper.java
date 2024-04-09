@@ -10,5 +10,5 @@ public class Wrapper {
     private Integer messageTradeId;
 //    private Integer integerType;
     private Integer userId;
-
+    private Integer status;
 }  

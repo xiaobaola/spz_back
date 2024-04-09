@@ -33,4 +33,7 @@ public interface ScrapTradeMapper {
 
     @Select("select id from scrap_trade where user_id=#{userId}")
     List<Integer> getIdsByUserId(Integer userId);
+
+    @Update("update scrap_trade set status=3 where id=#{id}")
+    void updateStatusById(Integer id);
 }

@@ -4,6 +4,7 @@ import com.spz.common.Res;
 import com.spz.entity.dto.ScrapTradeDto;
 import com.spz.entity.page.PageBean;
 import com.spz.entity.scrap.ScrapTrade;
+import com.spz.entity.wrapper.Wrapper;
 import com.spz.service.ScrapTradeDetailService;
 import com.spz.service.ScrapTradeService;
 import com.spz.service.ScrapTypeService;
@@ -46,6 +47,13 @@ public class ScrapTradeController {
     @PutMapping
     public Res<String> updateStatus(@RequestBody ScrapTrade scrapTrade){
         scrapTradeService.updateStatus(scrapTrade);
+        return Res.success("状态修改成功");
+    }
+
+    public Res<String> updateStatusById(@RequestBody Wrapper wrapper){
+        List<Integer> scrapTradeIds = wrapper.getScrapTradeIds();
+        Integer status = wrapper.getStatus();
+        scrapTradeService.updateStatusById(scrapTradeIds,status);
         return Res.success("状态修改成功");
     }
 

@@ -17,4 +17,6 @@ public interface ScrapTradeService {
     List<ScrapTrade> getNumberByUserId(Integer userId);
 
     ScrapTrade getById(Integer id);
+
+    void updateStatusById(List<Integer> scrapTradeIds,Integer status);
 }

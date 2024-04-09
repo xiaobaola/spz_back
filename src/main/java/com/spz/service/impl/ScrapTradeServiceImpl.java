@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -93,6 +94,19 @@ public class ScrapTradeServiceImpl implements ScrapTradeService {
     @Override
     public ScrapTrade getById(Integer id) {
         return scrapTradeMapper.getById(id);
+    }
+
+    @Override
+    public void updateStatusById(List<Integer> scrapTradeIds,Integer status) {
+        List<ScrapTrade> list = new ArrayList<>();
+        for (Integer scrapTradeId:scrapTradeIds){
+            list.add(scrapTradeMapper.getById(scrapTradeId));
+        }
+        for (ScrapTrade element:list){
+            if(element.getStatus() == 2){
+                scrapTradeMapper.updateStatusById(element.getId());
+            }
+        }
     }
 
 
