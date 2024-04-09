@@ -4,10 +4,7 @@ import com.spz.entity.communicate.MessageScrapTrade;
 import com.spz.entity.communicate.MessageTrade;
 import com.spz.entity.communicate.MessageTradeDto;
 import com.spz.entity.user.UserMessage;
-import com.spz.mapper.MessageScrapTradeMapper;
-import com.spz.mapper.MessageTradeDtoMapper;
-import com.spz.mapper.MessageTradeMapper;
-import com.spz.mapper.ScrapTradeMapper;
+import com.spz.mapper.*;
 import com.spz.service.ManagerService;
 import com.spz.service.MessageTradeService;
 import lombok.extern.slf4j.Slf4j;
@@ -25,16 +22,16 @@ import java.util.List;
 public class MessageTradeServiceImpl implements MessageTradeService {
 
     @Autowired
-   private MessageTradeMapper messageTradeMapper;
-
-    @Autowired
-    private ScrapTradeMapper scrapTradeMapper;
+    private MessageTradeMapper messageTradeMapper;
 
     @Autowired
     private MessageScrapTradeMapper messageScrapTradeMapper;
 
     @Autowired
     private MessageTradeDtoMapper messageTradeDtoMapper;
+
+    @Autowired
+    private RelationshipMapper relationshipMapper;
 
     @Override
     public void insert3(MessageTrade messageTrade) {
@@ -68,4 +65,25 @@ public class MessageTradeServiceImpl implements MessageTradeService {
         list.sort(Comparator.comparing(MessageTrade::getCreateTime).reversed());
         return list;
     }
+
+    @Override
+    public Integer getTotalByMessageScrapTrade(Integer userId) {
+        return messageScrapTradeMapper.getCountBystatus(0,userId);
+    }
+
+    @Override
+    public List<UserMessage> getUserMessage(Integer userId) {
+        List<Integer> list1 = new ArrayList<>();
+        List<UserMessage> list2 = new ArrayList<>();
+        List<Integer> userId2ByUserId1 = relationshipMapper.getUserId2ByUserId1(userId, 2);
+        List<Integer> userId1ByUserId2 = relationshipMapper.getUserId1ByUserId2(userId, 2);
+        list1.addAll(userId1ByUserId2);
+        list1.addAll(userId2ByUserId1);
+        for (Integer element:list1){
+            list2.add(relationshipMapper.getUserByUserId(element));
+        }
+        return list2;
+    }
+
+
 }

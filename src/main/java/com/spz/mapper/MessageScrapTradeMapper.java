@@ -11,7 +11,10 @@ public interface MessageScrapTradeMapper {
     @Select("select message_trade_id from message_scrap_trade where scrap_trade_id=#{userId}")
     List<Integer> getMessageTradeIdById(Integer userId);
 
-    @Select("select scrap_trade_id from message_scrap_trade where id=#{id}")
-    List<MessageScrapTrade> getScrapTradeIdById(Integer id);
+    @Select("select scrap_trade_id from message_scrap_trade where id=#{userId}")
+    List<Integer> getScrapTradeIdById(Integer userId);
+
+    @Select("select count(status) from message_scrap_trade where status=#{status} and scrap_trade_id=#{userId}")
+    Integer getCountBystatus(Integer status,Integer userId);
 
 }

@@ -11,6 +11,7 @@ public interface MessageScrapTradeService {
     List<Integer> getMessageTradeIdById(Integer id);
 
 
-    List<MessageScrapTrade> getScrapTradeIdById(Integer id);
+    List<Integer> getScrapTradeIdById(Integer id);
+
 
 }

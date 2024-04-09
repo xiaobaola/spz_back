@@ -22,4 +22,5 @@ public class MessageScrapTrade {
     private Integer id;
     private Integer messageTradeId;
     private Integer scrapTradeId;
+    private Integer status;
 }

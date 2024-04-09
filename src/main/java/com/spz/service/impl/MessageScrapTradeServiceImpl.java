@@ -20,7 +20,7 @@ public class MessageScrapTradeServiceImpl implements MessageScrapTradeService {
     }
 
     @Override
-    public List<MessageScrapTrade> getScrapTradeIdById(Integer id) {
+    public List<Integer> getScrapTradeIdById(Integer id) {
         return messageScrapTradeMapper.getScrapTradeIdById(id);
     }
 }
