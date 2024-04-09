@@ -23,3 +23,12 @@ const editTradeDetail = (params) => {
         data: {...params}
     })
 }
+
+// 发送信息条与订单关联的接口
+const addMessageScrapTrade = (params) => {
+    return $axios({
+        url: `/spz/messageScrapTrade`,
+        method: 'post',
+        params
+    })
+}

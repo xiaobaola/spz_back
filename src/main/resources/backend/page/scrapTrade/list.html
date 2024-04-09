@@ -152,32 +152,6 @@
                 <span class="des">{{ diaForm.createTime }}</span>
             </div>
         </div>
-        <!-- <el-form ref="diaForm" :model="diaForm" class="dia-form">
-      <el-form-item label="订单号">
-        <span>{{ diaForm.number }}</span>
-      </el-form-item>
-      <el-form-item label="订单状态">
-        <span>{{ getTradeType(diaForm) }}</span>
-      </el-form-item>
-      <el-form-item label="收货人">
-        <span>{{ diaForm.consignee }}</span>
-      </el-form-item>
-      <el-form-item label="联系电话">
-        <span>{{ diaForm.phone }}</span>
-      </el-form-item>
-      <el-form-item label="地址">
-        <span>{{ diaForm.address }}</span>
-      </el-form-item>
-      <el-form-item label="支付金额">
-        <span>{{ diaForm.price }}</span>
-      </el-form-item>
-      <el-form-item label="下单时间">
-        <span>{{ diaForm.tradeTime }}</span>
-      </el-form-item>
-    </el-form>
-    <span slot="footer" class="dialog-footer">
-      <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-    </span> -->
     </el-dialog>
 
     <!-- 绑定信息-->
@@ -187,15 +161,28 @@
             width="30%"
             :before-close="handleClose"
     >
-        <div class="info-box">
-            <div class="item-box">
-                <span style="align-self: auto">信息条：</span>
-                <el-select v-model="statusType" placeholder="您的选择是" style="margin-left: 20px;" @change="changeStatus">
-                    <el-option v-for="message in messageList" :key="message.messageid" :label="message.messageid" :value="message.messagename">
+        <el-form ref="messageData" :model="messageData" class="dia-form">
+            <el-form-item label="信息条">
+                <el-select v-model="messageId" placeholder="您的选择是" style="margin-left: 20px;"
+                           @change="changeMessageId">
+                    <el-option v-for="message in messageList" :key="message.id" :label="message.name"
+                               :value="message.id">
                     </el-option>
                 </el-select>
-            </div>
-        </div>
+            </el-form-item>
+            <el-form-item label="信息内容">
+                <span>{{messageData.message}}</span>
+            </el-form-item>
+            <el-form-item label="交易开始时间">
+                <span>{{ messageData.tradeTimeStart }}</span>
+            </el-form-item>
+            <el-form-item label="交易结束时间">
+                <span>{{ messageData.tradeTimeFinish }}</span>
+            </el-form-item>
+            <el-form-item label="信息条创建日期">
+                <span>{{ messageData.createTime }}</span>
+            </el-form-item>
+        </el-form>
         <span
                 slot="footer"
                 class="dialog-footer"
@@ -209,13 +196,6 @@
                 size="medium"
                 @click="submitForm()"
         >确 定</el-button>
-        <el-button
-                v-if="action != 'edit'"
-                type="primary"
-                size="medium"
-                class="continue"
-                @click="submitForm('go')"
-        > 保存并继续添加 </el-button>
       </span>
     </el-dialog>
 </div>
@@ -242,56 +222,42 @@
                 dialogVisible: false,
                 diaForm: {},
                 tradeTime: [],
-                messageList: [
-                    {
-                        messageid: '123',
-                        messagename: '123'
-                    }, {
-                        messageid: '123',
-                        messagename: '123'
-                    }, {
-                        messageid: '123',
-                        messagename: '123'
-                    }, {
-                        messageid: '123',
-                        messagename: '123成交易'
-                    }, {
-                        messageid: '123',
-                        messagename: '123订单'
-                    },{
-                        messageid: '123',
-                        messagename: '取123单'
-                    }
-                ],
+                messageId: '',
+                messageList: [],
+                messageData: {
+                    'id' : '',
+                    'name': '',
+                    'message' : '',
+                    'tradeTimeStart' : '',
+                    'tradeTimeFinish' : '',
+                    'createTime' : ''
+                },
                 statusType: '',
                 checkList: [],
                 loading: false,
                 // 回收品交易状态 0: 创建订单 1: 回收员接单 2: 确认交易 3: 完成交易 4: 取消订单
                 options: [
                     {
-                    key: '0',
-                    label: '创建订单'
-                }, {
-                    key: '1',
-                    label: '回收员接单'
-                }, {
-                    key: '2',
-                    label: '确认交易'
-                }, {
-                    key: '3',
-                    label: '完成交易'
-                }, {
-                    key: '4',
-                    label: '取消订单'
-                }
+                        key: '0',
+                        label: '创建订单'
+                    }, {
+                        key: '1',
+                        label: '回收员接单'
+                    }, {
+                        key: '2',
+                        label: '确认交易'
+                    }, {
+                        key: '3',
+                        label: '完成交易'
+                    }, {
+                        key: '4',
+                        label: '取消订单'
+                    }
 
                 ],
                 classData: {
                     'title': '绑定订单与消息',
                     'dialogVisible': false,
-                    'scrapTypeId': '',
-                    'name': '',
-                    'image': '',
                 }
             }
         },
@@ -328,13 +294,32 @@
                 this.page = 1;
                 this.init();
             },
-            addClass(st) {
-                if (st == 'class') {
-                    this.classData.title = '新增回收品分类'
+            submitForm() {
+                const params = {}
+                params.scrapTradeIds = this.checkList
+                params.messageTradeId = this.messageData.id
+
+            },
+            changeMessageId(id) {
+                console.log(id)
+                const list = this.messageList
+                const pos = this.getPosById(id, list)
+                this.messageData.id = list[pos].id
+                this.messageData.name = list[pos].name
+                this.messageData.message = list[pos].message
+                this.messageData.tradeTimeStart = list[pos].tradeTimeStart
+                this.messageData.tradeTimeFinish = list[pos].tradeTimeFinish
+                this.messageData.createTime = list[pos].createTime
+            },
+            getPosById(id, list) {
+                var listTemp = list
+                for(var j = 0; j < listTemp.length; j++) {
+                    // console.log("id: "+scrapTradeListTemp[j].id)
+                    if(listTemp[j].id === id) {
+                        return j;
+                    }
                 }
-                this.action = 'add'
-                this.classData.name = ''
-                this.classData.dialogVisible = true
+                return -1;
             },
             getTradeType(row) {
                 let str = ''
@@ -357,7 +342,6 @@
                 }
                 return str
             },
-
             // 查看详情
             goDetail(row) {
                 this.diaForm = {}
@@ -414,73 +398,38 @@
                 this.statusType = statusChange
             },
             addBinding(type, id) {
-                // if (type === '批量' && id === null) {
-                //     if (this.checkList.length === 0) {
-                //         return this.$message.error('请选择接收的订单')
-                //     }
-                // }
-                // this.classData.name = ''
-                this.classData.dialogVisible = true;
+                if (type === '批量' && id === null) {
+                    if (this.checkList.length === 0) {
+                        return this.$message.error('请选择接收的订单')
+                    }
+                }
+                this.classData.name = ''
                 //1发请求
                 //1.1 发messageTrade.js
                 //1.2 修改一下
                 getMessageTradeList().then(res => {
+                    //1.在浏览器看看拿到了什么结果
+                    // console.log('getMessageTradeList')
+                    // console.log(res.data)
+                    //2.根据结果进行解析
                     if (res.code === 1) {
-                        this.$message.success(status === 3 ? '订单已确认' : '订单已完成')
-                        this.init()
+                        if(res.data === null || res.data.length === 0) {
+                            this.classData.dialogVisible = false
+                            this.$message.error('请先创建信息条')
+                        } else {
+                            this.messageList = res.data
+                            this.classData.dialogVisible = true;
+                            // console.log(this.messageList)
+                            // console.log('length')
+                            // console.log(this.messageList.length)
+                        }
                     } else {
                         this.$message.error(res.msg || '操作失败')
                     }
                 }).catch(err => {
                     this.$message.error('请求出错了：' + err)
                 })
-
             },
-            getmessageTradeType(row) {
-                let str = ''
-                switch (row.status) {
-                    case 0:
-                        str = '123'
-                        break;
-                    case 1:
-                        str = '456'
-                        break;
-                    case 2:
-                        str = '789'
-                        break;
-                    case 3:
-                        str = '123'
-                        break;
-                    case 4:
-                        str = '123'
-                        break;
-                }
-                return str
-            },
-            // 批量接单
-            sendMessageHandle(type, id) {
-                if (type === '批量' && id === null) {
-                    if (this.checkList.length === 0) {
-                        return this.$message.error('请选择接收的订单')
-                    }
-                }
-                this.$confirm('确认删除该回收品, 一定继续要继续?',
-                    '确定删除', {
-                        'confirmButtonText': '确定',
-                        'cancelButtonText': '取消',
-                    }).then(() => {
-                    deleteScrap(type === '批量' ? this.checkList.join(',') : id).then(res => {
-                        if (res.code === 1) {
-                            this.$message.success('接单成功！')
-                            this.handleQuery()
-                        } else {
-                            this.$message.error(res.msg || '操作失败')
-                        }
-                    }).catch(err => {
-                        this.$message.error('请求出错了：' + err)
-                    })
-                })
-            }
         }
     })
 </script>
