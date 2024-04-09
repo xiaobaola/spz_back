@@ -66,10 +66,6 @@ public class MessageTradeServiceImpl implements MessageTradeService {
         return list;
     }
 
-    @Override
-    public Integer getTotalByMessageScrapTrade(Integer userId) {
-        return messageScrapTradeMapper.getCountBystatus(0,userId);
-    }
 
     @Override
     public List<UserMessage> getUserMessage(Integer userId) {

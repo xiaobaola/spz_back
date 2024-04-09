@@ -23,4 +23,9 @@ public class MessageScrapTradeServiceImpl implements MessageScrapTradeService {
     public List<Integer> getScrapTradeIdById(Integer id) {
         return messageScrapTradeMapper.getScrapTradeIdById(id);
     }
+
+    @Override
+    public Integer getTotalByMessageScrapTrade(Integer userId) {
+        return messageScrapTradeMapper.getCountBystatus(0,userId);
+    }
 }
