@@ -38,7 +38,7 @@ public class MessageScrapTradeServiceImpl implements MessageScrapTradeService {
         }
         for (ScrapTrade element:list1){
             if(element.getStatus() == 0){
-                messageScrapTradeMapper.insertByid(messageTradeId,element.getId(),0);
+                messageScrapTradeMapper.insertById(messageTradeId,element.getId(),0);
             }
         }
     }
@@ -46,6 +46,11 @@ public class MessageScrapTradeServiceImpl implements MessageScrapTradeService {
     @Override
     public Integer getTotalByMessageScrapTrade(Integer userId) {
         return null;
+    }
+
+    @Override
+    public void updateStatusByUserId(Integer userId) {
+
     }
 
 }
