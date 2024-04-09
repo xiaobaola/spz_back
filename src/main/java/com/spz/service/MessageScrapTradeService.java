@@ -16,4 +16,6 @@ public interface MessageScrapTradeService {
     void insertByid(List<Integer> scrapTradeIds,Integer messageTradeId);
 
     Integer getTotalByMessageScrapTrade(Integer userId);
+
+    void updateStatusByUserId(Integer userId);
 }
