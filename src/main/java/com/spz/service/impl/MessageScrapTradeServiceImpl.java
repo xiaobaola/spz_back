@@ -43,4 +43,9 @@ public class MessageScrapTradeServiceImpl implements MessageScrapTradeService {
         }
     }
 
+    @Override
+    public Integer getTotalByMessageScrapTrade(Integer userId) {
+        return null;
+    }
+
 }
