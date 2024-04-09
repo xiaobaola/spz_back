@@ -16,5 +16,5 @@ public interface ScrapTradeService {
 
     List<ScrapTrade> getNumberByUserId(Integer userId);
 
-
+    ScrapTrade getById(Integer id);
 }

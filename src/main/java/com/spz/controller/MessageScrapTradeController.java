@@ -4,10 +4,7 @@ import com.spz.common.Res;
 import com.spz.entity.communicate.MessageScrapTrade;
 import com.spz.service.MessageScrapTradeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,6 +22,12 @@ public class MessageScrapTradeController {
     @GetMapping("/scrap/{id}")
     public Res<List<Integer>> getScrapTradeId(@PathVariable Integer id){
         return Res.success(messageScrapTradeService.getScrapTradeIdById(id));
+    }
+
+    @PostMapping
+    public Res<String> insertMessageAndScrapId(@RequestBody List<Integer> scrapTradeIds, @RequestParam Integer messageTradeId){
+        messageScrapTradeService.insertByid(scrapTradeIds,messageTradeId);
+        return Res.success("添加成功");
     }
 
 }

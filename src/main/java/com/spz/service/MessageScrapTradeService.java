@@ -13,5 +13,6 @@ public interface MessageScrapTradeService {
 
     List<Integer> getScrapTradeIdById(Integer id);
 
+    void insertByid(List<Integer> scrapTradeIds,Integer messageTradeId);
 
 }
