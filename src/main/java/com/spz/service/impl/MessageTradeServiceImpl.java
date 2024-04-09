@@ -3,6 +3,7 @@ package com.spz.service.impl;
 import com.spz.entity.communicate.MessageScrapTrade;
 import com.spz.entity.communicate.MessageTrade;
 import com.spz.entity.communicate.MessageTradeDto;
+import com.spz.entity.scrap.ScrapTrade;
 import com.spz.entity.user.UserMessage;
 import com.spz.mapper.*;
 import com.spz.service.ManagerService;
@@ -33,6 +34,9 @@ public class MessageTradeServiceImpl implements MessageTradeService {
     @Autowired
     private RelationshipMapper relationshipMapper;
 
+    @Autowired
+    private ScrapTradeMapper scrapTradeMapper;
+
     @Override
     public void insert3(MessageTrade messageTrade) {
 //        log.info(messageTrade.toString());
@@ -54,15 +58,22 @@ public class MessageTradeServiceImpl implements MessageTradeService {
     @Override
     public List<MessageTradeDto> getByUserId(Integer userId) {
         List<MessageTradeDto> list = new ArrayList<>();
-        List<Integer> messageTradeIdById = messageScrapTradeMapper.getMessageTradeIdById(userId);
+        // 1.根据userId 获取 scrapTradeIds
+        List<ScrapTrade> scrapTrades = scrapTradeMapper.getByUserId(userId);
+        // 1.1.根据scrapTradeUpdateTime进行排序 提前排序
+        scrapTrades.sort(Comparator.comparing(ScrapTrade::getUpdateTime).reversed());
         //获取信息
-        for (Integer element: messageTradeIdById){
-            MessageTradeDto messageTradeMapperById = messageTradeMapper.getById(element);
-            messageTradeMapperById.setNumber(messageTradeDtoMapper.selectNumberByMessageTradeId(element));
-            messageTradeMapperById.setPrice(messageTradeDtoMapper.selectPriceByMessageTradeId(element));
-            list.add(messageTradeMapperById);
+        for(ScrapTrade scrapTrade : scrapTrades) {
+            // 2.根据scrapTradeId 获取 messageTradeIds
+            List<Integer> messageTradeIds = messageScrapTradeMapper.getMessageTradeIdsByScrapTradeId(scrapTrade.getId());
+            for (Integer messageTradeId : messageTradeIds) {
+                // 3.根据messageTradeIds 获取 messageTrade对象
+                MessageTradeDto messageTrade = messageTradeMapper.getById(messageTradeId);
+                messageTrade.setNumber(scrapTrade.getNumber());
+                messageTrade.setPrice(scrapTrade.getPrice());
+                list.add(messageTrade);
+            }
         }
-        list.sort(Comparator.comparing(MessageTrade::getCreateTime).reversed());
         return list;
     }
 

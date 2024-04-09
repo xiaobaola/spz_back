@@ -26,5 +26,8 @@ public interface MessageScrapTradeMapper {
     @Update("update message_scrap_trade set status = #{status} where scrap_trade_id = #{id}")
     void updateStatusByScrapTradeId(Integer id, Integer status);
 
+    @Select("select message_trade_id from message_scrap_trade where scrap_trade_id=#{id}")
+    List<Integer> getMessageTradeIdsByScrapTradeId(Integer id);
+
 //    void updateStatusByScrapTradeIdsAndStatus(List<Integer> scrapTradeIds, Integer status);
 }

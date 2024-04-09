@@ -38,13 +38,13 @@ public class MessageTradeController {
 
     @GetMapping("/{id}")
     public Res<MessageTrade> selectMessageTradeById(@PathVariable Integer id){
-        log.info("get 信息列表");
+        log.info("get 信息列表 id:{}",id);
         return Res.success(messageTradeService.getById(id));
     }
 
     @GetMapping()
     public Res<List<MessageTradeDto>> getAllByMessageTradeId(@RequestParam Integer userId){
-        log.info("get 信息列表");
+        log.info("get 信息列表 userId:{}",userId);
         return Res.success(messageTradeService.getByUserId(userId));
     }
 
