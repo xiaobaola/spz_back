@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -30,4 +31,6 @@ public interface ScrapTradeMapper {
     List<ScrapTrade> getNumberByUserId(Integer userId);
 
 
+    @Select("select id from scrap_trade where user_id=#{userId}")
+    ArrayList<Integer> getScrapTradeIdsByUserId(Integer userId);
 }
