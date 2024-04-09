@@ -49,16 +49,19 @@ public class MessageScrapTradeServiceImpl implements MessageScrapTradeService {
     @Override
     public Integer getTotalByMessageScrapTrade(Integer userId) {
         // 获取 scrapTradeIds
-        List<Integer> scrapTradeIds = scrapTradeMapper.getIdByUserId(userId);
+        List<Integer> scrapTradeIds = scrapTradeMapper.getIdsByUserId(userId);
         // 根据 scrapTradeId 统计status
-        Integer total = messageScrapTradeMapper.getStatusCountByScrapTradeIds(scrapTradeIds, 0);
+        Integer total = messageScrapTradeMapper.getStatusCountByScrapTradeIdsAndStatus(scrapTradeIds, 0);
         log.info("total: {}", total);
         return total;
     }
 
     @Override
     public void updateStatusByUserId(Integer userId) {
-
+        // 1.根据userId 获取 scrapTradeIds
+        List<Integer> scrapTradeIds = scrapTradeMapper.getIdsByUserId(userId);
+        // 2.根据ids 更新 关联表的status
+        messageScrapTradeMapper.updateStatusByScrapTradeIdsAndStatus(scrapTradeIds, 1);
     }
 
 }

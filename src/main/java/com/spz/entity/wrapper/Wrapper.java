@@ -8,5 +8,7 @@ import java.util.List;
 public class Wrapper {
     private List<Integer> scrapTradeIds;
     private Integer messageTradeId;
+//    private Integer integerType;
+    private Integer userId;
 
 }  

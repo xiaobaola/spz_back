@@ -20,5 +20,7 @@ public interface MessageScrapTradeMapper {
     @Insert("insert into message_scrap_trade(message_trade_id, scrap_trade_id,status) values (#{messageTradeId},#{scrapTradeId},#{status})")
     void insertById(Integer messageTradeId, Integer scrapTradeId, Integer status);
 
-    Integer getStatusCountByScrapTradeIds(List<Integer> scrapTradeIds, Integer status);
+    Integer getStatusCountByScrapTradeIdsAndStatus(List<Integer> scrapTradeIds, Integer status);
+
+    void updateStatusByScrapTradeIdsAndStatus(List<Integer> scrapTradeIds, Integer status);
 }

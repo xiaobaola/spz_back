@@ -40,8 +40,11 @@ public class MessageScrapTradeController {
         return Res.success(messageScrapTradeService.getTotalByMessageScrapTrade(userId));
     }
     @PutMapping("/change")
-    public Res<String> updateStatusByUserId(@RequestParam Integer userId) {
+    public Res<String> updateStatusByUserId(@RequestBody Wrapper wrapper) {
         log.info("根据useId更新消息status");
+        log.info("wrapper: {}",wrapper);
+        int userId = wrapper.getUserId();
+//        log.info("userId: {}", userId);
         messageScrapTradeService.updateStatusByUserId(userId);
         return Res.success("更新消息状态成功");
     }
