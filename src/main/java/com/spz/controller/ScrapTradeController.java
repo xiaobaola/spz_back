@@ -50,6 +50,7 @@ public class ScrapTradeController {
         return Res.success("状态修改成功");
     }
 
+    @PutMapping("/ids")
     public Res<String> updateStatusById(@RequestBody Wrapper wrapper){
         List<Integer> scrapTradeIds = wrapper.getScrapTradeIds();
         Integer status = wrapper.getStatus();

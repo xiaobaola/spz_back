@@ -48,4 +48,5 @@ public class MessageScrapTradeController {
         messageScrapTradeService.updateStatusByUserId(userId);
         return Res.success("更新消息状态成功");
     }
+
 }
