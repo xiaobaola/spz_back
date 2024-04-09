@@ -29,6 +29,7 @@ const addMessageScrapTrade = (params) => {
     return $axios({
         url: `/spz/messageScrapTrade`,
         method: 'post',
-        params
+        data: {...params}
     })
 }
+w

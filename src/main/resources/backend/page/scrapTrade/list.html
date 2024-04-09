@@ -101,12 +101,12 @@
                         查看
                     </el-button>
                     <el-divider v-if="row.status === 0" direction="vertical"></el-divider>
-                    <el-button v-if="row.status === 0" type="text" @click="cancelOrDeliveryOrComplete(1, row.id)"
+                    <el-button v-if="row.status === 0" type="text" @click="addBinding('单个', row.id)"
                                class="blueBug">
-                        确认
+                        接单
                     </el-button>
-                    <el-divider v-if="row.status === 1" direction="vertical"></el-divider>
-                    <el-button v-if="row.status === 1" type="text" @click="cancelOrDeliveryOrComplete(4, row.id)"
+                    <el-divider v-if="row.status === 2" direction="vertical"></el-divider>
+                    <el-button v-if="row.status === 2" type="text" @click="cancelOrDeliveryOrComplete(4, row.id)"
                                class="blueBug">
                         完成
                     </el-button>
@@ -225,12 +225,12 @@
                 messageId: '',
                 messageList: [],
                 messageData: {
-                    'id' : '',
+                    'id': '',
                     'name': '',
-                    'message' : '',
-                    'tradeTimeStart' : '',
-                    'tradeTimeFinish' : '',
-                    'createTime' : ''
+                    'message': '',
+                    'tradeTimeStart': '',
+                    'tradeTimeFinish': '',
+                    'createTime': ''
                 },
                 statusType: '',
                 checkList: [],
@@ -294,11 +294,59 @@
                 this.page = 1;
                 this.init();
             },
+            addBinding(type, id) {
+                //1发请求
+                //1.1 发messageTrade.js
+                //1.2 修改一下
+                getMessageTradeList().then(res => {
+                    //1.在浏览器看看拿到了什么结果
+                    // console.log('getMessageTradeList')
+                    // console.log(res.data)
+                    //2.根据结果进行解析
+                    if (res.code === 1) {
+                        if (res.data === null || res.data.length === 0) {
+                            return this.$message.error('请先创建信息条')
+                        } else {
+                            this.messageList = res.data
+                            // console.log(this.messageList)
+                            // console.log('length')
+                            // console.log(this.messageList.length)
+                        }
+                    } else {
+                        this.$message.error(res.msg || '操作失败')
+                    }
+                }).catch(err => {
+                    return this.$message.error('请求出错了：' + err)
+                })
+                if (type === '批量' && this.checkList.length === 0) {
+                    return this.$message.error('请选择接收的订单')
+                }
+                if (type === '单个' && id !== null) {
+                    console.log(id)
+                    this.checkList = [id]
+                    console.log(this.checkList)
+                }
+                this.classData.dialogVisible = true;
+                this.classData.name = ''
+            },
             submitForm() {
                 const params = {}
                 params.scrapTradeIds = this.checkList
                 params.messageTradeId = this.messageData.id
-
+                // console.log('scrapTradeIds')
+                // console.log(params.scrapTradeIds)
+                // console.log('messageTradeId')
+                // console.log(params.messageTradeId)
+                addMessageScrapTrade(params).then(res => {
+                    if (res.code === 1) {
+                        this.$message.success('发送信息成功')
+                        this.init()
+                    } else {
+                        this.$message.error(res.msg || '操作失败')
+                    }
+                }).catch(err => {
+                    this.$message.error('请求出错了：' + err)
+                })
             },
             changeMessageId(id) {
                 console.log(id)
@@ -313,9 +361,9 @@
             },
             getPosById(id, list) {
                 var listTemp = list
-                for(var j = 0; j < listTemp.length; j++) {
+                for (var j = 0; j < listTemp.length; j++) {
                     // console.log("id: "+scrapTradeListTemp[j].id)
-                    if(listTemp[j].id === id) {
+                    if (listTemp[j].id === id) {
                         return j;
                     }
                 }
@@ -396,41 +444,9 @@
             },
             changeStatus(statusChange) {
                 this.statusType = statusChange
-            },
-            addBinding(type, id) {
-                if (type === '批量' && id === null) {
-                    if (this.checkList.length === 0) {
-                        return this.$message.error('请选择接收的订单')
-                    }
-                }
-                this.classData.name = ''
-                //1发请求
-                //1.1 发messageTrade.js
-                //1.2 修改一下
-                getMessageTradeList().then(res => {
-                    //1.在浏览器看看拿到了什么结果
-                    // console.log('getMessageTradeList')
-                    // console.log(res.data)
-                    //2.根据结果进行解析
-                    if (res.code === 1) {
-                        if(res.data === null || res.data.length === 0) {
-                            this.classData.dialogVisible = false
-                            this.$message.error('请先创建信息条')
-                        } else {
-                            this.messageList = res.data
-                            this.classData.dialogVisible = true;
-                            // console.log(this.messageList)
-                            // console.log('length')
-                            // console.log(this.messageList.length)
-                        }
-                    } else {
-                        this.$message.error(res.msg || '操作失败')
-                    }
-                }).catch(err => {
-                    this.$message.error('请求出错了：' + err)
-                })
-            },
+            }
         }
+
     })
 </script>
 </body>

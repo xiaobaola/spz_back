@@ -15,7 +15,7 @@ public class ScrapTradeDetail {
     private Integer userId; //用户id
     private Integer scrapId; //回收品id
     private Integer scrapTradeId; //回收品交易表id
-    private Integer status; //回收品交易状态 0: 上传 1: 确认 2: 交易
+    private Integer status; //回收品交易状态 0: 上传 1: 接单 2: 确认 3: 完成 4: 取消
     private Integer count; //单品记录数,统计量
     private Integer price; //总价
     private LocalDateTime updateTime; //更新时间
