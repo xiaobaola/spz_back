@@ -38,7 +38,9 @@ public class MessageScrapTradeServiceImpl implements MessageScrapTradeService {
         }
         for (ScrapTrade element:list1){
             if(element.getStatus() == 0){
-                messageScrapTradeMapper.insertById(messageTradeId,element.getId(),0);
+                messageScrapTradeMapper.insertByid(messageTradeId,element.getId(),0);
+                element.setStatus(1);
+                scrapTradeMapper.updateStatus(element);
             }
         }
     }
