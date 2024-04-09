@@ -1,12 +1,12 @@
-package com.spz.entity.communicate;
+package com.spz.entity.wrapper;
 
 import lombok.Data;
 
 import java.util.List;
 
 @Data
-public class ScrapIdsWrapper {
+public class Wrapper {
     private List<Integer> scrapTradeIds;
     private Integer messageTradeId;
-    // getters and setters  
+
 }  

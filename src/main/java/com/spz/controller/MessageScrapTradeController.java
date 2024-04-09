@@ -1,13 +1,12 @@
 package com.spz.controller;
 
 import com.spz.common.Res;
-import com.spz.entity.communicate.ScrapIdsWrapper;
+import com.spz.entity.wrapper.Wrapper;
 import com.spz.service.MessageScrapTradeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -28,7 +27,7 @@ public class MessageScrapTradeController {
     }
 
     @PostMapping()
-    public Res<String> insertMessageAndScrapId(@RequestBody ScrapIdsWrapper wrapper) {
+    public Res<String> insertMessageAndScrapId(@RequestBody Wrapper wrapper) {
         List<Integer> scrapTradeIds = wrapper.getScrapTradeIds();
         Integer messageTradeId = wrapper.getMessageTradeId();
         messageScrapTradeService.insertByid(scrapTradeIds,messageTradeId);
