@@ -18,6 +18,6 @@ public interface MessageScrapTradeMapper {
     @Select("select count(status) from message_scrap_trade where status=#{status} and scrap_trade_id=#{userId}")
     Integer getCountBystatus(Integer status,Integer userId);
 
-    @Insert("insert into message_scrap_trade(message_trade_id, scrap_trade_id,status) values (#{messageTradeId},#{ScrapTradeId},#{status})")
+    @Insert("insert into message_scrap_trade(message_trade_id, scrap_trade_id,status) values (#{messageTradeId},#{scrapTradeId},#{status})")
     void insertByid(Integer messageTradeId,Integer scrapTradeId,Integer status);
 }
