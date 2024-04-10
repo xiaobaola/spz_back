@@ -122,7 +122,8 @@
                 <el-input
                         v-model="classData.message"
                         placeholder="请输入信息内容"
-                        maxlength="14"
+                        maxlength="128"
+                        @change="changeMessage"
                 />
             </el-form-item>
 
@@ -353,7 +354,9 @@
                 this.tradeTime[0] = timeArr[0]
                 this.tradeTime[1] = timeArr[1]
             },
-
+            changeMessage(message) {
+                this.classData.message = message
+            },
             // date格式转成yy-MM-dd HH:mm:ss
             DateToStr(dd) {
                 console.log(dd)
