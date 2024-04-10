@@ -192,7 +192,9 @@
                     'dialogVisible': false,
                     'messageTradeId': '',
                     'name': '',
-                    'message': ''
+                    'message': '',
+                    'tradeTimeStart': '',
+                    'tradeTimeFinish': ''
                 }
             }
         },
@@ -267,6 +269,18 @@
             //数据提交
             submitForm(st) {
                 const classData = this.classData
+                // 分类名称校验
+                const valid = (this.tradeTime[0] !== 0 && this.tradeTime[1] !== 0)
+                if (classData.tradeTimeStart === null || classData.tradeTimeStart.length === 0
+                    || classData.tradeTimeFinish === null || classData.tradeTimeFinish.length === 0) {
+                    this.$message.error('请确定交易时间')
+                    return
+                }
+                if(classData.name === null || classData.name.length === 0) {
+                    this.$message.error('请确定信息条名称')
+                    return
+                }
+
                 const params = {}
                 params.id = ''
                 params.name = classData.name
@@ -275,23 +289,8 @@
                     params.tradeTimeStart = ''
                     params.tradeTimeStart = ''
                 } else {
-                    // console.log(this.tradeTime[0])
-                    // console.log(this.tradeTime[1])
-                    // params.tradeTimeStart = this.DateToStr(this.tradeTime[0])
                     params.tradeTimeStart = this.tradeTime[0]
-                    // params.tradeTimeFinish = this.DateToStr(this.tradeTime[1])
                     params.tradeTimeFinish = this.tradeTime[1]
-                    // console.log(params.tradeTimeStart)
-                    // console.log(params.tradeTimeFinish)
-                }
-                // 分类名称校验
-                const valid = (this.tradeTime[0] !== 0 && this.tradeTime[1] !== 0)
-                // if (!this.tradeTime) {
-                //     this.$message.error('请确定交易时间')
-                //     return
-                // }
-                if(!classData.name || classData.name === 0) {
-                    classData.name = '信息条'+params.tradeTimeStart
                 }
                 console.log(params)
                 // console.log(valid)
@@ -353,6 +352,8 @@
             changeTradeTime(timeArr) {
                 this.tradeTime[0] = timeArr[0]
                 this.tradeTime[1] = timeArr[1]
+                this.classData.tradeTimeStart = timeArr[0]
+                this.classData.tradeTimeFinish = timeArr[1]
             },
             changeMessage(message) {
                 this.classData.message = message

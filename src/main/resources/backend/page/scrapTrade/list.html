@@ -340,6 +340,7 @@
                 // console.log(params.messageTradeId)
                 addMessageScrapTrade(params).then(res => {
                     if (res.code === 1) {
+                        this.classData.dialogVisible = false;
                         this.$message.success('发送信息成功')
                         this.init()
                     } else {
@@ -365,6 +366,7 @@
                     console.log(params.scrapTradeIds)
                     changeScrapTradeStatus(params).then(res => {
                         if (res.code === 1) {
+                            this.classData.dialogVisible = false
                             this.$message.success('更改成功！')
                             this.handleQuery()
                         } else {

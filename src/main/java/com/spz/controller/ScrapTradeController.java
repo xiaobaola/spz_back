@@ -46,9 +46,9 @@ public class ScrapTradeController {
 
     @PutMapping
     public Res<String> updateStatus(@RequestBody ScrapTrade scrapTrade){
-        if(scrapTrade.getStatus() == 3) {
-            return Res.error("订单已完成不能取消");
-        }
+//        if(scrapTrade.getStatus() == 3) {
+//            return Res.error("订单已完成不能取消");
+//        }
         scrapTradeService.updateStatus(scrapTrade);
         return Res.success("状态修改成功");
     }
