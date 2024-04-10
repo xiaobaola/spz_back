@@ -34,4 +34,7 @@ public interface UserMessageMapper {
     @Insert("insert into user_message(username, phone, gender, create_time, update_time) " +
             "VALUES(#{username}, #{phone}, #{gender}, #{createTime}, #{updateTime}) ")
     void insert(UserMessage userMessage);
+
+    @Select("select * from user_message where id = #{id}")
+    UserMessage getUserById(Integer id);
 }

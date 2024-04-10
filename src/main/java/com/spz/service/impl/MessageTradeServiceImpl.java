@@ -37,6 +37,9 @@ public class MessageTradeServiceImpl implements MessageTradeService {
     @Autowired
     private ScrapTradeMapper scrapTradeMapper;
 
+    @Autowired
+    private UserMessageMapper userMessageMapper;
+
     @Override
     public void insert3(MessageTrade messageTrade) {
 //        log.info(messageTrade.toString());
@@ -80,14 +83,15 @@ public class MessageTradeServiceImpl implements MessageTradeService {
 
     @Override
     public List<UserMessage> getUserMessage(Integer userId) {
+        //排序 可优化
         List<Integer> list1 = new ArrayList<>();
         List<UserMessage> list2 = new ArrayList<>();
         List<Integer> userId2ByUserId1 = relationshipMapper.getUserId2ByUserId1(userId, 2);
         List<Integer> userId1ByUserId2 = relationshipMapper.getUserId1ByUserId2(userId, 2);
         list1.addAll(userId1ByUserId2);
         list1.addAll(userId2ByUserId1);
-        for (Integer element:list1){
-            list2.add(relationshipMapper.getUserByUserId(element));
+        for (Integer id:list1){
+            list2.add(userMessageMapper.getUserById(id));
         }
         return list2;
     }

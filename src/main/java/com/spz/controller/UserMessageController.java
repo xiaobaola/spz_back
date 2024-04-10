@@ -23,6 +23,7 @@ public class UserMessageController {
     @Autowired
     private UserMessageService userMessageService;
 
+    @Autowired
     private MessageTradeService messageTradeService;
 
     @GetMapping
