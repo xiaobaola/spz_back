@@ -14,7 +14,7 @@ public interface MessageTradeMapper {
             "values (#{name}, #{message}, #{tradeTimeStart}, #{tradeTimeFinish} ,#{createTime} ,#{updateTime})")
     void insert3(MessageTrade messageTrade);
 
-    @Select("select * from message_trade")
+    @Select("select * from message_trade order by update_time desc")
     List<MessageTrade> list3();
 
     @Select("select * from message_trade where id=#{id}")
