@@ -7,6 +7,7 @@ import com.spz.service.MessageUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -30,5 +31,13 @@ public class MessageUserServiceImpl implements MessageUserService {
         // 根据时间排序
         users.sort(Comparator.comparing(MessageUser::getCreateTime));
         return users;
+    }
+
+    @Override
+    public void insert(MessageUser messageUser) {
+        messageUser.setCreateTime(LocalDateTime.now());
+        messageUser.setUpdateTime(LocalDateTime.now());
+        messageUser.setMesStatus((short)1);
+        messageUserMapper.insert(messageUser);
     }
 }
