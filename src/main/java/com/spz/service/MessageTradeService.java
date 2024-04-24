@@ -1,10 +1,8 @@
 package com.spz.service;
 
-import com.spz.entity.communicate.MessageTrade;
-import com.spz.entity.communicate.MessageTradeDto;
-import com.spz.entity.user.UserMessage;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Select;
+import com.spz.entity.message.MessageTrade;
+import com.spz.entity.message.MessageTradeDto;
+import com.spz.entity.user.User;
 
 import java.util.List;
 
@@ -19,5 +17,5 @@ public interface MessageTradeService {
 
     List<MessageTradeDto> getByUserId(Integer userId);
 
-    List<UserMessage> getUserMessage(Integer userId);
+    List<User> getUserMessage(Integer userId);
 }

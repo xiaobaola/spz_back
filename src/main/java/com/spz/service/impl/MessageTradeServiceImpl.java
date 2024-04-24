@@ -1,15 +1,12 @@
 package com.spz.service.impl;
 
-import com.spz.entity.communicate.MessageScrapTrade;
-import com.spz.entity.communicate.MessageTrade;
-import com.spz.entity.communicate.MessageTradeDto;
+import com.spz.entity.message.MessageTrade;
+import com.spz.entity.message.MessageTradeDto;
 import com.spz.entity.scrap.ScrapTrade;
-import com.spz.entity.user.UserMessage;
+import com.spz.entity.user.User;
 import com.spz.mapper.*;
-import com.spz.service.ManagerService;
 import com.spz.service.MessageTradeService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Select;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,7 +35,7 @@ public class MessageTradeServiceImpl implements MessageTradeService {
     private ScrapTradeMapper scrapTradeMapper;
 
     @Autowired
-    private UserMessageMapper userMessageMapper;
+    private UserMapper userMapper;
 
     @Override
     public void insert3(MessageTrade messageTrade) {
@@ -82,16 +79,16 @@ public class MessageTradeServiceImpl implements MessageTradeService {
 
 
     @Override
-    public List<UserMessage> getUserMessage(Integer userId) {
+    public List<User> getUserMessage(Integer userId) {
         //排序 可优化
         List<Integer> list1 = new ArrayList<>();
-        List<UserMessage> list2 = new ArrayList<>();
+        List<User> list2 = new ArrayList<>();
         List<Integer> userId2ByUserId1 = relationshipMapper.getUserId2ByUserId1(userId, 2);
         List<Integer> userId1ByUserId2 = relationshipMapper.getUserId1ByUserId2(userId, 2);
         list1.addAll(userId1ByUserId2);
         list1.addAll(userId2ByUserId1);
         for (Integer id:list1){
-            list2.add(userMessageMapper.getUserById(id));
+            list2.add(userMapper.getUserById(id));
         }
         return list2;
     }

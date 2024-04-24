@@ -1,7 +1,7 @@
 package com.spz.mapper;
 
-import com.spz.entity.communicate.MessageTrade;
-import com.spz.entity.communicate.MessageTradeDto;
+import com.spz.entity.message.MessageTrade;
+import com.spz.entity.message.MessageTradeDto;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;

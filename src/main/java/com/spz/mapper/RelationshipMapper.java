@@ -1,6 +1,5 @@
 package com.spz.mapper;
 
-import com.spz.entity.user.UserMessage;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 

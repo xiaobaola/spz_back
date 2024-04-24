@@ -99,4 +99,39 @@ public class CommonController {
         }
         return Res.success(fileName);
     }
+
+    @GetMapping("/apk")
+    public void downloadApk(HttpServletResponse response) {
+        String apkPath = basePath;
+        apkPath = apkPath.substring(0,apkPath.length()-6);
+        String name = "apk\\spzK2.apk";
+        apkPath = apkPath+name;
+        log.info("apkPath:{}",apkPath);
+
+        try {
+            //通过输入流读取文件内容
+            FileInputStream fileInputStream = new FileInputStream(new File(apkPath));
+
+            //通过输出流，将文件返回到浏览器
+            ServletOutputStream outputStream = response.getOutputStream();
+
+            response.setContentType("application/vnd.android.package-archive");
+
+            int len = 0;
+            byte[] bytes = new byte[1024];
+            while ((len = fileInputStream.read(bytes)) != -1) {
+                outputStream.write(bytes, 0, len);
+                //刷新
+                outputStream.flush();
+            }
+
+            //关闭资源
+            outputStream.close();
+            fileInputStream.close();
+        } catch (FileNotFoundException fe) {
+            log.info("FileNotFoundException : com.reggie.common.CommonController.download");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

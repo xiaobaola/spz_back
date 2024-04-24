@@ -1,11 +1,7 @@
 package com.spz.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.spz.common.Res;
 import com.spz.entity.scrap.ScrapType;
-import com.spz.entity.user.UserMessage;
 import com.spz.service.ScrapTypeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
