@@ -32,7 +32,7 @@ public class MessageUser {
     private Integer id; //ID
     private Integer senderId;//发送者id
     private Integer receiverId;//接收者id
-    private String content;//内容
+    private String message;//内容
     private Short mesStatus;//消息类型[可以在接口定义消息类型]
     private LocalDateTime createTime;//发布时间
     private LocalDateTime updateTime;//更新时间
