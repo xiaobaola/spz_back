@@ -1,11 +1,13 @@
 package com.spz.config;
 
 import com.spz.common.JacksonObjectMapper;
-import com.spz.common.JacksonObjectMapper;
+import com.spz.controller.interceptor.LoginInterceptor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
@@ -14,6 +16,10 @@ import java.util.List;
 @Slf4j
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurationSupport {
+
+    @Autowired
+    private LoginInterceptor loginInterceptor;
+
     /*
      *   设置静态资源映射
      * */
@@ -35,4 +41,11 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         //将上面的转换器追加到MVC框架的转换器容器集合中
         converters.add(0, messageConverter);
     }
+
+    @Override
+    protected void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(loginInterceptor).addPathPatterns("/spz/user/login");
+    }
+
+
 }
