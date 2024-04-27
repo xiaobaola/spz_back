@@ -23,6 +23,20 @@ public class LoginInterceptor implements HandlerInterceptor {
         String methodName = method.getName();
         log.info("====拦截到了方法：{}，在该方法执行之前执行====", methodName);
         System.out.println(methodName);
+
+//        log.info("request:{}",request.getSession());
+//        log.info("request:{}",request.getHttpServletMapping());
+//        log.info("request:{}",request.getHttpServletMapping().getPattern());
+//        log.info("request:{}",request.getPathInfo());
+//        log.info("request:{}",request.getRequestURL());
+
+        log.info("request:{}",request.getServletPath());
+
+        log.info("username:{}",request.getParameter("username"));
+        log.info("password:{}",request.getParameter("password"));
+
+        log.info("userId1:{}",request.getParameter("userId1"));
+        log.info("userId2:{}",request.getParameter("userId2"));
         System.out.println("拦截1");
         return true;
     }
