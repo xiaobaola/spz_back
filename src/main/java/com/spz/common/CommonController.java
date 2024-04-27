@@ -21,7 +21,7 @@ public class CommonController {
 
     @GetMapping("/download")
     public void download(String name, HttpServletResponse response) {
-        log.info("name{}",name);
+        log.info("name={}",name);
 
         try {
             //通过输入流读取文件内容

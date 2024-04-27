@@ -44,7 +44,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 
     @Override
     protected void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(loginInterceptor).addPathPatterns("/spz/user/login");
+        registry.addInterceptor(loginInterceptor).addPathPatterns("/spz/user/login","/spz/**");
     }
 
 
