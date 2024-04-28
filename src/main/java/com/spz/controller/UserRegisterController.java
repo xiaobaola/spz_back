@@ -39,4 +39,9 @@ public class UserRegisterController {
         userRegisterService.userRegister(user);
         return Res.success("注册成功");
     }
+
+    @GetMapping
+    public Res<Integer> UserRegisterSelectId(@RequestBody User user){
+        return Res.success(userRegisterService.getIdByUserName(user));
+    }
 }

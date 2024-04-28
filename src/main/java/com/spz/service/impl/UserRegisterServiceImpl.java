@@ -24,4 +24,9 @@ public class UserRegisterServiceImpl implements UserRegisterService {
         user.setCreateTime(LocalDateTime.now());
         userRegisterMapper.userRegister(user);
     }
+
+    @Override
+    public Integer getIdByUserName(User user) {
+        return userRegisterMapper.getIdByUserName(user);
+    }
 }
