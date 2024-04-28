@@ -11,5 +11,5 @@ public interface UserRegisterMapper {
     void userRegister(User user);
 
     @Select("select id from user where username=#{username}")
-    Integer getIdByUserName(User user);
+    Integer getIdByUserName(String username);
 }

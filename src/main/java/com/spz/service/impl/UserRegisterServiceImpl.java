@@ -26,7 +26,7 @@ public class UserRegisterServiceImpl implements UserRegisterService {
     }
 
     @Override
-    public Integer getIdByUserName(User user) {
-        return userRegisterMapper.getIdByUserName(user);
+    public Integer getIdByUserName(String username) {
+        return userRegisterMapper.getIdByUserName(username);
     }
 }
