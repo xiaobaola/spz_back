@@ -23,10 +23,17 @@ public class UserRegisterController {
 
     @PostMapping
     public Res<String> UserRegisterInsert(@RequestBody User user){
+        int count = 0;
         ArrayList<User> all = userMapper.getByAll();
         for (User e:all){
             if (user.getUsername().equals(e.getUsername())){
                 return Res.error("注册失败,用户名重复");
+            }
+            if (user.getPhone().equals(e.getPhone())){
+                count++;
+                if (count == 3){
+                    return Res.error("注册失败,电话号码已注册超过三次");
+                }
             }
         }
         userRegisterService.userRegister(user);
