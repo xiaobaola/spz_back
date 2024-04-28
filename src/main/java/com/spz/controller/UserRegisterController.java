@@ -41,7 +41,12 @@ public class UserRegisterController {
     }
 
     @GetMapping
-    public Res<Integer> UserRegisterSelectId(@RequestBody User user){
+    public Res<Integer> UserRegisterSelectId(@RequestParam String username,@RequestParam String password,@RequestParam String phone){
+        log.info("UserRegisterSelectId,参数:{},{},{}",username,password,phone);
+        User user = new User();
+        user.setUsername(username);
+        user.setUsername(password);
+        user.setUsername(phone);
         return Res.success(userRegisterService.getIdByUserName(user));
     }
 }
