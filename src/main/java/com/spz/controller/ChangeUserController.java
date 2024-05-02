@@ -2,6 +2,7 @@ package com.spz.controller;
 
 import com.spz.common.Res;
 import com.spz.entity.user.User;
+import com.spz.entity.wrapper.ChangeWrapper;
 import com.spz.mapper.UserMapper;
 import com.spz.service.ChangeUserService;
 import lombok.extern.slf4j.Slf4j;
@@ -24,9 +25,11 @@ public class ChangeUserController {
     ArrayList<User> users;
 
     @PutMapping("/changeUserName")
-    public Res<String> ChangeUserName(@RequestParam Integer userId,@RequestParam String userName){
+    public Res<String> ChangeUserName(@RequestBody ChangeWrapper changeWrapper){
         users = userMapper.getByAll();
-        log.info("请求 userId:{}, userName:{}", userId, userName);
+        log.info("请求 user:{}", changeWrapper);
+        Integer userId = changeWrapper.getUserId();
+        String userName = changeWrapper.getUserName();
         for (User user:users){
             if (userName.equals(user.getUsername())){
                 return Res.error("修改失败，用户名已存在");
@@ -37,12 +40,14 @@ public class ChangeUserController {
     }
 
     @PutMapping("/changePhone")
-    public Res<String> ChangePhone(@RequestParam Integer userId,@RequestParam String phone){
+    public Res<String> ChangePhone(@RequestBody ChangeWrapper changeWrapper){
         users = userMapper.getByAll();
-        log.info("请求 userId:{}, phone:{}", userId, phone);
+        log.info("请求 user:{}", changeWrapper);
+        Integer userId = changeWrapper.getUserId();
+        String phone = changeWrapper.getPhone();
         int count = 0;
-        for(User user:users){
-            if(phone.equals(user.getPhone())){
+        for(User user1:users){
+            if(phone.equals(user1.getPhone())){
                 count++;
                 if (count == 3){
                     return Res.error("修改失败，电话号码已存在三次");
@@ -54,8 +59,10 @@ public class ChangeUserController {
     }
 
     @PutMapping("/changePassword")
-    public Res<String> ChangePassword(@RequestParam Integer userId,@RequestParam String password){
-        log.info("请求 userId:{}, password:{}", userId, password);
+    public Res<String> ChangePassword(@RequestBody ChangeWrapper changeWrapper){
+        log.info("请求 user:{}", changeWrapper);
+        Integer userId = changeWrapper.getUserId();
+        String password = changeWrapper.getPassword();
         changeUserService.changePassword(userId,password);
         return Res.success("修改成功");
     }
