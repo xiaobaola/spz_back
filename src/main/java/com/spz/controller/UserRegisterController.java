@@ -44,6 +44,32 @@ public class UserRegisterController {
     public Res<Integer> UserRegisterSelectId(@RequestParam String username){
         log.info("UserRegisterSelectId,参数:{}",username);
         return Res.success(userRegisterService.getIdByUserName(username));
+    }
 
+    @GetMapping("/u")
+    public Res<Integer> UserNameCount(@RequestParam String username){
+        log.info("UserNameCount,参数:{}",username);
+        ArrayList<User> all = userMapper.getByAll();
+        for (User e:all){
+            if (username.equals(e.getUsername())){
+                return Res.success(0);
+            }
+        }
+        return Res.success(1);
+    }
+
+    @GetMapping("/p")
+    public Res<Integer> PhoneCount(@RequestParam String phone){
+        int count = 0;
+        ArrayList<User> all = userMapper.getByAll();
+        for (User e:all){
+            if (phone.equals(e.getPhone())){
+                count++;
+                if (count == 3){
+                    return Res.success(0);
+                }
+            }
+        }
+        return Res.success(1);
     }
 }
