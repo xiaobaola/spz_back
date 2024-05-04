@@ -84,8 +84,6 @@ public class MessageTradeServiceImpl implements MessageTradeService {
         List<Integer> list1 = new ArrayList<>();
         List<User> list2 = new ArrayList<>();
         List<Integer> userId2ByUserId1 = relationshipMapper.getUserId2ByUserId1(userId, 2);
-        List<Integer> userId1ByUserId2 = relationshipMapper.getUserId1ByUserId2(userId, 2);
-        list1.addAll(userId1ByUserId2);
         list1.addAll(userId2ByUserId1);
         for (Integer id:list1){
             list2.add(userMapper.getUserById(id));
