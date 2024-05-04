@@ -2,8 +2,10 @@ package com.spz.controller;
 
 import com.spz.common.Res;
 import com.spz.entity.page.PageBean;
+import com.spz.entity.relationship.Relationship;
 import com.spz.entity.user.User;
 import com.spz.service.MessageTradeService;
+import com.spz.service.RelationshipService;
 import com.spz.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,9 @@ public class UserController {
 
     @Autowired
     private MessageTradeService messageTradeService;
+
+    @Autowired
+    private RelationshipService relationshipService;
 
     @GetMapping
     public Res<User> getById(User user) {
@@ -88,5 +93,12 @@ public class UserController {
     public Res<List<User>> getUserByUserId(@RequestParam Integer userId){
         log.info("get 好友列表");
         return Res.success(messageTradeService.getUserMessage(userId));
+    }
+    @PostMapping("/friend/add")
+    public Res<String> addRelationship(@RequestBody Relationship relationship) {
+        log.info("添加好友申请, 参数{}", relationship);
+        relationshipService.addRelationship(relationship);
+//        return Res.error("发送申请失败");
+        return Res.success("发送申请成功");
     }
 }
