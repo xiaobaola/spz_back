@@ -50,4 +50,6 @@ public interface UserMapper {
 
     @Select("select * from user where phone=#{phone}")
     User getByPhone(String phone);
+
+    List<User> getUsersByUserIds(List<Integer> userIds);
 }

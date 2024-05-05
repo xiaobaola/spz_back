@@ -5,6 +5,7 @@ import com.spz.entity.dto.UserDto;
 import com.spz.entity.page.PageBean;
 import com.spz.entity.relationship.Relationship;
 import com.spz.entity.user.User;
+import com.spz.entity.wrapper.Wrapper;
 import com.spz.service.MessageTradeService;
 import com.spz.service.RelationshipService;
 import com.spz.service.UserService;
@@ -108,5 +109,27 @@ public class UserController {
         List<UserDto> userDtoListByInfo = userService.getUserDtoListByInfo(info, userId);
         log.info("返回,{}",userDtoListByInfo);
         return Res.success(userDtoListByInfo);
+    }
+
+    @GetMapping("/newFriendList")
+    public Res<List<UserDto>> getUserDtoListByUserId(@RequestParam Integer userId) {
+        log.info("查询好友验证, 参数{}", userId);
+        return Res.success(userService.getUserDtoListByUserId(userId));
+    }
+    @PostMapping("/agree")
+    public Res<String> postAgree(@RequestBody Relationship relationship) {
+        Integer userId1 = relationship.getUserId1();
+        Integer userId2 = relationship.getUserId2();
+        log.info("同意好友申请, 参数userId1:{},userId2:{}",userId1,userId2);
+        relationshipService.changeStatusByUserId1AndUserId2(userId1,userId2,2);
+        return Res.success("已同意");
+    }
+    @PostMapping("/disagree")
+    public Res<String> postDisagree(@RequestBody Relationship relationship) {
+        Integer userId1 = relationship.getUserId1();
+        Integer userId2 = relationship.getUserId2();
+        log.info("同意好友申请, 参数userId1:{},userId2:{}",userId1,userId2);
+        relationshipService.changeStatusByUserId1AndUserId2(userId1,userId2,0);
+        return Res.success("已忽略");
     }
 }

@@ -22,4 +22,6 @@ public interface UserService {
     void insert(User user);
 
     List<UserDto> getUserDtoListByInfo(String info, Integer userId);
+
+    List<UserDto> getUserDtoListByUserId(Integer userId);
 }

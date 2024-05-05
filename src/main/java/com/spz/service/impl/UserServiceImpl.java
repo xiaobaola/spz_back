@@ -109,4 +109,36 @@ public class UserServiceImpl implements UserService {
         }
         return userDtoList;
     }
+
+    @Override
+    public List<UserDto> getUserDtoListByUserId(Integer userId) {
+        List<UserDto> userDtoList = new ArrayList<>();
+        //1.在关系中查询userId1 = userid and status = 3 的userId2s
+        List<Relationship> relationships = relationshipMapper.getByUserId1AndStatus(userId, 3);
+        if(relationships.isEmpty()) {
+            return userDtoList;
+        }
+        List<Integer> userId2s = new ArrayList<>();
+        for(Relationship r : relationships) {
+            userId2s.add(r.getUserId2());
+        }
+        //2.根据userId2s 查询user
+        List<User> users = userMapper.getUsersByUserIds(userId2s);
+        //3.补充完整需要的Dto
+//        System.out.println(users);
+        for (User user : users) {
+            UserDto userDto = new UserDto();
+            //对象拷贝
+            BeanUtils.copyProperties(user, userDto);
+            //3.1 获取greet
+            for(Relationship r : relationships) {
+                if(user.getId().equals(r.getUserId2())) {
+                    userDto.setGreet(r.getGreet());
+                }
+            }
+            userDtoList.add(userDto);
+        }
+        //4.返回List
+        return userDtoList;
+    }
 }

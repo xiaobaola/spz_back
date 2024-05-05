@@ -51,4 +51,14 @@
         order by update_time desc
     </select>
 
+    <select id="getUsersByUserIds" resultType="com.spz.entity.user.User">
+        select *
+        from user
+        where id in
+        <foreach collection="userIds" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+        order by update_time desc
+    </select>
+
 </mapper>

@@ -29,4 +29,13 @@ public interface RelationshipMapper {
 
     @Select("select * from relationship where userId1=#{userId}")
     List<Relationship> getUsersByUserId1(Integer userId);
+
+    @Select("select userId2 from relationship where userId1=#{userId} and status=#{status}")
+    List<Integer> getUserId2ByUserId1AndStatus(Integer userId, int status);
+
+    @Select("select * from relationship where userId1=#{userId} and status=#{status}")
+    List<Relationship> getByUserId1AndStatus(Integer userId, int status);
+
+    @Update("update relationship set status=#{status} where userId1=#{userId1} and userId2=#{userId2}")
+    void updateStatusByUserId1AndUserId2(Integer userId1, Integer userId2, int status);
 }

@@ -8,9 +8,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserDto extends User {
     private Integer status;
+    private String greet;
     @Override
     public String toString() {
         String str = super.toString();
-        return str + "status="+ status;
+        return str + "status="+ status + "greet="+ greet;
     }
 }

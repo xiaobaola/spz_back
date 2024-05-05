@@ -49,4 +49,10 @@ public class RelationshipServiceImpl implements RelationshipService {
         }
 
     }
+
+    @Override
+    public void changeStatusByUserId1AndUserId2(Integer userId1, Integer userId2, int status) {
+        relationshipMapper.updateStatusByUserId1AndUserId2(userId1,userId2,status);
+        relationshipMapper.updateStatusByUserId1AndUserId2(userId2,userId1,status);
+    }
 }
