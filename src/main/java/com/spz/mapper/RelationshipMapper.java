@@ -18,7 +18,7 @@ public interface RelationshipMapper {
     List<Integer> getUserId1ByUserId2(Integer userId2,Integer status);
 
     @Select("select * from relationship where userId1=#{userId1} and userId2=#{userId2}")
-    Relationship getByUserId1AndUserId2(Relationship relationship);
+    Relationship getByUserId1AndUserId2(Integer userId1, Integer userId2);
 
     @Update("update relationship set status=#{status}, greet=#{greet} where userId1=#{userId1} and userId2=#{userId2}")
     void updateStatusAndGreetByUserId1AndUserId2(Relationship relationship);
@@ -26,4 +26,7 @@ public interface RelationshipMapper {
     @Insert("insert relationship(userId1, userId2, status, greet, update_time, create_time) " +
             "VALUES(#{userId1},#{userId2},#{status},#{greet},#{updateTime},#{createTime}) ")
     void insert(Relationship relationship);
+
+    @Select("select * from relationship where userId1=#{userId}")
+    List<Relationship> getUsersByUserId1(Integer userId);
 }

@@ -7,13 +7,14 @@ import org.apache.ibatis.annotations.Select;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Mapper
 public interface UserMapper {
 
     @Select("select * from user where id = #{id}")
-    public User getById(User user);
+    public User getById(Integer id);
 
 //    @Select("select * from user where username = #{username} and password = #{password}")
 //    public UserMessage getByInfo(UserMessage userMessage);
@@ -37,4 +38,16 @@ public interface UserMapper {
 
     @Select("select * from user where id = #{id}")
     User getUserById(Integer id);
+
+    @Select("select * from user where username like CONCAT('%', #{info}, '%')")
+    List<User> getByLikeUsername(String info);
+
+    @Select("select * from user where phone like CONCAT('%', #{info}, '%')")
+    List<User> getByLikePhone(String info);
+
+    @Select("select * from user where id like CONCAT('%', #{info}, '%')")
+    List<User> getByLikeId(String info);
+
+    @Select("select * from user where phone=#{phone}")
+    User getByPhone(String phone);
 }

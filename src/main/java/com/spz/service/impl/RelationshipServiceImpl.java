@@ -17,9 +17,10 @@ public class RelationshipServiceImpl implements RelationshipService {
         //判断是否在数据库中存在此数据
         //有，则更新此条数据
         //无，则插入此条新数据
-        Relationship r1 = relationshipMapper.getByUserId1AndUserId2(relationship);
+        Relationship r1 = relationshipMapper.getByUserId1AndUserId2(relationship.getUserId1(), relationship.getUserId2());
         if(r1 != null) {
             r1.setStatus(1);
+            r1.setGreet(relationship.getGreet());
             r1.setUpdateTime(LocalDateTime.now());
             relationshipMapper.updateStatusAndGreetByUserId1AndUserId2(r1);
         } else {
@@ -33,9 +34,10 @@ public class RelationshipServiceImpl implements RelationshipService {
         Integer userId2 = relationship.getUserId2();
         relationship.setUserId1(userId2);
         relationship.setUserId2(userId1);
-        Relationship r2 = relationshipMapper.getByUserId1AndUserId2(relationship);
+        Relationship r2 = relationshipMapper.getByUserId1AndUserId2(relationship.getUserId1(), relationship.getUserId2());
         if(r2 != null) {
             r2.setStatus(3);
+            r2.setGreet(relationship.getGreet());
             r2.setUpdateTime(LocalDateTime.now());
             relationshipMapper.updateStatusAndGreetByUserId1AndUserId2(r2);
         } else {

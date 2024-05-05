@@ -52,4 +52,6 @@ public class User {
     private String address; //简要地址
     private LocalDateTime updateTime;//更新时间
     private LocalDateTime createTime; //创建时间
+
+
 }

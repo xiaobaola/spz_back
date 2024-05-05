@@ -1,6 +1,7 @@
 package com.spz.controller;
 
 import com.spz.common.Res;
+import com.spz.entity.dto.UserDto;
 import com.spz.entity.page.PageBean;
 import com.spz.entity.relationship.Relationship;
 import com.spz.entity.user.User;
@@ -40,7 +41,7 @@ public class UserController {
         String username = userMessage.getUsername();
         String password = userMessage.getPassword();
         log.info("login请求 username:{}, password{}", username, password);
-        User user = userService.getByInfo(userMessage);
+        User user = userService.getByUsernameAndPassword(userMessage);
         if(user != null) {
             log.info("user = {}", user);
 //            request.getSession().setAttribute("user", user.getId());
@@ -100,5 +101,12 @@ public class UserController {
         relationshipService.addRelationship(relationship);
 //        return Res.error("发送申请失败");
         return Res.success("发送申请成功");
+    }
+    @GetMapping("/search")
+    public Res<List<UserDto>> getUserDtoListByInfo(@RequestParam String info, @RequestParam Integer userId){
+        log.info("用户搜索, 参数:{},{}",info,userId);
+        List<UserDto> userDtoListByInfo = userService.getUserDtoListByInfo(info, userId);
+        log.info("返回,{}",userDtoListByInfo);
+        return Res.success(userDtoListByInfo);
     }
 }
