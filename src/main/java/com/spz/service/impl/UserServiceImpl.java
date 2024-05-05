@@ -103,6 +103,7 @@ public class UserServiceImpl implements UserService {
             for (Relationship r : relationships) {
                 if(user.getId().equals(r.getUserId2())) {
                     userDto.setStatus(r.getStatus());
+                    userDto.setGreet(r.getGreet());
                 }
             }
             userDtoList.add(userDto);
