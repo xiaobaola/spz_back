@@ -77,6 +77,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDto> getUserDtoListByInfo(String info, Integer userId) {
         List<UserDto> userDtoList = new ArrayList<>();
+        //空判断
+        if (info.isEmpty()) {
+            return userDtoList;
+        }
         List<User> users = userMapper.getByLikeUsername(info);
         //使用正则表达式匹配, 是否全为数字
         if(info.matches("\\d+")) {
