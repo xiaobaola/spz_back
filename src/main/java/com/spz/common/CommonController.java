@@ -16,16 +16,18 @@ import java.util.UUID;
 public class CommonController {
     @Value("${spzStore.path}")
     private String basePath;
-    @Value("${spzStore.path2}")
-    private String basePath2;
+    @Value("${spzStore.save}")
+    private String savePath;
 
     @GetMapping("/download")
     public void download(String name, HttpServletResponse response) {
         log.info("name={}",name);
 
         try {
+            // 从Tomcat服务器中读取文件 相对路径
             //通过输入流读取文件内容
-            FileInputStream fileInputStream = new FileInputStream(new File(basePath + name));
+            FileInputStream fileInputStream = new FileInputStream(new File(savePath + name));
+//            FileInputStream fileInputStream = new FileInputStream(new File(basePath + name));
 
             //通过输出流，将文件返回到浏览器
             ServletOutputStream outputStream = response.getOutputStream();
@@ -62,6 +64,7 @@ public class CommonController {
         fileName = fileName + suffix;
 
         //创建一个目录对象
+        // 上传到tomcat服务器中
         File dir = new File(basePath);
         //判断当前目录是否存在
         if (!dir.exists()) {
@@ -69,7 +72,8 @@ public class CommonController {
             dir.mkdirs();
         }
         //创建一个目录对象2
-        File dir2 = new File(basePath2);
+        // 用于图片备份
+        File dir2 = new File(savePath);
         //判断当前目录是否存在
         if (!dir2.exists()) {
             //目录不存在 创建目录
@@ -78,26 +82,31 @@ public class CommonController {
 
         try {
             //将临时文件转存到指定路径
-            file.transferTo(new File(basePath + fileName));
+            file.transferTo(new File(savePath + fileName));
             //文件拷贝
-            File sourceFile = new File(basePath + fileName);
-            File destinationFile = new File(basePath2 + fileName);
-
-            FileInputStream fis = new FileInputStream(sourceFile);
-            FileOutputStream fos = new FileOutputStream(destinationFile);
-
-            byte[] buffer = new byte[1024];
-            int bytesRead;
-            while ((bytesRead = fis.read(buffer)) != -1) {
-                fos.write(buffer, 0, bytesRead);
-            }
-            fos.close();
-            fis.close();
+//            fileCopy(fileName);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
         return Res.success(fileName);
+    }
+
+    private void fileCopy(String fileName) throws IOException {
+        //文件拷贝
+        File sourceFile = new File(savePath + fileName);
+        File destinationFile = new File(basePath + fileName);
+
+        FileInputStream fis = new FileInputStream(sourceFile);
+        FileOutputStream fos = new FileOutputStream(destinationFile);
+
+        byte[] buffer = new byte[1024];
+        int bytesRead;
+        while ((bytesRead = fis.read(buffer)) != -1) {
+            fos.write(buffer, 0, bytesRead);
+        }
+        fos.close();
+        fis.close();
     }
 
     @GetMapping("/apk")

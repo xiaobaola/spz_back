@@ -4,11 +4,15 @@ import com.spz.common.Res;
 import com.spz.entity.dto.UserDto;
 import com.spz.entity.page.PageBean;
 import com.spz.entity.relationship.Relationship;
+import com.spz.entity.safe.Token;
 import com.spz.entity.user.User;
 import com.spz.entity.wrapper.Wrapper;
 import com.spz.service.MessageTradeService;
 import com.spz.service.RelationshipService;
+import com.spz.service.SafeService;
 import com.spz.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -30,6 +34,9 @@ public class UserController {
     @Autowired
     private RelationshipService relationshipService;
 
+    @Autowired
+    private SafeService safeService;
+
     @GetMapping
     public Res<User> getById(User user) {
         log.info("get：用户id{}", user.getId());
@@ -38,14 +45,22 @@ public class UserController {
     }
     @PostMapping("/login")
     //HttpServletRequest request,
-    public Res<User> login(@RequestBody User userMessage) {
+    public Res<User> login(@RequestBody User userMessage, HttpServletRequest request) {
         String username = userMessage.getUsername();
         String password = userMessage.getPassword();
         log.info("login请求 username:{}, password{}", username, password);
         User user = userService.getByUsernameAndPassword(userMessage);
         if(user != null) {
             log.info("user = {}", user);
-//            request.getSession().setAttribute("user", user.getId());
+//            String token = user.getId().toString();
+//            request.getSession().setAttribute("token", token);
+//            // 没有才插入
+//            Token getToken = safeService.getByToken(token);
+//            if(getToken == null) {
+//                // 存储token
+//                Token t = new Token(token);
+//                safeService.setToken(t);
+//            }
             return Res.success(user);
         }
         return Res.error("用户名或密码错误");
