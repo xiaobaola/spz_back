@@ -14,6 +14,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/spz/common")
 public class CommonController {
+    // 优化 图片压缩
     // 方案2 只需要basePath 不需转存
     @Value("${spzStore.path}")
     private String basePath;

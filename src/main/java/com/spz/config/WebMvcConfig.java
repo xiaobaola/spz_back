@@ -37,7 +37,8 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 //        registry.addResourceHandler("/store/**").addResourceLocations("classpath:/store/");
 
         // 方案2 直接用磁盘的路径  自然不用 区分是tomcat服务器还是java项目文件中的 缺点：不安全
-        String storePath = "file://"+ basePath.substring(0, basePath.length()-6);
+        // 路径格式一定要正确
+        String storePath = "file:///"+ basePath.substring(0, basePath.length()-6);
         log.info("资源路径:{}", storePath);
         registry.addResourceHandler("/store/**").addResourceLocations(storePath);
     }
