@@ -14,10 +14,12 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/spz/common")
 public class CommonController {
+    // 方案2 只需要basePath 不需转存
     @Value("${spzStore.path}")
     private String basePath;
-    @Value("${spzStore.save}")
-    private String savePath;
+    // 方案1 拷贝到磁盘和tomcat服务器
+//    @Value("${spzStore.save}")
+//    private String savePath;
 
     @GetMapping("/download")
     public void download(String name, HttpServletResponse response) {
@@ -26,8 +28,8 @@ public class CommonController {
         try {
             // 从Tomcat服务器中读取文件 相对路径
             //通过输入流读取文件内容
-            FileInputStream fileInputStream = new FileInputStream(new File(savePath + name));
-//            FileInputStream fileInputStream = new FileInputStream(new File(basePath + name));
+//            FileInputStream fileInputStream = new FileInputStream(new File(savePath + name));
+            FileInputStream fileInputStream = new FileInputStream(new File(basePath + name));
 
             //通过输出流，将文件返回到浏览器
             ServletOutputStream outputStream = response.getOutputStream();
@@ -46,7 +48,7 @@ public class CommonController {
             outputStream.close();
             fileInputStream.close();
         } catch (FileNotFoundException fe) {
-            log.info("FileNotFoundException : com.reggie.common.CommonController.download");
+            log.info("FileNotFoundException : com.spz.common.CommonController.download");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -73,16 +75,16 @@ public class CommonController {
         }
         //创建一个目录对象2
         // 用于图片备份
-        File dir2 = new File(savePath);
-        //判断当前目录是否存在
-        if (!dir2.exists()) {
-            //目录不存在 创建目录
-            dir2.mkdirs();
-        }
+//        File dir2 = new File(savePath);
+//        //判断当前目录是否存在
+//        if (!dir2.exists()) {
+//            //目录不存在 创建目录
+//            dir2.mkdirs();
+//        }
 
         try {
             //将临时文件转存到指定路径
-            file.transferTo(new File(savePath + fileName));
+            file.transferTo(new File(basePath + fileName));
             //文件拷贝
 //            fileCopy(fileName);
 
@@ -92,22 +94,22 @@ public class CommonController {
         return Res.success(fileName);
     }
 
-    private void fileCopy(String fileName) throws IOException {
-        //文件拷贝
-        File sourceFile = new File(savePath + fileName);
-        File destinationFile = new File(basePath + fileName);
-
-        FileInputStream fis = new FileInputStream(sourceFile);
-        FileOutputStream fos = new FileOutputStream(destinationFile);
-
-        byte[] buffer = new byte[1024];
-        int bytesRead;
-        while ((bytesRead = fis.read(buffer)) != -1) {
-            fos.write(buffer, 0, bytesRead);
-        }
-        fos.close();
-        fis.close();
-    }
+//    private void fileCopy(String fileName) throws IOException {
+//        //文件拷贝
+//        File sourceFile = new File(savePath + fileName);
+//        File destinationFile = new File(basePath + fileName);
+//
+//        FileInputStream fis = new FileInputStream(sourceFile);
+//        FileOutputStream fos = new FileOutputStream(destinationFile);
+//
+//        byte[] buffer = new byte[1024];
+//        int bytesRead;
+//        while ((bytesRead = fis.read(buffer)) != -1) {
+//            fos.write(buffer, 0, bytesRead);
+//        }
+//        fos.close();
+//        fis.close();
+//    }
 
     @GetMapping("/apk")
     public void downloadApk(HttpServletResponse response) {
@@ -138,7 +140,7 @@ public class CommonController {
             outputStream.close();
             fileInputStream.close();
         } catch (FileNotFoundException fe) {
-            log.info("FileNotFoundException : com.reggie.common.CommonController.download");
+            log.info("FileNotFoundException : com.spz.common.CommonController.download");
         } catch (Exception e) {
             e.printStackTrace();
         }

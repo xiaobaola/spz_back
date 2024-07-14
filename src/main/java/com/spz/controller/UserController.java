@@ -13,6 +13,7 @@ import com.spz.service.SafeService;
 import com.spz.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -52,6 +53,11 @@ public class UserController {
         User user = userService.getByUsernameAndPassword(userMessage);
         if(user != null) {
             log.info("user = {}", user);
+            // session
+            HttpSession session = request.getSession();
+            // 向session设置值
+            session.setAttribute("user",user);
+            // token
 //            String token = user.getId().toString();
 //            request.getSession().setAttribute("token", token);
 //            // 没有才插入

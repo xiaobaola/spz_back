@@ -32,7 +32,7 @@ public class ManagerController {
         Manager one = managerService.getByUN(manager);
         if(one != null) {
             //把信息写入session中
-            request.getSession().setAttribute("manager", one.getId());
+            request.getSession().setAttribute("manager", one);
             return Res.success(one);
         }
         return Res.error("用户名或密码错误");

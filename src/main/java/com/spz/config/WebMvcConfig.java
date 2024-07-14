@@ -21,21 +21,25 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 
     @Autowired
     private LoginInterceptor loginInterceptor;
-    @Value("${spzStore.save}")
-    private String savePath;
+    @Value("${spzStore.path}")
+    private String basePath;
 
     /*
      *   设置静态资源映射
      * */
     @Override
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
-        String storePath = "file:///"+savePath.substring(0,savePath.length()-6);
-        log.info("开始静态资源映射...");
-        log.info("资源路径:{}", storePath);
-        registry.addResourceHandler("/backend/**").addResourceLocations("classpath:/backend/");
-//        registry.addResourceHandler("/store/**").addResourceLocations("classpath:/store/");
-        registry.addResourceHandler("/store/**").addResourceLocations(storePath);
 
+        log.info("开始静态资源映射...");
+        registry.addResourceHandler("/backend/**").addResourceLocations("classpath:/backend/");
+
+        // 方案1 项目相对路径 安全
+//        registry.addResourceHandler("/store/**").addResourceLocations("classpath:/store/");
+
+        // 方案2 直接用磁盘的路径  自然不用 区分是tomcat服务器还是java项目文件中的 缺点：不安全
+        String storePath = "file://"+ basePath.substring(0, basePath.length()-6);
+        log.info("资源路径:{}", storePath);
+        registry.addResourceHandler("/store/**").addResourceLocations(storePath);
     }
 
     @Override
@@ -54,7 +58,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         // 登录注册放行
         registry.addInterceptor(loginInterceptor)
                 .addPathPatterns("/spz/**")
-                .excludePathPatterns("/spz/user/login","/spz/user/register");
+                .excludePathPatterns("/**/login","/**/logout","/spz/user/register","/spz/common/**");
     }
 
 
