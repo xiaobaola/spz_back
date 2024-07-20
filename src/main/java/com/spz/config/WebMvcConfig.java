@@ -43,6 +43,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         registry.addResourceHandler("/store/**").addResourceLocations(storePath);
     }
 
+    // 未使用
     @Override
     protected void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
         log.info("拓展消息转换器...");

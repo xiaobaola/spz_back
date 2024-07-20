@@ -14,6 +14,8 @@ import java.util.ArrayList;
 @RestController
 @RequestMapping("/spz/user")
 @Slf4j
+// 20240715改变用户信息的接口为什么不放在用户信息的接口中
+// 为了方便维护？
 public class ChangeUserController {
 
     @Autowired
@@ -25,45 +27,46 @@ public class ChangeUserController {
     ArrayList<User> users;
 
     @PutMapping("/changeUserName")
-    public Res<String> ChangeUserName(@RequestBody ChangeWrapper changeWrapper){
+    public Res<String> ChangeUserName(@RequestBody ChangeWrapper changeWrapper) {
+        // 20240715根据数据库用户信息判断后执行修改
         users = userMapper.getByAll();
         log.info("请求 user:{}", changeWrapper);
         Integer userId = changeWrapper.getUserId();
         String userName = changeWrapper.getUserName();
-        for (User user:users){
-            if (userName.equals(user.getUsername())){
+        for (User user : users) {
+            if (userName.equals(user.getUsername())) {
                 return Res.error("修改失败，用户名已存在");
             }
         }
-        changeUserService.changeUserName(userId,userName);
+        changeUserService.changeUserName(userId, userName);
         return Res.success("修改成功");
     }
 
     @PutMapping("/changePhone")
-    public Res<String> ChangePhone(@RequestBody ChangeWrapper changeWrapper){
+    public Res<String> ChangePhone(@RequestBody ChangeWrapper changeWrapper) {
         users = userMapper.getByAll();
         log.info("请求 user:{}", changeWrapper);
         Integer userId = changeWrapper.getUserId();
         String phone = changeWrapper.getPhone();
         int count = 0;
-        for(User user1:users){
-            if(phone.equals(user1.getPhone())){
+        for (User user1 : users) {
+            if (phone.equals(user1.getPhone())) {
                 count++;
-                if (count == 3){
+                if (count == 3) {
                     return Res.error("修改失败，电话号码已存在三次");
                 }
             }
         }
-        changeUserService.changePhone(userId,phone);
+        changeUserService.changePhone(userId, phone);
         return Res.success("修改成功");
     }
 
     @PutMapping("/changePassword")
-    public Res<String> ChangePassword(@RequestBody ChangeWrapper changeWrapper){
+    public Res<String> ChangePassword(@RequestBody ChangeWrapper changeWrapper) {
         log.info("请求 user:{}", changeWrapper);
         Integer userId = changeWrapper.getUserId();
         String password = changeWrapper.getPassword();
-        changeUserService.changePassword(userId,password);
+        changeUserService.changePassword(userId, password);
         return Res.success("修改成功");
     }
 
