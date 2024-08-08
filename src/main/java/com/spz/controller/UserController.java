@@ -112,15 +112,6 @@ public class UserController {
         return Res.success("新增用户成功");
     }
 
-
-
-    @PostMapping("/friend/add")
-    public Res<String> addRelationship(@RequestBody Relationship relationship) {
-        log.info("添加好友申请, 参数{}", relationship);
-        relationshipService.addRelationship(relationship);
-//        return Res.error("发送申请失败");
-        return Res.success("发送申请成功");
-    }
     //原来
 //    @GetMapping("/friend")
 //    public Res<List<User>> getUserByUserId(@RequestParam Integer userId){
@@ -135,6 +126,15 @@ public class UserController {
         User user = (User) request.getSession().getAttribute("user");
         return Res.success(messageTradeService.getUserMessage(user.getId()));
     }
+
+    @PostMapping("/friend/add")
+    public Res<String> addRelationship(@RequestBody Relationship relationship) {
+        log.info("添加好友申请, 参数{}", relationship);
+        relationshipService.addRelationship(relationship);
+//        return Res.error("发送申请失败");
+        return Res.success("发送申请成功");
+    }
+
     @GetMapping("/search")
     public Res<List<UserDto>> getUserDtoListByInfo(@RequestParam String info, @RequestParam Integer userId){
         log.info("用户搜索, 参数:{},{}",info,userId);
