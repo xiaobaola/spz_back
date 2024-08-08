@@ -119,7 +119,7 @@ public class UserController {
 //        return Res.success(messageTradeService.getUserMessage(userId));
 //    }
     //现在
-    // 获取好友列表
+    // 获取好友列表 采用sesion获取userId
     @GetMapping("/friend")
     public Res<List<User>> getUserByUserId(HttpServletRequest request){
         log.info("get 好友列表");
