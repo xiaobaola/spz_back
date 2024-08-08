@@ -17,10 +17,10 @@ public class ScrapTypeController {
     private ScrapTypeService scrapTypeService;
 
     /**
-     * @param
-     * @return @return {@link Res }<{@link ArrayList }<{@link ScrapType }>>
-     * @author last
-     * @describe
+     * Author last
+     * Param
+     * Return @return {@link Res }<{@link ArrayList }<{@link ScrapType }>>
+     * Describe 列表2
      */
     @GetMapping("/list")
     public Res<ArrayList<ScrapType>> list2() {
@@ -30,10 +30,10 @@ public class ScrapTypeController {
     }
 
     /**
-     * @param @param scrapType
-     * @return @return {@link Res }<{@link String }>
-     * @author last
-     * @describe 根据id修改废品类型
+     * Param @param scrapType
+     * Return @return {@link Res }<{@link String }>
+     * Author last
+     * Describe 根据id修改废品类型
      */
     @PutMapping
     public Res<String> updateById(@RequestBody ScrapType scrapType) {
@@ -43,10 +43,10 @@ public class ScrapTypeController {
     }
 
     /**
-     * @param @param scrapType
-     * @return @return {@link Res }<{@link String }>
-     * @author last
-     * @describe 新增废品分类
+     * Param @param scrapType
+     * Return @return {@link Res }<{@link String }>
+     * Author last
+     * Describe 新增废品分类
      */
     @PostMapping
     public Res<String> createScrapType(@RequestBody ScrapType scrapType) {
@@ -55,6 +55,13 @@ public class ScrapTypeController {
         return Res.success("新增废品类型成功");
     }
 
+
+    /**
+     * Author last
+     * Param @param ids 身份证
+     * Return @return {@link Res }<{@link String }>
+     * Describe 按 ID 删除
+     */
     @DeleteMapping
     public Res<String> deleteById(@RequestParam Integer ids) {
         log.info("删除: id:{}",ids);
