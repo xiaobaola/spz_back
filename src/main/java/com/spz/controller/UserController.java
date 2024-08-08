@@ -112,17 +112,28 @@ public class UserController {
         return Res.success("新增用户成功");
     }
 
-    @GetMapping("/friend")
-    public Res<List<User>> getUserByUserId(@RequestParam Integer userId){
-        log.info("get 好友列表");
-        return Res.success(messageTradeService.getUserMessage(userId));
-    }
+
+
     @PostMapping("/friend/add")
     public Res<String> addRelationship(@RequestBody Relationship relationship) {
         log.info("添加好友申请, 参数{}", relationship);
         relationshipService.addRelationship(relationship);
 //        return Res.error("发送申请失败");
         return Res.success("发送申请成功");
+    }
+    //原来
+//    @GetMapping("/friend")
+//    public Res<List<User>> getUserByUserId(@RequestParam Integer userId){
+//        log.info("get 好友列表");
+//        return Res.success(messageTradeService.getUserMessage(userId));
+//    }
+    //现在
+    // 获取好友列表
+    @GetMapping("/friend")
+    public Res<List<User>> getUserByUserId(HttpServletRequest request){
+        log.info("get 好友列表");
+        User user = (User) request.getSession().getAttribute("user");
+        return Res.success(messageTradeService.getUserMessage(user.getId()));
     }
     @GetMapping("/search")
     public Res<List<UserDto>> getUserDtoListByInfo(@RequestParam String info, @RequestParam Integer userId){

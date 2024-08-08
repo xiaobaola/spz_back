@@ -29,6 +29,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         // 抽取成方法，用于处理不同的用户角色
         // 优化 通过路径判断来源
         log.info(request.getServletPath());
+//        return true;
 
         return isUser(request) || isManager(request);
     }

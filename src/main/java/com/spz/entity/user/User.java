@@ -53,5 +53,4 @@ public class User {
     private LocalDateTime updateTime;//更新时间
     private LocalDateTime createTime; //创建时间
 
-
 }
