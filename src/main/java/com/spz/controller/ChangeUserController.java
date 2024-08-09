@@ -29,7 +29,7 @@ public class ChangeUserController {
 
     @PutMapping("/changeUserName")
     public Res<String> ChangeUserName(@RequestBody ChangeWrapper changeWrapper, HttpServletRequest request) {
-        // 20240715根据数据库用户信息判断后执行修改1
+        // 20240715根据数据库用户信息判断后执行修改
         users = userMapper.getByAll();
         log.info("请求 user:{}", changeWrapper);
         Integer userId = changeWrapper.getUserId();
