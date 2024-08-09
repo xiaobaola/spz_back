@@ -80,12 +80,7 @@ public class UserController {
         return Res.success("退出成功");
     }
 
-    @PutMapping
-    public Res<String> updateById(@RequestBody User user) {
-        log.info("userMessage{}", user);
-        userService.updeteById(user);
-        return Res.success("用户更新成功");
-    }
+
 
     @GetMapping("/page")
     public Res<PageBean> page(@RequestParam(defaultValue = "1")Integer page,
@@ -112,23 +107,33 @@ public class UserController {
         return Res.success("新增用户成功");
     }
 
-    //原来
-//    @GetMapping("/friend")
-//    public Res<List<User>> getUserByUserId(@RequestParam Integer userId){
-//        log.info("get 好友列表");
-//        return Res.success(messageTradeService.getUserMessage(userId));
-//    }
-    //现在
-    // 获取好友列表 采用sesion获取userId
+    @PutMapping
+    public Res<String> updateById(@RequestBody User user, HttpServletRequest request) {
+        // 20240809安全优化 session->userId
+        int userId = user.getId();
+        userId = User.getUserIdBySession(userId,request);
+        user.setId(userId);
+        log.info("userMessage{}", user);
+        userService.updeteById(user);
+        return Res.success("用户更新成功");
+    }
+
+    //获取好友列表 采用sesion获取userId,方法封装在user中
     @GetMapping("/friend")
-    public Res<List<User>> getUserByUserId(HttpServletRequest request){
-        log.info("get 好友列表");
-        User user = (User) request.getSession().getAttribute("user");
-        return Res.success(messageTradeService.getUserMessage(user.getId()));
+    public Res<List<User>> getUserByUserId(@RequestParam Integer userId,HttpServletRequest request){
+        // 20240808安全优化 session->userid
+        userId = User.getUserIdBySession(userId,request);
+        log.info("get 好友列表, userId:{}",userId);
+        return Res.success(messageTradeService.getUserMessage(userId));
     }
 
     @PostMapping("/friend/add")
-    public Res<String> addRelationship(@RequestBody Relationship relationship) {
+    public Res<String> addRelationship(@RequestBody Relationship relationship,HttpServletRequest request) {
+        // 20240809安全优化 session->userId 可能存在参数风险，自己一定要是userId1才行
+        int userId = relationship.getUserId1();
+        userId = User.getUserIdBySession(userId,request);
+        relationship.setUserId1(userId);
+
         log.info("添加好友申请, 参数{}", relationship);
         relationshipService.addRelationship(relationship);
 //        return Res.error("发送申请失败");
@@ -136,7 +141,9 @@ public class UserController {
     }
 
     @GetMapping("/search")
-    public Res<List<UserDto>> getUserDtoListByInfo(@RequestParam String info, @RequestParam Integer userId){
+    public Res<List<UserDto>> getUserDtoListByInfo(@RequestParam String info, @RequestParam Integer userId,HttpServletRequest request){
+        // 20240809安全优化 session->userId
+        userId = User.getUserIdBySession(userId,request);
         log.info("用户搜索, 参数:{},{}",info,userId);
         List<UserDto> userDtoListByInfo = userService.getUserDtoListByInfo(info, userId);
         log.info("返回,{}",userDtoListByInfo);
@@ -144,21 +151,27 @@ public class UserController {
     }
 
     @GetMapping("/newFriendList")
-    public Res<List<UserDto>> getUserDtoListByUserId(@RequestParam Integer userId) {
+    public Res<List<UserDto>> getUserDtoListByUserId(@RequestParam Integer userId,HttpServletRequest request) {
+        // 20240809安全优化 session->userId
+        userId = User.getUserIdBySession(userId,request);
         log.info("查询好友验证, 参数{}", userId);
         return Res.success(userService.getUserDtoListByUserId(userId));
     }
     @PostMapping("/agree")
-    public Res<String> postAgree(@RequestBody Relationship relationship) {
+    public Res<String> postAgree(@RequestBody Relationship relationship, HttpServletRequest request) {
         Integer userId1 = relationship.getUserId1();
+        // 20240809安全优化 session->userId
+        userId1 = User.getUserIdBySession(userId1,request);
         Integer userId2 = relationship.getUserId2();
         log.info("同意好友申请, 参数userId1:{},userId2:{}",userId1,userId2);
         relationshipService.changeStatusByUserId1AndUserId2(userId1,userId2,2);
         return Res.success("已同意");
     }
     @PostMapping("/disagree")
-    public Res<String> postDisagree(@RequestBody Relationship relationship) {
+    public Res<String> postDisagree(@RequestBody Relationship relationship, HttpServletRequest request) {
         Integer userId1 = relationship.getUserId1();
+        // 20240809安全优化 session->userId
+        userId1 = User.getUserIdBySession(userId1,request);
         Integer userId2 = relationship.getUserId2();
         log.info("同意好友申请, 参数userId1:{},userId2:{}",userId1,userId2);
         relationshipService.changeStatusByUserId1AndUserId2(userId1,userId2,0);

@@ -1,5 +1,6 @@
 package com.spz.entity.user;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -52,5 +53,14 @@ public class User {
     private String address; //简要地址
     private LocalDateTime updateTime;//更新时间
     private LocalDateTime createTime; //创建时间
+
+    public static int getUserIdBySession(int userId, HttpServletRequest request) {
+        // try
+        User user = (User) request.getSession().getAttribute("user");
+        if(user != null && user.getId() != null) {
+            userId = user.getId();
+        }
+        return  userId;
+    }
 
 }

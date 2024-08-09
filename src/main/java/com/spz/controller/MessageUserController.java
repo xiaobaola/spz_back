@@ -5,6 +5,7 @@ import com.spz.entity.message.MessageUser;
 import com.spz.entity.user.User;
 import com.spz.entity.wrapper.Wrapper;
 import com.spz.service.MessageUserService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,9 @@ public class MessageUserController {
     MessageUserService messageUserService;
 
     @GetMapping("/list")
-    Res<List<MessageUser>> list(@RequestParam Integer userId1, @RequestParam Integer userId2) {
+    Res<List<MessageUser>> list(@RequestParam Integer userId1, @RequestParam Integer userId2, HttpServletRequest request) {
+        // 20240808安全优化 session->userid
+        userId1 = User.getUserIdBySession(userId1,request);
         log.info("list好友信息获取请求，参数userId1:{},userId2:{}",userId1,userId2);
         return Res.success(messageUserService.list(userId1, userId2));
     }

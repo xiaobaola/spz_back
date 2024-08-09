@@ -3,6 +3,7 @@ package com.spz.controller;
 import com.spz.common.Res;
 import com.spz.entity.manager.Manager;
 import com.spz.entity.page.PageBean;
+import com.spz.entity.user.User;
 import com.spz.service.ManagerService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -70,8 +71,11 @@ public class ManagerController {
     }
 
     @PutMapping
-    public Res<String> updateById(@RequestBody Manager manager) {
+    public Res<String> updateById(@RequestBody Manager manager,HttpServletRequest request) {
         log.info("更新: {}", manager);
+        int managerId = manager.getId();
+        managerId = Manager.getManagerIdByRequest(managerId,request);
+        manager.setId(managerId);
         managerService.updateById(manager);
         return Res.success("修改开发人员信息成功");
     }
