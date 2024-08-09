@@ -4,7 +4,9 @@ package com.spz.controller;
 import com.spz.common.Res;
 import com.spz.entity.message.MessageTrade;
 import com.spz.entity.message.MessageTradeDto;
+import com.spz.entity.user.User;
 import com.spz.service.MessageTradeService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -38,8 +40,10 @@ public class MessageTradeController {
     }
 
     @GetMapping()
-    public Res<List<MessageTradeDto>> getAllByMessageTradeId(@RequestParam Integer userId){
+    public Res<List<MessageTradeDto>> getAllByMessageTradeId(@RequestParam Integer userId, HttpServletRequest request){
         log.info("get 信息列表 userId:{}",userId);
+        // 20240809安全优化userId
+        userId = User.getUserIdBySession(userId,request);
         return Res.success(messageTradeService.getByUserId(userId));
     }
 

@@ -1,8 +1,10 @@
 package com.spz.controller;
 
 import com.spz.common.Res;
+import com.spz.entity.user.User;
 import com.spz.entity.wrapper.Wrapper;
 import com.spz.service.MessageScrapTradeService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -35,15 +37,19 @@ public class MessageScrapTradeController {
     }
 
     @GetMapping("/total")
-    public Res<Integer> getTotalByUserId(@RequestParam Integer userId){
+    public Res<Integer> getTotalByUserId(@RequestParam Integer userId, HttpServletRequest request){
+        // 20240809安全优化userId
+        userId = User.getUserIdBySession(userId,request);
         log.info("get2 总数");
         return Res.success(messageScrapTradeService.getTotalByMessageScrapTrade(userId));
     }
     @PutMapping("/change")
-    public Res<String> updateStatusByUserId(@RequestBody Wrapper wrapper) {
+    public Res<String> updateStatusByUserId(@RequestBody Wrapper wrapper, HttpServletRequest request) {
         log.info("根据useId更新消息status");
         log.info("wrapper: {}",wrapper);
         int userId = wrapper.getUserId();
+        // 20240809安全优化userId
+        userId = User.getUserIdBySession(userId,request);
 //        log.info("userId: {}", userId);
         messageScrapTradeService.updateStatusByUserId(userId);
         return Res.success("更新消息状态成功");
