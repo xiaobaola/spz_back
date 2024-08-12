@@ -13,7 +13,23 @@ public class SecondHandItemServiceImpl implements SecondHandItemService {
     @Autowired
     private SecondHandItemMapper secondHandItemMapper;
     @Override
-    public List<SecondHandItem> selectAll() {
-        return secondHandItemMapper.selectAll();
+    public List<SecondHandItem> getSomeByStatus(int status) {
+        return secondHandItemMapper.selectByStatus(status);
+    }
+
+    @Override
+    public void changeStatusById(int status, int itemId) {
+        // 1->3 2->3
+        secondHandItemMapper.updateStatusById(status,itemId);
+    }
+
+    @Override
+    public int getUserIdById(int itemId) {
+        return secondHandItemMapper.selectUserIdById(itemId);
+    }
+
+    @Override
+    public SecondHandItem getOneById(int itemId) {
+        return secondHandItemMapper.selectById(itemId);
     }
 }

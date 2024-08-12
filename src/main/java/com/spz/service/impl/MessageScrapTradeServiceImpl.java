@@ -50,6 +50,10 @@ public class MessageScrapTradeServiceImpl implements MessageScrapTradeService {
     public Integer getTotalByMessageScrapTrade(Integer userId) {
         // 获取 scrapTradeIds
         List<Integer> scrapTradeIds = scrapTradeMapper.getIdsByUserId(userId);
+        if(scrapTradeIds.isEmpty()) {
+            log.info("total: {}", 0);
+            return 0;
+        }
         // 根据 scrapTradeId 统计status
         Integer total = messageScrapTradeMapper.getStatusCountByScrapTradeIdsAndStatus(scrapTradeIds, 0);
         log.info("total: {}", total);

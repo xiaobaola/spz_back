@@ -6,7 +6,6 @@ import com.spz.entity.user.User;
 import com.spz.entity.wrapper.SecondHandWrapper;
 import com.spz.service.SecondHandTradeService;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.websocket.server.PathParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -30,11 +29,17 @@ public class SecondHandTradeController {
 
     @PostMapping
     public Res<String> buySecondHandItem(@RequestBody SecondHandWrapper secondHandWrapper, HttpServletRequest request) {
+        log.info("购买二手物品，创建订单，参数{}",secondHandWrapper);
+        SecondHandTrade trade = new SecondHandTrade();
+        trade.setApproach(secondHandWrapper.getApproach());
+        trade.setTradeTime(secondHandWrapper.getTradeTime());
+        trade.setPlace(secondHandWrapper.getPlace());
         int userId = secondHandWrapper.getUserId();
-        int itemId = secondHandWrapper.getItemId();
+        // 安全
         userId = User.getUserIdBySession(userId, request);
+        int itemId = secondHandWrapper.getItemId();
         // 流程比较负责 涉及到订单的uuid创建， item的status，订单的status
-        secondHandTradeService.createSecondHandTradeByBuyerIdAndItemId(userId,itemId);
+        secondHandTradeService.createByBuyerIdAndItemIdAndTrade(userId,itemId,trade);
         return Res.success("购买成功");
     }
 }

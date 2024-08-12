@@ -7,5 +7,5 @@ import java.util.List;
 public interface SecondHandTradeService {
     List<SecondHandTrade> getTradeByBuyerId(int buyerId);
 
-    void createSecondHandTradeByBuyerIdAndItemId(int buyerId, int itemId);
+    void createByBuyerIdAndItemIdAndTrade(int buyerId, int itemId, SecondHandTrade trade);
 }

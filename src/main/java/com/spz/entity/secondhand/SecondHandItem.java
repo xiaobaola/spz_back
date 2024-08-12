@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
  * (
  *     id int primary key auto_increment comment '物品编号',
  *     image varchar(100) not null comment '二手物品图片',
- *     status int comment '二手物品状态',
+ *     status int comment '二手物品状态 1:待审核 2:发布中 3:下架',
  *     price int comment '二手物品价格',
  *     information varchar(200) not null comment '二手物品描述',
  *     create_time datetime comment '创建时间',
@@ -29,7 +29,7 @@ import java.time.LocalDateTime;
 public class SecondHandItem {
     private int id;
     private String image;
-    private int status;
+    private int status; //1:待审核 2:发布中 3:下架
     private int price;
     private String information;
     private LocalDateTime createTime;
