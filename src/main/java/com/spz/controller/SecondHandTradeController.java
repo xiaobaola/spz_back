@@ -34,6 +34,7 @@ public class SecondHandTradeController {
         int itemId = secondHandWrapper.getItemId();
         userId = User.getUserIdBySession(userId, request);
         // 流程比较负责 涉及到订单的uuid创建， item的status，订单的status
+        secondHandTradeService.createSecondHandTradeByBuyerIdAndItemId(userId,itemId);
         return Res.success("购买成功");
     }
 }
