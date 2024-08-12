@@ -15,11 +15,11 @@ import java.time.LocalDateTime;
  * (
  *     id int primary key not null auto_increment comment 'id',
  *     second_hand_trade_id int not null comment '二手交易订单id',
- *     second_hand_trade_status int not null comment '二手交易订单状态',
+ *     second_hand_trade_status int not null comment '二手交易订单状态 1:创建 2:取消 3:完成 4:删除',
  *     buyer_id int not null comment '买家id',
- *     buyer_status int not null comment '买家状态',
- *     seller_id int not null comment '买家id',
- *     seller_status int not null comment '买家状态',
+ *     buyer_status int not null comment '买家状态 1:创建 2:取消 3:完成 4:删除',
+ *     seller_id int not null comment '卖家id',
+ *     seller_status int not null comment '卖家状态 1:创建 2:取消 3:完成 4:删除',
  *     create_time datetime comment '创建时间',
  *     update_time datetime comment '更新时间'
  * ) comment '二手交易表与用户表的关联表';

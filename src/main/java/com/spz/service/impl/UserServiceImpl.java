@@ -29,11 +29,6 @@ public class UserServiceImpl implements UserService {
     RelationshipMapper relationshipMapper;
 
     @Override
-    public User getById(User user) {
-        return userMapper.getById(user.getId());
-    }
-
-    @Override
     public User getByUsernameAndPassword(User user) {
 //        ArrayList<UserMessage> userMessageArrayList = userMessageMapper.getByAll();
         return userMapper.getByInfo(user);
@@ -63,8 +58,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getByIdNumber(Integer id) {
-        return userMapper.getByIdNumber(id);
+    public User getById(Integer id) {
+        return userMapper.selectById(id);
     }
 
     @Override
@@ -86,7 +81,7 @@ public class UserServiceImpl implements UserService {
         if(info.matches("\\d+")) {
             users.add(userMapper.getByPhone(info));
             if (info.length() < 9)
-            users.add(userMapper.getById(Integer.parseInt(info)));
+            users.add(userMapper.selectById(Integer.parseInt(info)));
         }
         users = users.stream()
                 .filter(user -> user != null && StringUtils.isNotBlank(user.getUsername())) // 过滤掉null和username为空的User

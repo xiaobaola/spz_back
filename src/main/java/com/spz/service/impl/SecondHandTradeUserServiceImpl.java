@@ -6,6 +6,8 @@ import com.spz.service.SecondHandTradeUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class SecondHandTradeUserServiceImpl implements SecondHandTradeUserService {
     @Autowired
@@ -13,5 +15,15 @@ public class SecondHandTradeUserServiceImpl implements SecondHandTradeUserServic
     @Override
     public void insertOne(SecondHandTradeUser tradeUser) {
         secondHandTradeUserMapper.insertOne(tradeUser);
+    }
+
+    @Override
+    public List<SecondHandTradeUser> getSomeByBuyerId(int buyerId) {
+        return secondHandTradeUserMapper.selectSomeByBuyerId(buyerId);
+    }
+
+    @Override
+    public List<SecondHandTradeUser> getSomeBySellerId(int sellerId) {
+        return secondHandTradeUserMapper.selectSomeBySellerId(sellerId);
     }
 }

@@ -3,35 +3,43 @@ package com.spz.service.impl;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.spz.entity.secondhand.SecondHandItem;
 import com.spz.entity.secondhand.SecondHandTrade;
+import com.spz.entity.secondhand.SecondHandTradeDto;
 import com.spz.entity.secondhand.SecondHandTradeUser;
+import com.spz.entity.user.User;
 import com.spz.mapper.SecondHandTradeMapper;
 import com.spz.service.SecondHandItemService;
 import com.spz.service.SecondHandTradeService;
 import com.spz.service.SecondHandTradeUserService;
+import com.spz.service.UserService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class SecondHandTradeServiceImpl implements SecondHandTradeService {
     @Autowired
-    private SecondHandTradeMapper secondHandTradeMapper;
+    private SecondHandTradeMapper tradeMapper;
     @Autowired
-    private SecondHandItemService secondHandItemService;
+    private SecondHandItemService itemService;
     @Autowired
-    private SecondHandTradeUserService secondHandTradeUserService;
+    private SecondHandTradeUserService tradeUserService;
+    @Autowired
+    private UserService userService;
+
     @Override
     public List<SecondHandTrade> getTradeByBuyerId(int buyerId) {
-        return secondHandTradeMapper.selectByBuyerId(buyerId);
+        return tradeMapper.selectByBuyerId(buyerId);
     }
 
     @Override
     public void createByBuyerIdAndItemIdAndTrade(int buyerId, int itemId, SecondHandTrade trade) {
         // 1物品状态变为下架状态 2->3
         // 可以优化 防止多次购物，加锁，加条件判断
-        secondHandItemService.changeStatusById(3,itemId);
+        itemService.changeStatusById(3,itemId);
         // 2 创建二手交易订单
         // 2.1生成订单的编号
         long orderId = IdWorker.getId();
@@ -39,7 +47,7 @@ public class SecondHandTradeServiceImpl implements SecondHandTradeService {
         // 补全
         trade.setNumber(number);
         // 2.2 根据itemId获取物品的所有信息
-        SecondHandItem item = secondHandItemService.getOneById(itemId);
+        SecondHandItem item = itemService.getOneById(itemId);
         // 2.3 补全订单中与item有关的属性
         trade.setItemInformation(item.getInformation());
         trade.setItemImage(item.getImage());
@@ -48,13 +56,13 @@ public class SecondHandTradeServiceImpl implements SecondHandTradeService {
         trade.setCreateTime(LocalDateTime.now());
         trade.setUpdateTime(LocalDateTime.now());
         // 2.5 插入订单信息
-        secondHandTradeMapper.insert(trade);
+        tradeMapper.insert(trade);
         // 3 创建关联信息
         // 3.1 创建关联类，完善关联类信息
         // 创建状态，所有对象状态均为1 1:创建 2:取消 3:完成 4:删除
         SecondHandTradeUser tradeUser = new SecondHandTradeUser();
         // 3.2 通过订单编号获取订单id 并补全信息
-        int tradeId = secondHandTradeMapper.selectIdByNumber(number);
+        int tradeId = tradeMapper.selectIdByNumber(number);
         tradeUser.setSecondHandTradeId(tradeId);
         // 3.3订单的状态设置成1
         tradeUser.setSecondHandTradeStatus(1);
@@ -68,6 +76,56 @@ public class SecondHandTradeServiceImpl implements SecondHandTradeService {
         tradeUser.setCreateTime(LocalDateTime.now());
         tradeUser.setUpdateTime(LocalDateTime.now());
         // 3.7 插入数据
-        secondHandTradeUserService.insertOne(tradeUser);
+        tradeUserService.insertOne(tradeUser);
+    }
+
+    @Override
+    public SecondHandTrade getOneById(int tradeId) {
+        return tradeMapper.selectOneById(tradeId);
+    }
+
+    @Override
+    public List<SecondHandTradeDto> getTradeDtoListByBuyerId(int buyerId) {
+        List<SecondHandTradeUser> tradeUsers = tradeUserService.getSomeByBuyerId(buyerId);
+        // 抽成一个方法
+        return getTradeDtosByTradeUsers(tradeUsers);
+    }
+
+    @Override
+    public List<SecondHandTradeDto> getTradeDtoListBySellerId(int sellerId) {
+        List<SecondHandTradeUser> tradeUsers = tradeUserService.getSomeBySellerId(sellerId);
+        // 同理
+        return getTradeDtosByTradeUsers(tradeUsers);
+    }
+
+    private List<SecondHandTradeDto> getTradeDtosByTradeUsers(List<SecondHandTradeUser> tradeUsers) {
+        // 1通过buyerId获取 关系信息
+        List<SecondHandTradeDto> secondHandTradeDtos = new ArrayList<>();
+//        log.info("{}",tradeUsers);
+        // 2遍历tadeUsers每一个tadeUser找到对应的trade,seller
+        for(SecondHandTradeUser tradeUser : tradeUsers) {
+            // 2.1 创建dto
+            SecondHandTradeDto tradeDto = new SecondHandTradeDto();
+            // 2.2 通过tradeId获取trade
+            SecondHandTrade trade = tradeMapper.selectOneById(tradeUser.getSecondHandTradeId());
+            // 2.3 对象拷贝trade拷贝到tradeDto
+            BeanUtils.copyProperties(trade,tradeDto);
+            // 2.4 通过sellerId获取seller
+            User seller = userService.getById(tradeUser.getSellerId());
+            // 2.5 补全tradeDto的seller信息
+            tradeDto.setSellerImage(seller.getImage());
+            tradeDto.setSellerUsername(seller.getUsername());
+            tradeDto.setSellerStatus(tradeUser.getSellerStatus());
+            // 2.6 通过buyerId获取buyer
+            User buyer = userService.getById(tradeUser.getBuyerId());
+            tradeDto.setBuyerImage(buyer.getImage());
+            tradeDto.setBuyerUsername(buyer.getUsername());
+            tradeDto.setBuyerStatus(tradeUser.getSellerStatus());
+            // 2.7设置tradeStatus
+            tradeDto.setTradeStatus(tradeUser.getSecondHandTradeStatus());
+            // 2.8 加入到list中
+            secondHandTradeDtos.add(tradeDto);
+        }
+        return secondHandTradeDtos;
     }
 }

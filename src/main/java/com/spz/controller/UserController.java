@@ -4,15 +4,12 @@ import com.spz.common.Res;
 import com.spz.entity.dto.UserDto;
 import com.spz.entity.page.PageBean;
 import com.spz.entity.relationship.Relationship;
-import com.spz.entity.safe.Token;
 import com.spz.entity.user.User;
-import com.spz.entity.wrapper.Wrapper;
 import com.spz.service.MessageTradeService;
 import com.spz.service.RelationshipService;
 import com.spz.service.SafeService;
 import com.spz.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +38,7 @@ public class UserController {
     @GetMapping
     public Res<User> getById(User user) {
         log.info("get：用户id{}", user.getId());
-        user = userService.getById(user);
+        user = userService.getById(user.getId());
         return Res.success(user);
     }
     @PostMapping("/login")
@@ -96,7 +93,7 @@ public class UserController {
     @GetMapping("/{id}")
     public Res<User> getByIdNumber(@PathVariable Integer id) {
         log.info("查询: id: {}", id);
-        User user = userService.getByIdNumber(id);
+        User user = userService.getById(id);
         return Res.success(user);
     }
 

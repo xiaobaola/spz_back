@@ -19,4 +19,7 @@ public interface SecondHandTradeMapper {
 
     @Select("select id from second_hand_trade where number=#{number}")
     int selectIdByNumber(String number);
+
+    @Select("select * from second_hand_trade where id=#{id}")
+    SecondHandTrade selectOneById(int id);
 }

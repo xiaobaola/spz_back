@@ -81,7 +81,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         }
         // 有 去数据库中查找
         // 先找都该用户再比较
-        User getOne = userService.getById(one);
+        User getOne = userService.getById(one.getId());
         if(getOne == null) {
             // 抛异常 统一处理
             log.info("非法用户");

@@ -9,15 +9,13 @@ import java.util.List;
 
 public interface UserService {
 
-    public User getById(User user);
-
     User getByUsernameAndPassword(User user);
 
     void updeteById(User user);
 
     PageBean page(Integer page, Integer pageSize, String username, LocalDate begin, LocalDate end);
 
-    User getByIdNumber(Integer id);
+    User getById(Integer id);
 
     void insert(User user);
 

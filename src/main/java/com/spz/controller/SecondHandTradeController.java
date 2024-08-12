@@ -2,6 +2,7 @@ package com.spz.controller;
 
 import com.spz.common.Res;
 import com.spz.entity.secondhand.SecondHandTrade;
+import com.spz.entity.secondhand.SecondHandTradeDto;
 import com.spz.entity.user.User;
 import com.spz.entity.wrapper.SecondHandWrapper;
 import com.spz.service.SecondHandTradeService;
@@ -41,5 +42,18 @@ public class SecondHandTradeController {
         // 流程比较负责 涉及到订单的uuid创建， item的status，订单的status
         secondHandTradeService.createByBuyerIdAndItemIdAndTrade(userId,itemId,trade);
         return Res.success("购买成功");
+    }
+
+    @GetMapping("/list/buyer")
+    public Res<List<SecondHandTradeDto>> listBuyer(@RequestParam int userId,HttpServletRequest request) {
+        userId = User.getUserIdBySession(userId,request);
+        log.info("买家查询买入订单信息，参数buyerId:{}",userId);
+        return Res.success(secondHandTradeService.getTradeDtoListByBuyerId(userId));
+    }
+    @GetMapping("/list/seller")
+    public Res<List<SecondHandTradeDto>> listSeller(@RequestParam int userId,HttpServletRequest request) {
+        userId = User.getUserIdBySession(userId,request);
+        log.info("买家查询买入订单信息，参数buyerId:{}",userId);
+        return Res.success(secondHandTradeService.getTradeDtoListBySellerId(userId));
     }
 }
