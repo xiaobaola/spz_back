@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -77,7 +79,13 @@ public class SecondHandItemServiceImpl implements SecondHandItemService {
 
     @Override
     public List<SecondHandItem> getSomeByUserId(int userId) {
-        return itemMapper.selectByUserId(userId);
+        List<SecondHandItem> items = itemMapper.selectByUserId(userId);
+        // 按照updateTime排序
+        // 如果items不为null且包含元素，则按updateTime排序
+        if (items != null && !items.isEmpty()) {
+            items.sort((item1, item2) -> item2.getUpdateTime().compareTo(item1.getUpdateTime()));
+        }
+        return items;
     }
 
     @Override
