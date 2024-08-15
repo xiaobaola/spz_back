@@ -1,5 +1,6 @@
 package com.spz.service.impl;
 
+import com.spz.common.Res;
 import com.spz.entity.secondhand.SecondHandItem;
 import com.spz.entity.secondhand.SecondHandItemDto;
 import com.spz.entity.user.User;
@@ -10,6 +11,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,5 +63,39 @@ public class SecondHandItemServiceImpl implements SecondHandItemService {
             itemDtos.add(itemDto);
         }
         return itemDtos;
+    }
+
+    @Override
+    public void createItem(SecondHandItem item) {
+        // 完善数据status 时间
+        int status = 1; // 1:待审核 2:发布中 3:下架
+        item.setStatus(status);
+        item.setCreateTime(LocalDateTime.now());
+        item.setUpdateTime(LocalDateTime.now());
+        itemMapper.insert(item);
+    }
+
+    @Override
+    public List<SecondHandItem> getSomeByUserId(int userId) {
+        return itemMapper.selectByUserId(userId);
+    }
+
+    @Override
+    public void changeItemByItem(SecondHandItem item) {
+        // 将物品状态设置为待审核状态
+        item.setStatus(1);
+        item.setUpdateTime(LocalDateTime.now());
+        // 动态sql
+        itemMapper.updateByItem(item);
+    }
+
+    @Override
+    public void deleteByItemId(int itemId) {
+        itemMapper.deleteById(itemId);
+    }
+
+    @Override
+    public void changeItemStatusByItemId(int status, int itemId) {
+        itemMapper.updateStatusById(status,itemId);
     }
 }

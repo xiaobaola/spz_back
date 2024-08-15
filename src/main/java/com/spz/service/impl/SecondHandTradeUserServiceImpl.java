@@ -11,19 +11,29 @@ import java.util.List;
 @Service
 public class SecondHandTradeUserServiceImpl implements SecondHandTradeUserService {
     @Autowired
-    private SecondHandTradeUserMapper secondHandTradeUserMapper;
+    private SecondHandTradeUserMapper tradeUserMapper;
     @Override
     public void insertOne(SecondHandTradeUser tradeUser) {
-        secondHandTradeUserMapper.insertOne(tradeUser);
+        tradeUserMapper.insertOne(tradeUser);
     }
 
     @Override
     public List<SecondHandTradeUser> getSomeByBuyerId(int buyerId) {
-        return secondHandTradeUserMapper.selectSomeByBuyerId(buyerId);
+        return tradeUserMapper.selectSomeByBuyerId(buyerId);
     }
 
     @Override
     public List<SecondHandTradeUser> getSomeBySellerId(int sellerId) {
-        return secondHandTradeUserMapper.selectSomeBySellerId(sellerId);
+        return tradeUserMapper.selectSomeBySellerId(sellerId);
+    }
+
+    @Override
+    public void changeBuyerStatusByTradeId(int buyerStatus, int tradeId) {
+        tradeUserMapper.updateBuyerStatusByTradeId(buyerStatus, tradeId);
+    }
+
+    @Override
+    public void changeSellerStatusByTradeId(int sellerStatus, int tradeId) {
+        tradeUserMapper.updateSellerStatusByTradeId(sellerStatus, tradeId);
     }
 }

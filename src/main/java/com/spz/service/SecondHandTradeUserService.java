@@ -10,4 +10,8 @@ public interface SecondHandTradeUserService {
     List<SecondHandTradeUser> getSomeByBuyerId(int buyerId);
 
     List<SecondHandTradeUser> getSomeBySellerId(int sellerId);
+
+    void changeBuyerStatusByTradeId(int buyerStatus, int tradeId);
+
+    void changeSellerStatusByTradeId(int sellerStatus, int tradeId);
 }

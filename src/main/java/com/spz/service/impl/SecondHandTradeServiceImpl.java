@@ -98,6 +98,22 @@ public class SecondHandTradeServiceImpl implements SecondHandTradeService {
         return getTradeDtosByTradeUsers(tradeUsers);
     }
 
+    @Override
+    public void buyerChangeTradeBuyerStatusByTradeId(int tradeId) {
+        // 1改变关联表的状态信息 无需对订单表进行更改
+        // 订单状态 创建态1 -> 取消态2 谁取消修改关联表中谁的状态值
+        int buyerStatus = 2;
+        // 2根据tradeId获取订单关联表的数据 如果要进行安全优化的话
+        // 3修改关联表的数据
+        tradeUserService.changeBuyerStatusByTradeId(buyerStatus,tradeId);
+    }
+
+    @Override
+    public void sellerChangeTradeSellerStatusByTradeId(int tradeId) {
+        int sellerStatus = 2;
+        tradeUserService.changeSellerStatusByTradeId(sellerStatus,tradeId);
+    }
+
     private List<SecondHandTradeDto> getTradeDtosByTradeUsers(List<SecondHandTradeUser> tradeUsers) {
         // 1通过buyerId获取 关系信息
         List<SecondHandTradeDto> secondHandTradeDtos = new ArrayList<>();

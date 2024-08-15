@@ -4,6 +4,7 @@ import com.spz.entity.secondhand.SecondHandTradeUser;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -20,4 +21,10 @@ public interface SecondHandTradeUserMapper {
 
     @Select("select * from second_hand_trade_user where seller_id=#{sellerId}")
     List<SecondHandTradeUser> selectSomeBySellerId(int sellerId);
+
+    @Update("update second_hand_trade_user set buyer_status=#{buyerStatus} where second_hand_trade_id=#{tradeId}")
+    void updateBuyerStatusByTradeId(int buyerStatus, int tradeId);
+
+    @Update("update second_hand_trade_user set seller_status=#{sellerStatus} where second_hand_trade_id=#{tradeId}")
+    void updateSellerStatusByTradeId(int sellerStatus, int tradeId);
 }

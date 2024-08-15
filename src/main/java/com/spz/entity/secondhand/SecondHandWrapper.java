@@ -1,4 +1,4 @@
-package com.spz.entity.wrapper;
+package com.spz.entity.secondhand;
 
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -15,4 +15,8 @@ public class SecondHandWrapper {
     private String place;
     private String approach;
     private @DateTimeFormat(pattern = "yyyy-MM-dd")LocalDateTime tradeTime;
+    // 二手物品
+    private String image;
+    private int price;
+    private String information;
 }

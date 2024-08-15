@@ -1,9 +1,7 @@
 package com.spz.mapper;
 
 import com.spz.entity.secondhand.SecondHandItem;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -20,4 +18,17 @@ public interface SecondHandItemMapper {
 
     @Select("select * from second_hand_item where id=#{itemId}")
     SecondHandItem selectById(int itemId);
+
+    @Insert("insert into second_hand_item (image, status, price, information, create_time, update_time, user_id) " +
+            "values (#{image},#{status},#{price},#{information},#{createTime},#{updateTime},#{userId})")
+    void insert(SecondHandItem item);
+
+    @Select("select * from second_hand_item where user_id=#{userId}")
+    List<SecondHandItem> selectByUserId(int userId);
+
+//    @Update("update second_hand_item set image=#{image}, price=#{price},information=#{information},status=#{status} where id=#{id}")
+    void updateByItem(SecondHandItem item);
+
+    @Delete("delete from second_hand_item where id=#{id}")
+    void deleteById(int id);
 }

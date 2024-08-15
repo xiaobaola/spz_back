@@ -15,4 +15,8 @@ public interface SecondHandTradeService {
     List<SecondHandTradeDto> getTradeDtoListByBuyerId(int buyerId);
 
     List<SecondHandTradeDto> getTradeDtoListBySellerId(int sellerId);
+
+    void buyerChangeTradeBuyerStatusByTradeId(int tradeId);
+
+    void sellerChangeTradeSellerStatusByTradeId(int tradeId);
 }
