@@ -22,8 +22,12 @@ import java.util.List;
 @Service
 @Slf4j
 public class ScrapTradeServiceImpl implements ScrapTradeService {
-    @Autowired
+
     ScrapTradeMapper scrapTradeMapper;
+    @Autowired
+    public void setScrapTradeMapper(ScrapTradeMapper scrapTradeMapper) {
+        this.scrapTradeMapper = scrapTradeMapper;
+    }
 
     @Override
     public PageBean page(Integer page, Integer pageSize, String number, Integer status, String begin, String end) {
@@ -52,9 +56,8 @@ public class ScrapTradeServiceImpl implements ScrapTradeService {
             Page<ScrapTrade> scrapTradePage = (Page<ScrapTrade>) scrapTradeList;
 
             //3、封装pageBean对象
-            PageBean pageBean = new PageBean(scrapTradePage.getTotal(), scrapTradePage.getResult());
 
-            return pageBean;
+            return new PageBean(scrapTradePage.getTotal(), scrapTradePage.getResult());
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }

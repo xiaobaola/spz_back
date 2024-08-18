@@ -7,8 +7,8 @@ import com.spz.public_resource.entity.page.PageBean;
 import com.spz.recycle.entity.Scrap;
 import com.spz.recycle.entity.ScrapType;
 import com.spz.recycle.mapper.ScrapMapper;
-import com.spz.recycle.mapper.ScrapTypeMapper;
 import com.spz.recycle.service.ScrapService;
+import com.spz.recycle.service.ScrapTypeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +23,19 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 public class ScrapServiceImpl implements ScrapService {
-    @Autowired
+
     private ScrapMapper scrapMapper;
+    private ScrapTypeService scrapTypeService;
+
     @Autowired
-    private ScrapTypeMapper scrapTypeMapper; 
+    public void setScrapMapper(ScrapMapper scrapMapper) {
+        this.scrapMapper = scrapMapper;
+    }
+
+    @Autowired
+    public void setScrapTypeService(ScrapTypeService scrapTypeService) {
+        this.scrapTypeService = scrapTypeService;
+    }
 
     @Override
     public ArrayList<Scrap> listByTypeId(Integer id) {
@@ -49,7 +58,7 @@ public class ScrapServiceImpl implements ScrapService {
             //获取各自分类id
             int scrapTypeId = item.getScrapTypeId();
             //根据id查询分类对象
-            ScrapType scrapType = scrapTypeMapper.getById(scrapTypeId);
+            ScrapType scrapType = scrapTypeService.getById(scrapTypeId);
 
             //设置回收品类型名
             if (scrapType != null) {
@@ -63,9 +72,8 @@ public class ScrapServiceImpl implements ScrapService {
         Page<Scrap> scrapPage = (Page<Scrap>) scrapList;
 
         //3、封装pageBean对象 补丁型 完善dto类
-        PageBean pageBean = new PageBean(scrapPage.getTotal(), scrapDtoList);
 
-        return pageBean;
+        return new PageBean(scrapPage.getTotal(), scrapDtoList);
     }
 
     @Override

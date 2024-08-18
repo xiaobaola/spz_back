@@ -29,15 +29,15 @@ public class CommonController {
         try {
             // 从Tomcat服务器中读取文件 相对路径
             //通过输入流读取文件内容
-//            FileInputStream fileInputStream = new FileInputStream(new File(savePath + name));
-            FileInputStream fileInputStream = new FileInputStream(new File(basePath + name));
+//            FileInputStream fileInputStream = new FileInputStream(savePath + name);
+            FileInputStream fileInputStream = new FileInputStream(basePath + name);
 
             //通过输出流，将文件返回到浏览器
             ServletOutputStream outputStream = response.getOutputStream();
 
             response.setContentType("image/jpeg");
 
-            int len = 0;
+            int len;
             byte[] bytes = new byte[1024];
             while ((len = fileInputStream.read(bytes)) != -1) {
                 outputStream.write(bytes, 0, len);
@@ -122,14 +122,14 @@ public class CommonController {
 
         try {
             //通过输入流读取文件内容
-            FileInputStream fileInputStream = new FileInputStream(new File(apkPath));
+            FileInputStream fileInputStream = new FileInputStream(apkPath);
 
             //通过输出流，将文件返回到浏览器
             ServletOutputStream outputStream = response.getOutputStream();
 
             response.setContentType("application/vnd.android.package-archive");
 
-            int len = 0;
+            int len;
             byte[] bytes = new byte[1024];
             while ((len = fileInputStream.read(bytes)) != -1) {
                 outputStream.write(bytes, 0, len);

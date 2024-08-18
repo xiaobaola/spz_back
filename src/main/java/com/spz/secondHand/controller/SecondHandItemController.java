@@ -17,8 +17,13 @@ import java.util.List;
 @RequestMapping("/spz/secondHand/item")
 @Slf4j
 public class SecondHandItemController {
-    @Autowired
+
     private SecondHandItemService itemService;
+
+    @Autowired
+    public void setItemService(SecondHandItemService itemService) {
+        this.itemService = itemService;
+    }
 
     @GetMapping("/list")
     public Res<List<SecondHandItemDto>> listStatus2(){

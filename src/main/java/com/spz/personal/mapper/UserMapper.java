@@ -13,7 +13,7 @@ import java.util.List;
 public interface UserMapper {
 
     @Select("select * from user")
-    ArrayList<User> getByAll();
+    ArrayList<User> selectByAll();
 
     @Select("select * from user where username=#{username} and password=#{password}")
     User getByInfo(User user);
@@ -30,16 +30,16 @@ public interface UserMapper {
     void insert(User user);
 
     @Select("select * from user where username like CONCAT('%', #{info}, '%')")
-    List<User> getByLikeUsername(String info);
+    List<User> selectListByLikeUsername(String info);
 
     @Select("select * from user where phone like CONCAT('%', #{info}, '%')")
-    List<User> getByLikePhone(String info);
+    List<User> selectListByLikePhone(String info);
 
     @Select("select * from user where id like CONCAT('%', #{info}, '%')")
-    List<User> getByLikeId(String info);
+    List<User> selectListByLikeId(String info);
 
     @Select("select * from user where phone=#{phone}")
-    User getByPhone(String phone);
+    User selectByPhone(String phone);
 
     List<User> getUsersByUserIds(List<Integer> userIds);
 }

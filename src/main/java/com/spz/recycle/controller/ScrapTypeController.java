@@ -13,8 +13,12 @@ import java.util.ArrayList;
 @RestController
 @Slf4j
 public class ScrapTypeController {
-    @Autowired
+
     private ScrapTypeService scrapTypeService;
+    @Autowired
+    public void setScrapTypeService(ScrapTypeService scrapTypeService) {
+        this.scrapTypeService = scrapTypeService;
+    }
 
     /**
      * Author last
@@ -25,7 +29,7 @@ public class ScrapTypeController {
     @GetMapping("/list")
     public Res<ArrayList<ScrapType>> list2() {
         log.info("get 废品类型列表");
-        ArrayList<ScrapType> scrapTypeArrayList = scrapTypeService.list2();
+        ArrayList<ScrapType> scrapTypeArrayList = scrapTypeService.getList();
         return Res.success(scrapTypeArrayList);
     }
 
@@ -38,7 +42,7 @@ public class ScrapTypeController {
     @PutMapping
     public Res<String> updateById(@RequestBody ScrapType scrapType) {
         log.info("修改: {}", scrapType);
-        scrapTypeService.updateById(scrapType);
+        scrapTypeService.changeById(scrapType);
         return Res.success("修改废品类型成功");
     }
 
@@ -51,7 +55,7 @@ public class ScrapTypeController {
     @PostMapping
     public Res<String> createScrapType(@RequestBody ScrapType scrapType) {
         log.info("新增: {}", scrapType);
-        scrapTypeService.insert2(scrapType);
+        scrapTypeService.add(scrapType);
         return Res.success("新增废品类型成功");
     }
 

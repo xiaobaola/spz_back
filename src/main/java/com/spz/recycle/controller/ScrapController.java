@@ -17,14 +17,19 @@ import java.util.List;
 @RequestMapping("spz/scrap")
 @Slf4j
 public class ScrapController {
-    @Autowired
+
     private ScrapService scrapService;
 
+    @Autowired
+    public void setScrapService(ScrapService scrapService) {
+        this.scrapService = scrapService;
+    }
+
     /**
-     * @param @param id
-     * @return @return {@link Res }<{@link ArrayList }<{@link Scrap }>>
-     * @author last
-     * @describe
+     * Param @param id
+     * Return @return {@link Res }<{@link ArrayList }<{@link Scrap }>>
+     * Author last
+     * Describe
      */
     @GetMapping("/{id}/list")
     public Res<ArrayList<Scrap>> list(@PathVariable Integer id) {
@@ -34,14 +39,14 @@ public class ScrapController {
     }
 
     /**
-     * @param @param   page
-     * @param pageSize
-     * @param name
-     * @param begin
-     * @param end
-     * @return @return {@link Res }<{@link PageBean }>
-     * @author last
-     * @describe 分页查询
+     * Param @param   page
+     * Param pageSize
+     * Param name
+     * Param begin
+     * Param end
+     * Return @return {@link Res }<{@link PageBean }>
+     * Author last
+     * Describe 分页查询
      */
     @GetMapping("/page")
     public Res<PageBean> page(@RequestParam(defaultValue = "1")Integer page,
@@ -49,7 +54,7 @@ public class ScrapController {
                                  String name,
                                  @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate begin,
                                  @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate end) {
-        log.info("分页查询中，第{}页，{}条,其他参数：{},{},{},{}", page, pageSize, name, begin, end);
+        log.info("分页查询中，第{}页，{}条,其他参数：{},{},{}", page, pageSize, name, begin, end);
         PageBean pageBean = scrapService.page(page, pageSize, name, begin, end);
         return Res.success(pageBean);
     }

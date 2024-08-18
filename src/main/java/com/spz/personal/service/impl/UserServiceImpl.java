@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updeteById(User user) {
+    public void updateById(User user) {
         user.setUpdateTime(LocalDateTime.now());
         userMapper.updateById(user);
     }
@@ -83,10 +83,10 @@ public class UserServiceImpl implements UserService {
         if (info.isEmpty()) {
             return userDtoList;
         }
-        List<User> users = userMapper.getByLikeUsername(info);
+        List<User> users = userMapper.selectListByLikeUsername(info);
         //使用正则表达式匹配, 是否全为数字
         if(info.matches("\\d+")) {
-            users.add(userMapper.getByPhone(info));
+            users.add(userMapper.selectByPhone(info));
             if (info.length() < 9) {
                 users.add(userMapper.selectById(Integer.parseInt(info)));
             }
@@ -144,5 +144,10 @@ public class UserServiceImpl implements UserService {
         }
         //4.返回List
         return userDtoList;
+    }
+
+    @Override
+    public ArrayList<User> getByAll() {
+        return userMapper.selectByAll();
     }
 }

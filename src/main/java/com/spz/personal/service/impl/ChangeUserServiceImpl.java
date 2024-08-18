@@ -8,9 +8,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class ChangeUserServiceImpl implements ChangeUserService {
 
-    @Autowired
+
     private ChangeMapper changeMapper;
 
+    @Autowired
+    public void setChangeMapper(ChangeMapper changeMapper) {
+        this.changeMapper = changeMapper;
+    }
 
     @Override
     public void changeUserName(Integer id, String username) {

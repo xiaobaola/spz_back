@@ -17,11 +17,20 @@ import java.util.List;
 @RequestMapping("spz/scrapTrade")
 @Slf4j
 public class ScrapTradeController {
-    @Autowired
+
     ScrapTradeService scrapTradeService;
 
-    @Autowired
     ScrapTradeDetailService scrapTradeDetailService;
+
+    @Autowired
+    public void setScrapTradeService(ScrapTradeService scrapTradeService) {
+        this.scrapTradeService = scrapTradeService;
+    }
+
+    @Autowired
+    public void setScrapTradeDetailService(ScrapTradeDetailService scrapTradeDetailService) {
+        this.scrapTradeDetailService = scrapTradeDetailService;
+    }
 
     @GetMapping("/page")
     public Res<PageBean> page(@RequestParam(defaultValue = "1")Integer page,
@@ -62,12 +71,12 @@ public class ScrapTradeController {
     @PostMapping
     public Res<String> cart(@RequestBody ScrapTradeDto scrapTradeDto) {
         log.info("账单上传: {}",scrapTradeDto);
-        ScrapTrade scrapTrade = (ScrapTrade) scrapTradeDto;
         //插入总账单并返回订单编号
-        String number = scrapTradeService.add(scrapTrade);
-        ScrapTrade scrapTradeId = scrapTradeService.getByNumber(scrapTrade);
+        String number = scrapTradeService.add(scrapTradeDto);
+        ScrapTrade scrapTradeId = scrapTradeService.getByNumber(scrapTradeDto);
         //批量插入订单细节信息
         scrapTradeDetailService.insertList(scrapTradeDto.getScrapTradeDetails(), scrapTradeId.getId());
+        log.info("订单创建成功，编号为{}",number);
         return Res.success("上传记录成功");
     }
 }

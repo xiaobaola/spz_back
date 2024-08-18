@@ -1,6 +1,5 @@
 package com.spz.personal.entity;
 
-import com.spz.personal.entity.User;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;

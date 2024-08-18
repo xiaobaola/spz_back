@@ -13,8 +13,12 @@ import java.time.LocalDateTime;
 @Slf4j
 public class UserRegisterServiceImpl implements UserRegisterService {
 
-    @Autowired
+
     private UserRegisterMapper userRegisterMapper;
+    @Autowired
+    public void setUserRegisterMapper(UserRegisterMapper userRegisterMapper) {
+        this.userRegisterMapper = userRegisterMapper;
+    }
 
     @Override
     public void userRegister(User user) {

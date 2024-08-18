@@ -9,13 +9,13 @@ import java.util.ArrayList;
 //@Component
 public interface ScrapTypeMapper {
     @Insert("insert into scrap_type(name, image, create_time, update_time)  values (#{name}, #{image}, #{createTime}, #{updateTime})")
-    public void insert2(ScrapType scrapType);
+    void insert(ScrapType scrapType);
 
     @Select("select * from scrap_type")
-    public ArrayList<ScrapType> list2();
+    ArrayList<ScrapType> selectList();
 
     @Select("select * from scrap_type where id=#{id}")
-    ScrapType getById(Integer id);
+    ScrapType selectById(Integer id);
 
     @Update("update scrap_type set name=#{name}, image=#{image}, update_time=#{updateTime} where id=#{id}")
     void updateById(ScrapType scrapType);

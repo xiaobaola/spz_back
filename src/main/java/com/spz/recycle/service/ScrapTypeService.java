@@ -5,12 +5,13 @@ import com.spz.recycle.entity.ScrapType;
 import java.util.ArrayList;
 
 public interface ScrapTypeService {
-    public void insert2(ScrapType scrapType);
+    void add(ScrapType scrapType);
 
-    public ArrayList<ScrapType> list2();
+    ArrayList<ScrapType> getList();
 
-    void updateById(ScrapType scrapType);
+    void changeById(ScrapType scrapType);
 
     void deleteById(Integer id);
 
+    ScrapType getById(int scrapTypeId);
 }

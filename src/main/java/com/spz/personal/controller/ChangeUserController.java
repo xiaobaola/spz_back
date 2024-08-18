@@ -1,9 +1,9 @@
 package com.spz.personal.controller;
 
+import com.spz.personal.service.UserService;
 import com.spz.public_resource.common.Res;
 import com.spz.personal.entity.User;
 import com.spz.personal.entity.UserChangeWrapper;
-import com.spz.personal.mapper.UserMapper;
 import com.spz.personal.service.ChangeUserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -19,18 +19,28 @@ import java.util.ArrayList;
 // 为了方便维护？
 public class ChangeUserController {
 
-    @Autowired
+
     private ChangeUserService changeUserService;
 
+
+    private UserService userService;
+
     @Autowired
-    private UserMapper userMapper;
+    public void setChangeUserService(ChangeUserService changeUserService) {
+        this.changeUserService = changeUserService;
+    }
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 
     ArrayList<User> users;
 
     @PutMapping("/changeUserName")
     public Res<String> ChangeUserName(@RequestBody UserChangeWrapper userChangeWrapper, HttpServletRequest request) {
         // 20240715根据数据库用户信息判断后执行修改
-        users = userMapper.getByAll();
+        users = userService.getByAll();
         log.info("请求 user:{}", userChangeWrapper);
         Integer userId = userChangeWrapper.getUserId();
         // 20240808安全优化 session->userid 抽取成user的一个方法，因为会经常用到
@@ -47,7 +57,7 @@ public class ChangeUserController {
 
     @PutMapping("/changePhone")
     public Res<String> ChangePhone(@RequestBody UserChangeWrapper userChangeWrapper, HttpServletRequest request) {
-        users = userMapper.getByAll();
+        users = userService.getByAll();
         log.info("请求 user:{}", userChangeWrapper);
         Integer userId = userChangeWrapper.getUserId();
         // 20240808安全优化 session->userid 抽取成user的一个方法，因为会经常用到

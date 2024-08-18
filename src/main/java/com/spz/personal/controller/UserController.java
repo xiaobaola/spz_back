@@ -22,15 +22,27 @@ import java.util.List;
 @RestController
 @Slf4j
 public class UserController {
-    @Autowired
+
     private UserService userService;
 
-    @Autowired
     private MessageTradeService messageTradeService;
 
-    @Autowired
     private RelationshipService relationshipService;
 
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
+    @Autowired
+    public void setMessageTradeService(MessageTradeService messageTradeService) {
+        this.messageTradeService = messageTradeService;
+    }
+
+    @Autowired
+    public void setRelationshipService(RelationshipService relationshipService) {
+        this.relationshipService = relationshipService;
+    }
 
     @GetMapping
     public Res<User> getById(User user) {
@@ -52,15 +64,6 @@ public class UserController {
             // 向session设置值
             session.setAttribute("user",user);
             // token
-//            String token = user.getId().toString();
-//            request.getSession().setAttribute("token", token);
-//            // 没有才插入
-//            Token getToken = safeService.getByToken(token);
-//            if(getToken == null) {
-//                // 存储token
-//                Token t = new Token(token);
-//                safeService.setToken(t);
-//            }
             return Res.success(user);
         }
         return Res.error("用户名或密码错误");
@@ -68,9 +71,9 @@ public class UserController {
 
     @PostMapping("/logout")
     //HttpServletRequest request,
-    public Res<String> logout(@RequestBody User user) {
+    public Res<String> logout(HttpServletRequest request) {
         // 清理session中保存的管理员id
-//        request.getSession().removeAttribute("user");
+        request.getSession().removeAttribute("user");
         return Res.success("退出成功");
     }
 
@@ -82,7 +85,7 @@ public class UserController {
                               String username,
                               @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate begin,
                               @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate end) {
-        log.info("分页查询中，第{}页，{}条,其他参数：{},{},{},{}", page, pageSize, username, begin, end);
+        log.info("分页查询中，第{}页，{}条,其他参数：{},{},{}", page, pageSize, username, begin, end);
         PageBean pageBean = userService.page(page, pageSize, username, begin, end);
         return Res.success(pageBean);
     }
@@ -108,11 +111,11 @@ public class UserController {
         userId = User.getUserIdBySession(userId,request);
         user.setId(userId);
         log.info("userMessage{}", user);
-        userService.updeteById(user);
+        userService.updateById(user);
         return Res.success("用户更新成功");
     }
 
-    //获取好友列表 采用sesion获取userId,方法封装在user中
+    //获取好友列表 采用session获取userId,方法封装在user中
     @GetMapping("/friend")
     public Res<List<User>> getUserByUserId(@RequestParam Integer userId,HttpServletRequest request){
         // 20240808安全优化 session->userid

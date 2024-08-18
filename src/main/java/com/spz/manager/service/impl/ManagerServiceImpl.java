@@ -17,8 +17,13 @@ import java.util.List;
 @Service
 @Slf4j
 public class ManagerServiceImpl implements ManagerService {
-    @Autowired
+
     private ManagerMapper managerMapper;
+
+    @Autowired
+    public void setManagerMapper(ManagerMapper managerMapper) {
+        this.managerMapper = managerMapper;
+    }
 
     //通过用户名和密码查询管理员信息
     @Override

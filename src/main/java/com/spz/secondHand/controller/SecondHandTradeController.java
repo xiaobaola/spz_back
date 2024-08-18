@@ -17,8 +17,13 @@ import java.util.List;
 @RequestMapping("/spz/secondHand/trade")
 @Slf4j
 public class SecondHandTradeController {
-    @Autowired
+
     private SecondHandTradeService tradeService;
+
+    @Autowired
+    public void setTradeService(SecondHandTradeService tradeService) {
+        this.tradeService = tradeService;
+    }
 
     @GetMapping("/buyer")
     public Res<List<SecondHandTrade>> buyerList(@RequestParam int userId, HttpServletRequest request){
@@ -57,7 +62,7 @@ public class SecondHandTradeController {
         return Res.success(tradeService.getTradeDtoListBySellerId(userId));
     }
     @PutMapping("/buyer")
-    public Res<String> buyerCancelTradeByBuyerIdAndTradeId(@RequestBody SecondHandWrapper wrapper, HttpServletRequest request){
+    public Res<String> buyerCancelTradeByBuyerIdAndTradeId(@RequestBody SecondHandWrapper wrapper){
 //        int userId = wrapper.getUserId();
 //        userId = User.getUserIdBySession(userId,request);
         // 实际上只需要一个tradeId，userId是用作安全校验，校验订单是否来源与买家

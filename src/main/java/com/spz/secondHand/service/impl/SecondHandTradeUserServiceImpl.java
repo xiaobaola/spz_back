@@ -10,8 +10,14 @@ import java.util.List;
 
 @Service
 public class SecondHandTradeUserServiceImpl implements SecondHandTradeUserService {
-    @Autowired
+
     private SecondHandTradeUserMapper tradeUserMapper;
+
+    @Autowired
+    public void setTradeUserMapper(SecondHandTradeUserMapper tradeUserMapper) {
+        this.tradeUserMapper = tradeUserMapper;
+    }
+
     @Override
     public void insertOne(SecondHandTradeUser tradeUser) {
         tradeUserMapper.insertOne(tradeUser);

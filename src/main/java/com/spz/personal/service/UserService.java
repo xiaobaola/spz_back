@@ -5,13 +5,14 @@ import com.spz.public_resource.entity.page.PageBean;
 import com.spz.personal.entity.User;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public interface UserService {
 
     User getByUsernameAndPassword(User user);
 
-    void updeteById(User user);
+    void updateById(User user);
 
     PageBean page(Integer page, Integer pageSize, String username, LocalDate begin, LocalDate end);
 
@@ -22,4 +23,6 @@ public interface UserService {
     List<UserDto> getUserDtoListByInfo(String info, Integer userId);
 
     List<UserDto> getUserDtoListByUserId(Integer userId);
+
+    ArrayList<User> getByAll();
 }

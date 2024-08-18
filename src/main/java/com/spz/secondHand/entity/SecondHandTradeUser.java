@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 /**
  * Author last
  * Date 2024-08-12
- *
  * -- 二手交易表与用户表的关联表
  * create table second_hand_trade_user
  * (
@@ -37,15 +36,15 @@ public class SecondHandTradeUser {
     private int sellerStatus;
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
-    SecondHandTradeUser(int secondHandTradeId,int secondHandTradeStatus,int buyerId,int buyerStatus,
-                        int sellerId,int sellerStatus,LocalDateTime createTime,LocalDateTime updateTime){
-        this.secondHandTradeId = secondHandTradeId;
-        this.secondHandTradeStatus = secondHandTradeStatus;
-        this.buyerId = buyerId;
-        this.buyerStatus = buyerStatus;
-        this.sellerId = sellerId;
-        this.sellerStatus = sellerStatus;
-        this.createTime = createTime;
-        this.updateTime = updateTime;
-    }
+//    SecondHandTradeUser(int secondHandTradeId,int secondHandTradeStatus,int buyerId,int buyerStatus,
+//                        int sellerId,int sellerStatus,LocalDateTime createTime,LocalDateTime updateTime){
+//        this.secondHandTradeId = secondHandTradeId;
+//        this.secondHandTradeStatus = secondHandTradeStatus;
+//        this.buyerId = buyerId;
+//        this.buyerStatus = buyerStatus;
+//        this.sellerId = sellerId;
+//        this.sellerStatus = sellerStatus;
+//        this.createTime = createTime;
+//        this.updateTime = updateTime;
+//    }
 }

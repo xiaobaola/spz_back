@@ -16,10 +16,20 @@ import java.util.List;
 
 @Service
 public class SecondHandItemServiceImpl implements SecondHandItemService {
-    @Autowired
+
     private SecondHandItemMapper itemMapper;
-    @Autowired
+
     private UserService userService;
+
+    @Autowired
+    public void setItemMapper(SecondHandItemMapper itemMapper) {
+        this.itemMapper = itemMapper;
+    }
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 
     @Override
     public List<SecondHandItem> getSomeByStatus(int status) {

@@ -21,18 +21,44 @@ import java.util.List;
 
 @Service
 public class SecondHandTradeServiceImpl implements SecondHandTradeService {
-    @Autowired
+
     private SecondHandTradeMapper tradeMapper;
-    @Autowired
+
     private SecondHandItemService itemService;
-    @Autowired
+
     private SecondHandTradeUserService tradeUserService;
-    @Autowired
+
     private UserService userService;
+    @Autowired
+    public void setTradeMapper(SecondHandTradeMapper tradeMapper) {
+        this.tradeMapper = tradeMapper;
+    }
+    @Autowired
+    public void setItemService(SecondHandItemService itemService) {
+        this.itemService = itemService;
+    }
+    @Autowired
+    public void setTradeUserService(SecondHandTradeUserService tradeUserService) {
+        this.tradeUserService = tradeUserService;
+    }
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 
     @Override
     public List<SecondHandTrade> getTradeByBuyerId(int buyerId) {
-        return tradeMapper.selectByBuyerId(buyerId);
+        // 获取买家的二手交易订单
+        // 1通过关联表找到tradeId
+        List<SecondHandTrade> secondHandTrades = new ArrayList<>();
+        for (SecondHandTradeUser tradeUser : tradeUserService.getSomeByBuyerId(buyerId)) {
+            int tradeId = tradeUser.getSecondHandTradeId();
+            SecondHandTrade trade = tradeMapper.selectOneById(tradeId);
+            secondHandTrades.add(trade);
+        }
+
+        // 2 通过tradeId拿到trade的信息
+        return secondHandTrades;
     }
 
     @Override
