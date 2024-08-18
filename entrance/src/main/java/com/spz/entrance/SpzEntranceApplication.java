@@ -14,11 +14,13 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @ServletComponentScan
 @EnableTransactionManagement
 @ComponentScans({
-        @ComponentScan("com.spz.**.interceptor"),
         @ComponentScan("com.spz.**.controller"),
         @ComponentScan("com.spz.**.service"),
+        @ComponentScan("com.spz.**.interceptor"),
+        @ComponentScan("com.spz.**.config"),
+        @ComponentScan("com.spz.**.aop")
 })
-@MapperScan("com.spz.mapper")
+@MapperScan("com.spz.**.mapper")
 public class SpzEntranceApplication {
 
     public static void main(String[] args) {

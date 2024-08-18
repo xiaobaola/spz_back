@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 
-@RequestMapping("/spz/user")
+@RequestMapping("/spz/communication")
 @RestController
 @Slf4j
 public class CommunicationUserController {

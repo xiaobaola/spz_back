@@ -304,7 +304,7 @@
             handleAvatarSuccess(response, file, fileList) {
                 // 拼接down接口预览
                 if (response.code === 0 && response.msg === '未登录') {
-                    window.top.location.href = '/backend/page/login/login.html'
+                    window.top.location.href = '../login/login.html'
                 } else {
                     //自定义核心
                     this.imageUrl = `/spz/common/download?name=${response.data}`
