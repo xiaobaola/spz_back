@@ -8,14 +8,14 @@ import java.util.List;
 
 public interface MessageTradeService {
 
-    void insert3(MessageTrade messageTrade);
+    void add(MessageTrade messageTrade);
 
 
-    List<MessageTrade> list3();
+    List<MessageTrade> getList();
 
     MessageTrade getById(Integer id);
 
-    List<MessageTradeDto> getByUserId(Integer userId);
+    List<MessageTradeDto> getMessageTradeDtosByUserId(Integer userId);
 
-    List<User> getUserMessage(Integer userId);
+    List<User> getUsersByUserId(Integer userId);
 }

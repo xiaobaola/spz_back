@@ -16,10 +16,20 @@ import org.springframework.web.servlet.ModelAndView;
 @Slf4j
 @Component
 public class LoginInterceptor implements HandlerInterceptor {
-    @Autowired
+
     private UserService userService;
-    @Autowired
+
     private ManagerService managerService;
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
+    @Autowired
+    public void setManagerService(ManagerService managerService) {
+        this.managerService = managerService;
+    }
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {

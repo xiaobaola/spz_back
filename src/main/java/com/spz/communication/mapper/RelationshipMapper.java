@@ -12,13 +12,13 @@ import java.util.List;
 public interface RelationshipMapper {
 
     @Select("select userId2 from relationship where userId1=#{userId1} and status=#{status}")
-    List<Integer> getUserId2ByUserId1(Integer userId1,Integer status);
+    List<Integer> selectUserId2sByUserId1AndStatus(Integer userId1, Integer status);
 
     @Select("select userId1 from relationship where userId2=#{userId2} and status=#{status}")
-    List<Integer> getUserId1ByUserId2(Integer userId2,Integer status);
+    List<Integer> selectUserId1sByUserId2(Integer userId2,Integer status);
 
     @Select("select * from relationship where userId1=#{userId1} and userId2=#{userId2}")
-    Relationship getByUserId1AndUserId2(Integer userId1, Integer userId2);
+    Relationship selectByUserId1AndUserId2(Integer userId1, Integer userId2);
 
     @Update("update relationship set status=#{status}, greet=#{greet} where userId1=#{userId1} and userId2=#{userId2}")
     void updateStatusAndGreetByUserId1AndUserId2(Relationship relationship);
@@ -28,13 +28,10 @@ public interface RelationshipMapper {
     void insert(Relationship relationship);
 
     @Select("select * from relationship where userId1=#{userId}")
-    List<Relationship> getUsersByUserId1(Integer userId);
-
-    @Select("select userId2 from relationship where userId1=#{userId} and status=#{status}")
-    List<Integer> getUserId2ByUserId1AndStatus(Integer userId, int status);
+    List<Relationship> selectUsersByUserId1(Integer userId);
 
     @Select("select * from relationship where userId1=#{userId} and status=#{status}")
-    List<Relationship> getByUserId1AndStatus(Integer userId, int status);
+    List<Relationship> selectListByUserId1AndStatus(Integer userId, int status);
 
     @Update("update relationship set status=#{status} where userId1=#{userId1} and userId2=#{userId2}")
     void updateStatusByUserId1AndUserId2(Integer userId1, Integer userId2, int status);

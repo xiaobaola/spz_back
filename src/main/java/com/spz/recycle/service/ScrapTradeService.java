@@ -8,15 +8,19 @@ import java.util.List;
 public interface ScrapTradeService {
     PageBean page(Integer page, Integer pageSize, String number, Integer status, String begin, String end);
 
-    String insert(ScrapTrade scrapTrade);
+    String add(ScrapTrade scrapTrade);
 
     ScrapTrade getByNumber(ScrapTrade scrapTrade);
 
-    void updateStatus(ScrapTrade scrapTrade);
+    void changeStatus(ScrapTrade scrapTrade);
 
     List<ScrapTrade> getNumberByUserId(Integer userId);
 
     ScrapTrade getById(Integer id);
 
-    void updateStatusById(List<Integer> scrapTradeIds,Integer status);
+    void changeStatusById(List<Integer> scrapTradeIds, Integer status);
+
+    List<Integer> getIdsByUserId(Integer userId);
+
+    List<ScrapTrade> getListByUserId(Integer userId);
 }

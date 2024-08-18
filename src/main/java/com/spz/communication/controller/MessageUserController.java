@@ -15,20 +15,24 @@ import java.util.List;
 @RequestMapping("/spz/messageUser")
 @Slf4j
 public class MessageUserController {
-    @Autowired
+
     MessageUserService messageUserService;
+    @Autowired
+    public void setMessageUserService(MessageUserService messageUserService) {
+        this.messageUserService = messageUserService;
+    }
 
     @GetMapping("/list")
     Res<List<MessageUser>> list(@RequestParam Integer userId1, @RequestParam Integer userId2, HttpServletRequest request) {
         // 20240808安全优化 session->userid
         userId1 = User.getUserIdBySession(userId1,request);
         log.info("list好友信息获取请求，参数userId1:{},userId2:{}",userId1,userId2);
-        return Res.success(messageUserService.list(userId1, userId2));
+        return Res.success(messageUserService.getList(userId1, userId2));
     }
     @PostMapping
     Res<String> insertMessageUser(@RequestBody MessageUser messageUser) {
         log.info("参数信息{}", messageUser);
-        messageUserService.insert(messageUser);
+        messageUserService.add(messageUser);
         return Res.success("信息发送成功");
     }
 }

@@ -2,11 +2,11 @@ package com.spz.personal.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.spz.communication.service.RelationshipService;
 import com.spz.personal.entity.UserDto;
 import com.spz.public_resource.entity.page.PageBean;
 import com.spz.communication.entity.relationship.Relationship;
 import com.spz.personal.entity.User;
-import com.spz.communication.mapper.RelationshipMapper;
 import com.spz.personal.mapper.UserMapper;
 import com.spz.personal.service.UserService;
 import io.micrometer.common.util.StringUtils;
@@ -22,11 +22,20 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
-    @Autowired
-    UserMapper userMapper;
+
+    private UserMapper userMapper;
+
+    private RelationshipService relationshipService;
 
     @Autowired
-    RelationshipMapper relationshipMapper;
+    public void setUserMapper(UserMapper userMapper) {
+        this.userMapper = userMapper;
+    }
+
+    @Autowired
+    public void setRelationshipService(RelationshipService relationshipService) {
+        this.relationshipService = relationshipService;
+    }
 
     @Override
     public User getByUsernameAndPassword(User user) {
@@ -52,9 +61,7 @@ public class UserServiceImpl implements UserService {
         Page<User> userPage = (Page<User>) userList;
 
         //3、封装pageBean对象
-        PageBean pageBean = new PageBean(userPage.getTotal(), userPage.getResult());
-
-        return pageBean;
+        return new PageBean(userPage.getTotal(), userPage.getResult());
     }
 
     @Override
@@ -80,15 +87,16 @@ public class UserServiceImpl implements UserService {
         //使用正则表达式匹配, 是否全为数字
         if(info.matches("\\d+")) {
             users.add(userMapper.getByPhone(info));
-            if (info.length() < 9)
-            users.add(userMapper.selectById(Integer.parseInt(info)));
+            if (info.length() < 9) {
+                users.add(userMapper.selectById(Integer.parseInt(info)));
+            }
         }
         users = users.stream()
                 .filter(user -> user != null && StringUtils.isNotBlank(user.getUsername())) // 过滤掉null和username为空的User
                 .distinct() // 去除剩余元素中的重复项（如果User类重写了equals和hashCode方法）
                 .collect(Collectors.toCollection(ArrayList::new)); // 收集到新的ArrayList中
         // 排序
-        List<Relationship> relationships = relationshipMapper.getUsersByUserId1(userId);
+        List<Relationship> relationships = relationshipService.getUsersByUserId1(userId);
         // 封装成dto
         for(User user : users) {
             UserDto userDto =  new UserDto();
@@ -110,7 +118,7 @@ public class UserServiceImpl implements UserService {
     public List<UserDto> getUserDtoListByUserId(Integer userId) {
         List<UserDto> userDtoList = new ArrayList<>();
         //1.在关系中查询userId1 = userid and status = 3 的userId2s
-        List<Relationship> relationships = relationshipMapper.getByUserId1AndStatus(userId, 3);
+        List<Relationship> relationships = relationshipService.getListByUserId1AndStatus(userId, 3);
         if(relationships.isEmpty()) {
             return userDtoList;
         }

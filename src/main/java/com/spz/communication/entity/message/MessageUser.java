@@ -28,7 +28,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MessageUser {
-    private static final long serialVersionUID = 1L;//保证其兼容性
     private Integer id; //ID
     private Integer senderId;//发送者id
     private Integer receiverId;//接收者id

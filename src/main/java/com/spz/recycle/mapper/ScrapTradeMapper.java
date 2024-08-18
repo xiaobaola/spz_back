@@ -27,11 +27,11 @@ public interface ScrapTradeMapper {
     ScrapTrade getById(Integer id);
 
     @Select("select * from scrap_trade where user_id=#{userId}")
-    List<ScrapTrade> getByUserId(Integer userId);
+    List<ScrapTrade> selectListByUserId(Integer userId);
 
 
     @Select("select id from scrap_trade where user_id=#{userId}")
-    List<Integer> getIdsByUserId(Integer userId);
+    List<Integer> selectIdsByUserId(Integer userId);
 
     @Update("update scrap_trade set status=3 where id=#{id}")
     void updateStatusById(Integer id);

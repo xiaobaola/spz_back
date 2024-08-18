@@ -12,10 +12,10 @@ import java.util.List;
 public interface MessageTradeMapper {
     @Insert("insert into message_trade(name, message, trade_time_start, trade_time_finish ,create_time, update_time) " +
             "values (#{name}, #{message}, #{tradeTimeStart}, #{tradeTimeFinish} ,#{createTime} ,#{updateTime})")
-    void insert3(MessageTrade messageTrade);
+    void insert(MessageTrade messageTrade);
 
     @Select("select * from message_trade order by update_time desc")
-    List<MessageTrade> list3();
+    List<MessageTrade> selectList();
 
     @Select("select * from message_trade where id=#{id}")
     MessageTradeDto getById(Integer id);

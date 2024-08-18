@@ -118,7 +118,7 @@ public class UserController {
         // 20240808安全优化 session->userid
         userId = User.getUserIdBySession(userId,request);
         log.info("get 好友列表, userId:{}",userId);
-        return Res.success(messageTradeService.getUserMessage(userId));
+        return Res.success(messageTradeService.getUsersByUserId(userId));
     }
 
     @PostMapping("/friend/add")

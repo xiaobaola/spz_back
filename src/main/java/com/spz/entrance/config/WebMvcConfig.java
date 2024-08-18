@@ -18,8 +18,14 @@ import java.util.List;
 public class WebMvcConfig extends WebMvcConfigurationSupport {
 //    重定向 http -> https
 
-    @Autowired
+
     private LoginInterceptor loginInterceptor;
+
+    @Autowired
+    public void setLoginInterceptor(LoginInterceptor loginInterceptor) {
+        this.loginInterceptor = loginInterceptor;
+    }
+
     @Value("${spzStore.path}")
     private String basePath;
 

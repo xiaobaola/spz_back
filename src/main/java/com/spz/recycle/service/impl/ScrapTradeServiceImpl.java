@@ -61,7 +61,7 @@ public class ScrapTradeServiceImpl implements ScrapTradeService {
     }
 
     @Override
-    public String insert(ScrapTrade scrapTrade) {
+    public String add(ScrapTrade scrapTrade) {
         //1 创建订单编号
         long orderId = IdWorker.getId();
         String number = String.valueOf(orderId);
@@ -83,13 +83,13 @@ public class ScrapTradeServiceImpl implements ScrapTradeService {
     }
 
     @Override
-    public void updateStatus(ScrapTrade scrapTrade) {
+    public void changeStatus(ScrapTrade scrapTrade) {
         scrapTradeMapper.updateStatus(scrapTrade);
     }
 
     @Override
     public List<ScrapTrade> getNumberByUserId(Integer userId) {
-        List<ScrapTrade> scrapTrades = scrapTradeMapper.getByUserId(userId);
+        List<ScrapTrade> scrapTrades = scrapTradeMapper.selectListByUserId(userId);
         scrapTrades.sort(Comparator.comparing(ScrapTrade::getCreateTime).reversed());
         return scrapTrades;
     }
@@ -100,7 +100,7 @@ public class ScrapTradeServiceImpl implements ScrapTradeService {
     }
 
     @Override
-    public void updateStatusById(List<Integer> scrapTradeIds,Integer status) {
+    public void changeStatusById(List<Integer> scrapTradeIds, Integer status) {
         List<ScrapTrade> list = new ArrayList<>();
         for (Integer scrapTradeId:scrapTradeIds){
             list.add(scrapTradeMapper.getById(scrapTradeId));
@@ -110,6 +110,16 @@ public class ScrapTradeServiceImpl implements ScrapTradeService {
                 scrapTradeMapper.updateStatusById(element.getId());
             }
         }
+    }
+
+    @Override
+    public List<Integer> getIdsByUserId(Integer userId) {
+        return scrapTradeMapper.selectIdsByUserId(userId);
+    }
+
+    @Override
+    public List<ScrapTrade> getListByUserId(Integer userId) {
+        return scrapTradeMapper.selectListByUserId(userId);
     }
 
 

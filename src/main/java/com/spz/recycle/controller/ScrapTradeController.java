@@ -41,7 +41,7 @@ public class ScrapTradeController {
 //        if(scrapTrade.getStatus() == 3) {
 //            return Res.error("订单已完成不能取消");
 //        }
-        scrapTradeService.updateStatus(scrapTrade);
+        scrapTradeService.changeStatus(scrapTrade);
         return Res.success("状态修改成功");
     }
 
@@ -49,7 +49,7 @@ public class ScrapTradeController {
     public Res<String> updateStatusById(@RequestBody ScrapWrapper wrapper){
         List<Integer> scrapTradeIds = wrapper.getScrapTradeIds();
         Integer status = wrapper.getStatus();
-        scrapTradeService.updateStatusById(scrapTradeIds,status);
+        scrapTradeService.changeStatusById(scrapTradeIds,status);
         return Res.success("状态修改成功");
     }
 
@@ -64,7 +64,7 @@ public class ScrapTradeController {
         log.info("账单上传: {}",scrapTradeDto);
         ScrapTrade scrapTrade = (ScrapTrade) scrapTradeDto;
         //插入总账单并返回订单编号
-        String number = scrapTradeService.insert(scrapTrade);
+        String number = scrapTradeService.add(scrapTrade);
         ScrapTrade scrapTradeId = scrapTradeService.getByNumber(scrapTrade);
         //批量插入订单细节信息
         scrapTradeDetailService.insertList(scrapTradeDto.getScrapTradeDetails(), scrapTradeId.getId());

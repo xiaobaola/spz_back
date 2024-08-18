@@ -7,15 +7,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScans;
-import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 
 @Slf4j
 @SpringBootApplication
 @ServletComponentScan
 @EnableTransactionManagement
-@ComponentScans({@ComponentScan("com.spz.config"),@ComponentScan("com.spz.**.service"),@ComponentScan("com.spz.**.controller")})
+@ComponentScans({@ComponentScan("com.spz.entrance.config"),@ComponentScan("com.spz.**.service"),@ComponentScan("com.spz.**.controller")})
 @MapperScan("com.spz.**.mapper")
 public class SpzApplication {
 

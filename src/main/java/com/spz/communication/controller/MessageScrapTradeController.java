@@ -15,8 +15,13 @@ import java.util.List;
 @Slf4j
 @RequestMapping("spz/messageScrapTrade")
 public class MessageScrapTradeController {
-    @Autowired
+
     private MessageScrapTradeService messageScrapTradeService;
+
+    @Autowired
+    public void setMessageScrapTradeService(MessageScrapTradeService messageScrapTradeService) {
+        this.messageScrapTradeService = messageScrapTradeService;
+    }
 
     @GetMapping("/message/{id}")
     public Res<List<Integer>> getMessageTradeId(@PathVariable Integer id){
@@ -32,7 +37,7 @@ public class MessageScrapTradeController {
     public Res<String> insertMessageAndScrapId(@RequestBody MessageWrapper messageWrapper) {
         List<Integer> scrapTradeIds = messageWrapper.getScrapTradeIds();
         Integer messageTradeId = messageWrapper.getMessageTradeId();
-        messageScrapTradeService.insertByid(scrapTradeIds,messageTradeId);
+        messageScrapTradeService.addById(scrapTradeIds,messageTradeId);
         return Res.success("添加成功");
     }
 
@@ -51,7 +56,7 @@ public class MessageScrapTradeController {
         // 20240809安全优化userId
         userId = User.getUserIdBySession(userId,request);
 //        log.info("userId: {}", userId);
-        messageScrapTradeService.updateStatusByUserId(userId);
+        messageScrapTradeService.changeStatusByUserId(userId);
         return Res.success("更新消息状态成功");
     }
 

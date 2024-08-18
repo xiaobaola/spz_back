@@ -2,8 +2,10 @@ package com.spz.secondHand.entity.dto;
 
 import com.spz.secondHand.entity.SecondHandTrade;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper = false)
 public class SecondHandTradeDto extends SecondHandTrade {
     private String buyerUsername;
     private String buyerImage;

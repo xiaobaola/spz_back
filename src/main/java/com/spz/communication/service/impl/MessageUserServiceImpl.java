@@ -13,19 +13,24 @@ import java.util.List;
 
 @Service
 public class MessageUserServiceImpl implements MessageUserService {
-    @Autowired
+
     MessageUserMapper messageUserMapper;
 
+    @Autowired
+    public void setMessageUserMapper(MessageUserMapper messageUserMapper) {
+        this.messageUserMapper = messageUserMapper;
+    }
+
     @Override
-    public List<MessageUser> list(Integer userId1, Integer userId2) {
-        // 创建一个list
-        List<MessageUser> users = new ArrayList<>();
+    public List<MessageUser> getList(Integer userId1, Integer userId2) {
+
         // 根据userId1查询相关信息
         // 查询sendId == userId1 && receiverId == userId2
-        List<MessageUser> users1 = messageUserMapper.getBySendIdAndReceiverId(userId1,userId2);
-        users.addAll(users1);
+        List<MessageUser> users1 = messageUserMapper.selectBySendIdAndReceiverId(userId1,userId2);
+        // 创建一个list
+        List<MessageUser> users = new ArrayList<>(users1);
         // 查询sendId == userId2 && receiverId == userId1
-        List<MessageUser> users2 = messageUserMapper.getBySendIdAndReceiverId(userId2,userId1);
+        List<MessageUser> users2 = messageUserMapper.selectBySendIdAndReceiverId(userId2,userId1);
         users.addAll(users2);
         // 根据时间排序
         users.sort(Comparator.comparing(MessageUser::getCreateTime));
@@ -33,7 +38,7 @@ public class MessageUserServiceImpl implements MessageUserService {
     }
 
     @Override
-    public void insert(MessageUser messageUser) {
+    public void add(MessageUser messageUser) {
         messageUser.setCreateTime(LocalDateTime.now());
         messageUser.setUpdateTime(LocalDateTime.now());
         messageUser.setMesStatus((short)1);
