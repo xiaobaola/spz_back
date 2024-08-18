@@ -1,6 +1,6 @@
 package com.spz.mapper;
 
-import com.spz.entity.secondhand.SecondHandItem;
+import com.spz.entity.SecondHandItem;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;

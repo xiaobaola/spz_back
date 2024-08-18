@@ -1,6 +1,6 @@
 package com.spz.entity.dto;
 
-import com.spz.entity.secondhand.SecondHandTrade;
+import com.spz.entity.SecondHandTrade;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -15,17 +15,17 @@ public class SecondHandTradeDto extends SecondHandTrade {
     private int sellerStatus;
     private int tradeStatus; // 1:创建 2:取消 3:完成 4:删除
 
-//    @Override
-//    public String toString() {
-//        return "SecondHandTradeDto{" +
-//                super.toString()+
-//                ", buyerUsername='" + buyerUsername + '\'' +
-//                ", buyerImage='" + buyerImage + '\'' +
-//                ", buyerStatus=" + buyerStatus +
-//                ", sellerUsername='" + sellerUsername + '\'' +
-//                ", sellerImage='" + sellerImage + '\'' +
-//                ", sellerStatus=" + sellerStatus +
-//                ", tradeStatus=" + tradeStatus +
-//                '}';
-//    }
+    @Override
+    public String toString() {
+        return "SecondHandTradeDto{" +
+                super.toString()+
+                ", buyerUsername='" + buyerUsername + '\'' +
+                ", buyerImage='" + buyerImage + '\'' +
+                ", buyerStatus=" + buyerStatus +
+                ", sellerUsername='" + sellerUsername + '\'' +
+                ", sellerImage='" + sellerImage + '\'' +
+                ", sellerStatus=" + sellerStatus +
+                ", tradeStatus=" + tradeStatus +
+                '}';
+    }
 }

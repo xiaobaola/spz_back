@@ -1,6 +1,6 @@
 package com.spz.entity.dto;
 
-import com.spz.entity.user.User;
+import com.spz.entity.User;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-public class UserDto extends User {
+public class MessageUserDto extends User {
     private Integer status;
     private String greet;
     @Override

@@ -1,7 +1,7 @@
 package com.spz.controller;
 
 import com.spz.common.Res;
-import com.spz.entity.manager.Manager;
+import com.spz.entity.Manager;
 import com.spz.entity.page.PageBean;
 import com.spz.service.ManagerService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,19 +17,24 @@ import java.time.LocalDate;
 @RequestMapping("/spz/manager")
 public class ManagerController {
 
-    @Autowired
+
     private ManagerService managerService;
 
+    @Autowired
+    public void setManagerService(ManagerService managerService) {
+        this.managerService = managerService;
+    }
+
     /**
-     * @param @param manager
-     * @return @return {@link Res }<{@link Manager }>
-     * @author last
-     * @describe 管理员登录请求
+     * Param @param manager
+     * Return @return {@link Res }<{@link Manager }>
+     * Author last
+     * Describe 管理员登录请求
      */
     @PostMapping("/login")
     public Res<Manager> login(HttpServletRequest request, @RequestBody Manager manager) {
         log.info("login: manager{}", manager);
-        Manager one = managerService.getByUN(manager);
+        Manager one = managerService.getByUsernameAndPassword(manager.getUsername(),manager.getPassword());
         if(one != null) {
             //把信息写入session中
             request.getSession().setAttribute("manager", one);
@@ -39,10 +44,10 @@ public class ManagerController {
     }
 
     /**
-     * @param @param request
-     * @return @return {@link Res }<{@link String }>
-     * @author last
-     * @describe 登出删除id
+     * Param @param request
+     * Return @return {@link Res }<{@link String }>
+     * Author last
+     * Describe 登出删除id
      */
     @PostMapping("/logout")
     public Res<String> logout(HttpServletRequest request) {
@@ -57,7 +62,7 @@ public class ManagerController {
                               String name,
                               @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate begin,
                               @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate end) {
-        log.info("分页查询中，第{}页，{}条,其他参数：{},{},{},{}", page, pageSize, name, begin, end);
+        log.info("分页查询中，第{}页，{}条,其他参数：{},{},{}", page, pageSize, name, begin, end);
         PageBean pageBean = managerService.page(page, pageSize, name, begin, end);
         return Res.success(pageBean);
     }
@@ -82,7 +87,7 @@ public class ManagerController {
     @PostMapping
     public Res<String> insert(@RequestBody Manager manager) {
         log.info("新增: {}", manager);
-        managerService.insert(manager);
+        managerService.add(manager);
         return Res.success("新增开发人员成功");
     }
 }

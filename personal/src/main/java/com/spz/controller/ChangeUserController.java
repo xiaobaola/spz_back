@@ -1,10 +1,10 @@
 package com.spz.controller;
 
+import com.spz.service.UserService;
 import com.spz.common.Res;
-import com.spz.entity.user.User;
-import com.spz.entity.wrapper.ChangeWrapper;
-import com.spz.mapper.UserMapper;
-import com.spz.service.ChangeUserService;
+import com.spz.entity.User;
+import com.spz.entity.wrapper.UserChangeWrapper;
+import com.spz.service.UserChangeUserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,23 +19,33 @@ import java.util.ArrayList;
 // 为了方便维护？
 public class ChangeUserController {
 
-    @Autowired
-    private ChangeUserService changeUserService;
+
+    private UserChangeUserService changeUserService;
+
+
+    private UserService userService;
 
     @Autowired
-    private UserMapper userMapper;
+    public void setChangeUserService(UserChangeUserService changeUserService) {
+        this.changeUserService = changeUserService;
+    }
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 
     ArrayList<User> users;
 
     @PutMapping("/changeUserName")
-    public Res<String> ChangeUserName(@RequestBody ChangeWrapper changeWrapper, HttpServletRequest request) {
+    public Res<String> changeUserName(@RequestBody UserChangeWrapper userChangeWrapper, HttpServletRequest request) {
         // 20240715根据数据库用户信息判断后执行修改
-        users = userMapper.selectAll();
-        log.info("请求 user:{}", changeWrapper);
-        Integer userId = changeWrapper.getUserId();
+        users = userService.getList();
+        log.info("请求 user:{}", userChangeWrapper);
+        Integer userId = userChangeWrapper.getUserId();
         // 20240808安全优化 session->userid 抽取成user的一个方法，因为会经常用到
         userId = User.getUserIdBySession(userId,request);
-        String userName = changeWrapper.getUserName();
+        String userName = userChangeWrapper.getUserName();
         for (User user : users) {
             if (userName.equals(user.getUsername())) {
                 return Res.error("修改失败，用户名已存在");
@@ -46,13 +56,13 @@ public class ChangeUserController {
     }
 
     @PutMapping("/changePhone")
-    public Res<String> ChangePhone(@RequestBody ChangeWrapper changeWrapper, HttpServletRequest request) {
-        users = userMapper.selectAll();
-        log.info("请求 user:{}", changeWrapper);
-        Integer userId = changeWrapper.getUserId();
+    public Res<String> changePhone(@RequestBody UserChangeWrapper userChangeWrapper, HttpServletRequest request) {
+        users = userService.getList();
+        log.info("请求 user:{}", userChangeWrapper);
+        Integer userId = userChangeWrapper.getUserId();
         // 20240808安全优化 session->userid 抽取成user的一个方法，因为会经常用到
         userId = User.getUserIdBySession(userId,request);
-        String phone = changeWrapper.getPhone();
+        String phone = userChangeWrapper.getPhone();
         int count = 0;
         for (User user1 : users) {
             if (phone.equals(user1.getPhone())) {
@@ -67,14 +77,14 @@ public class ChangeUserController {
     }
 
     @PutMapping("/changePassword")
-    public Res<String> ChangePassword(@RequestBody ChangeWrapper changeWrapper, HttpServletRequest request) {
-        log.info("请求 user:{}", changeWrapper);
-        Integer userId = changeWrapper.getUserId();
+    public Res<String> changePassword(@RequestBody UserChangeWrapper userChangeWrapper, HttpServletRequest request) {
+        log.info("请求 user:{}", userChangeWrapper);
+        Integer userId = userChangeWrapper.getUserId();
         // 20240808安全优化 session->userid
         userId = User.getUserIdBySession(userId,request);
         log.info("changePassword请求 userId:{}", userId);
 
-        String password = changeWrapper.getPassword();
+        String password = userChangeWrapper.getPassword();
         changeUserService.changePassword(userId, password);
         return Res.success("修改成功");
     }

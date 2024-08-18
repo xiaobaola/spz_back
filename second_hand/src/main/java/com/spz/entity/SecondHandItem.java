@@ -1,4 +1,4 @@
-package com.spz.entity.secondhand;
+package com.spz.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

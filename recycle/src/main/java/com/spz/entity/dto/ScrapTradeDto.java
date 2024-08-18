@@ -1,11 +1,10 @@
 package com.spz.entity.dto;
 
-import com.spz.entity.scrap.ScrapTrade;
-import com.spz.entity.scrap.ScrapTradeDetail;
+import com.spz.entity.ScrapTrade;
+import com.spz.entity.ScrapTradeDetail;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Data

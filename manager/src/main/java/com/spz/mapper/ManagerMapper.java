@@ -1,6 +1,6 @@
 package com.spz.mapper;
 
-import com.spz.entity.manager.Manager;
+import com.spz.entity.Manager;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -12,12 +12,12 @@ import java.util.List;
 @Mapper
 public interface ManagerMapper {
     @Select("select * from manager where username=#{username} and password=#{password}")
-    Manager getByUN(Manager manager);
+    Manager selectByUsernameAndPassword(String username, String password);
 
-    List<Manager> list(String name, LocalDate begin, LocalDate end);
+    List<Manager> selectList(String name, LocalDate begin, LocalDate end);
 
     @Select("select * from manager where id=#{id}")
-    Manager getById(Integer id);
+    Manager selectById(Integer id);
 
 //    @Insert("insert into manager(id, name, username, password, phone, update_time, create_time) ")
     @Update("update manager set name=#{name}, username=#{username}, phone=#{phone}, update_time=#{updateTime} where id=#{id}")

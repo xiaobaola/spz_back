@@ -1,10 +1,9 @@
 package com.spz.service;
 
-import com.spz.entity.scrap.ScrapTradeDetail;
+import com.spz.entity.ScrapTradeDetail;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public interface ScrapTradeDetailService {
-    void insertList(List<ScrapTradeDetail> scrapTradeDetails, Integer id);
+    void addList(List<ScrapTradeDetail> scrapTradeDetails, Integer id);
 }

@@ -3,8 +3,8 @@ package com.spz.controller;
 
 import com.spz.common.Res;
 import com.spz.entity.message.MessageTrade;
-import com.spz.entity.message.MessageTradeDto;
-import com.spz.entity.user.User;
+import com.spz.entity.dto.MessageTradeDto;
+import com.spz.entity.User;
 import com.spz.service.MessageTradeService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -17,20 +17,24 @@ import java.util.List;
 @RequestMapping("spz/messageTrade")
 @Slf4j
 public class MessageTradeController {
-    @Autowired
+
     private MessageTradeService messageTradeService;
+    @Autowired
+    public void setMessageTradeService(MessageTradeService messageTradeService) {
+        this.messageTradeService = messageTradeService;
+    }
 
     @PostMapping
     public Res<String> createMessageTrade(@RequestBody MessageTrade messageTrade){
         log.info("新增: {}", messageTrade);
-        messageTradeService.insert3(messageTrade);
+        messageTradeService.add(messageTrade);
         return Res.success("新增信息成功");
     }
 
     @GetMapping("/list")
     public Res<List<MessageTrade>> selectMessageTradeAll(){
         log.info("get 信息列表");
-        return Res.success(messageTradeService.list3());
+        return Res.success(messageTradeService.getList());
     }
 
     @GetMapping("/{id}")
@@ -44,7 +48,7 @@ public class MessageTradeController {
         log.info("get 信息列表 userId:{}",userId);
         // 20240809安全优化userId
         userId = User.getUserIdBySession(userId,request);
-        return Res.success(messageTradeService.getByUserId(userId));
+        return Res.success(messageTradeService.getMessageTradeDtosByUserId(userId));
     }
 
 }

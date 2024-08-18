@@ -1,9 +1,9 @@
 package com.spz.service;
 
-import com.spz.entity.user.User;
+import com.spz.entity.User;
 
 public interface UserRegisterService {
-    void userRegister(User user);
+    void add(User user);
 
     Integer getIdByUserName(String username);
 }

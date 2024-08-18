@@ -1,10 +1,8 @@
 package com.spz.mapper;
 
-import com.spz.entity.scrap.ScrapTradeDetail;
+import com.spz.entity.ScrapTradeDetail;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
-
-import java.util.List;
 
 @Mapper
 public interface ScrapTradeDetailMapper {

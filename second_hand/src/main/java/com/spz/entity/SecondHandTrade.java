@@ -1,4 +1,4 @@
-package com.spz.entity.secondhand;
+package com.spz.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 /**
  * Author last
  * Date 2024-08-11
- *
  * -- 二手交易表
  *     create table second_hand_trade
  *             (
@@ -40,16 +39,16 @@ public class SecondHandTrade {
     private LocalDateTime createTime;
     private LocalDateTime updateTime;
 
-    SecondHandTrade(String number,String itemImage,int itemPrice,String itemInformation,String place,String approach,
-                    LocalDateTime tradeTime,LocalDateTime createTime,LocalDateTime updateTime){
-        this.number = number;
-        this.itemImage = itemImage;
-        this.itemPrice = itemPrice;
-        this.itemInformation = itemInformation;
-        this.place = place;
-        this.approach = approach;
-        this.tradeTime = tradeTime;
-        this.createTime = createTime;
-        this.updateTime = updateTime;
-    }
+//    SecondHandTrade(String number,String itemImage,int itemPrice,String itemInformation,String place,String approach,
+//                    LocalDateTime tradeTime,LocalDateTime createTime,LocalDateTime updateTime){
+//        this.number = number;
+//        this.itemImage = itemImage;
+//        this.itemPrice = itemPrice;
+//        this.itemInformation = itemInformation;
+//        this.place = place;
+//        this.approach = approach;
+//        this.tradeTime = tradeTime;
+//        this.createTime = createTime;
+//        this.updateTime = updateTime;
+//    }
 }

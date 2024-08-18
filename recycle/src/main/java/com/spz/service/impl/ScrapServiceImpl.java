@@ -4,11 +4,11 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.spz.entity.dto.ScrapDto;
 import com.spz.entity.page.PageBean;
-import com.spz.entity.scrap.Scrap;
-import com.spz.entity.scrap.ScrapType;
+import com.spz.entity.Scrap;
+import com.spz.entity.ScrapType;
 import com.spz.mapper.ScrapMapper;
-import com.spz.mapper.ScrapTypeMapper;
 import com.spz.service.ScrapService;
+import com.spz.service.ScrapTypeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,14 +23,23 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 public class ScrapServiceImpl implements ScrapService {
-    @Autowired
+
     private ScrapMapper scrapMapper;
+    private ScrapTypeService scrapTypeService;
+
     @Autowired
-    private ScrapTypeMapper scrapTypeMapper; 
+    public void setScrapMapper(ScrapMapper scrapMapper) {
+        this.scrapMapper = scrapMapper;
+    }
+
+    @Autowired
+    public void setScrapTypeService(ScrapTypeService scrapTypeService) {
+        this.scrapTypeService = scrapTypeService;
+    }
 
     @Override
-    public ArrayList<Scrap> listByTypeId(Integer id) {
-        return scrapMapper.listByTypeId(id);
+    public ArrayList<Scrap> getListByTypeId(Integer id) {
+        return scrapMapper.selectListByTypeId(id);
     }
 
     @Override
@@ -39,7 +48,7 @@ public class ScrapServiceImpl implements ScrapService {
         PageHelper.startPage(page,pageSize);
 
         //2、正常查询
-        List<Scrap> scrapList = scrapMapper.list(name, begin, end);
+        List<Scrap> scrapList = scrapMapper.selectList(name, begin, end);
 
         //从scrap到scrapDto 封装成dto对象 多一个属性
         List<ScrapDto> scrapDtoList = scrapList.stream().map((item) -> {
@@ -49,7 +58,7 @@ public class ScrapServiceImpl implements ScrapService {
             //获取各自分类id
             int scrapTypeId = item.getScrapTypeId();
             //根据id查询分类对象
-            ScrapType scrapType = scrapTypeMapper.getById(scrapTypeId);
+            ScrapType scrapType = scrapTypeService.getById(scrapTypeId);
 
             //设置回收品类型名
             if (scrapType != null) {
@@ -63,18 +72,17 @@ public class ScrapServiceImpl implements ScrapService {
         Page<Scrap> scrapPage = (Page<Scrap>) scrapList;
 
         //3、封装pageBean对象 补丁型 完善dto类
-        PageBean pageBean = new PageBean(scrapPage.getTotal(), scrapDtoList);
 
-        return pageBean;
+        return new PageBean(scrapPage.getTotal(), scrapDtoList);
     }
 
     @Override
     public Scrap getById(Integer id) {
-        return scrapMapper.getById(id);
+        return scrapMapper.selectById(id);
     }
 
     @Override
-    public void updateById(Scrap scrap) {
+    public void changeById(Scrap scrap) {
         scrap.setUpdateTime(LocalDateTime.now());
         scrapMapper.updateById(scrap);
     }
@@ -85,7 +93,7 @@ public class ScrapServiceImpl implements ScrapService {
     }
 
     @Override
-    public void insert(Scrap scrap) {
+    public void add(Scrap scrap) {
         //补全属性
         scrap.setUpdateTime(LocalDateTime.now());
         scrap.setCreateTime(LocalDateTime.now());

@@ -1,6 +1,6 @@
 package com.spz.mapper;
 
-import com.spz.entity.secondhand.SecondHandTradeUser;
+import com.spz.entity.SecondHandTradeUser;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;

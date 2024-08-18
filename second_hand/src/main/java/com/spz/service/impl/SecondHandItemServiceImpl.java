@@ -1,9 +1,8 @@
 package com.spz.service.impl;
 
-import com.spz.common.Res;
-import com.spz.entity.secondhand.SecondHandItem;
+import com.spz.entity.SecondHandItem;
 import com.spz.entity.dto.SecondHandItemDto;
-import com.spz.entity.user.User;
+import com.spz.entity.User;
 import com.spz.mapper.SecondHandItemMapper;
 import com.spz.service.SecondHandItemService;
 import com.spz.service.UserService;
@@ -17,25 +16,26 @@ import java.util.List;
 
 @Service
 public class SecondHandItemServiceImpl implements SecondHandItemService {
-    @Autowired
+
     private SecondHandItemMapper itemMapper;
-    @Autowired
+
     private UserService userService;
 
-    @Override
-    public List<SecondHandItem> getSomeByStatus(int status) {
-        return itemMapper.selectByStatus(status);
+    @Autowired
+    public void setItemMapper(SecondHandItemMapper itemMapper) {
+        this.itemMapper = itemMapper;
     }
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
 
     @Override
     public void changeStatusById(int status, int itemId) {
         // 1->3 2->3
         itemMapper.updateStatusById(status,itemId);
-    }
-
-    @Override
-    public int getUserIdById(int itemId) {
-        return itemMapper.selectUserIdById(itemId);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class SecondHandItemServiceImpl implements SecondHandItemService {
     }
 
     @Override
-    public void createItem(SecondHandItem item) {
+    public void addItem(SecondHandItem item) {
         // 完善数据status 时间
         int status = 1; // 1:待审核 2:发布中 3:下架
         item.setStatus(status);

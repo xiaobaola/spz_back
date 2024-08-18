@@ -1,11 +1,11 @@
 package com.spz.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
-import com.spz.entity.secondhand.SecondHandItem;
-import com.spz.entity.secondhand.SecondHandTrade;
+import com.spz.entity.SecondHandItem;
+import com.spz.entity.SecondHandTrade;
 import com.spz.entity.dto.SecondHandTradeDto;
-import com.spz.entity.secondhand.SecondHandTradeUser;
-import com.spz.entity.user.User;
+import com.spz.entity.SecondHandTradeUser;
+import com.spz.entity.User;
 import com.spz.mapper.SecondHandTradeMapper;
 import com.spz.service.SecondHandItemService;
 import com.spz.service.SecondHandTradeService;
@@ -21,22 +21,48 @@ import java.util.List;
 
 @Service
 public class SecondHandTradeServiceImpl implements SecondHandTradeService {
-    @Autowired
-    private SecondHandTradeMapper tradeMapper;
-    @Autowired
-    private SecondHandItemService itemService;
-    @Autowired
-    private SecondHandTradeUserService tradeUserService;
-    @Autowired
-    private UserService userService;
 
-    @Override
-    public List<SecondHandTrade> getTradeByBuyerId(int buyerId) {
-        return tradeMapper.selectByBuyerId(buyerId);
+    private SecondHandTradeMapper tradeMapper;
+
+    private SecondHandItemService itemService;
+
+    private SecondHandTradeUserService tradeUserService;
+
+    private UserService userService;
+    @Autowired
+    public void setTradeMapper(SecondHandTradeMapper tradeMapper) {
+        this.tradeMapper = tradeMapper;
+    }
+    @Autowired
+    public void setItemService(SecondHandItemService itemService) {
+        this.itemService = itemService;
+    }
+    @Autowired
+    public void setTradeUserService(SecondHandTradeUserService tradeUserService) {
+        this.tradeUserService = tradeUserService;
+    }
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
     }
 
     @Override
-    public void createByBuyerIdAndItemIdAndTrade(int buyerId, int itemId, SecondHandTrade trade) {
+    public List<SecondHandTrade> getTradeByBuyerId(int buyerId) {
+        // 获取买家的二手交易订单
+        // 1通过关联表找到tradeId
+        List<SecondHandTrade> secondHandTrades = new ArrayList<>();
+        for (SecondHandTradeUser tradeUser : tradeUserService.getSomeByBuyerId(buyerId)) {
+            int tradeId = tradeUser.getSecondHandTradeId();
+            SecondHandTrade trade = tradeMapper.selectOneById(tradeId);
+            secondHandTrades.add(trade);
+        }
+
+        // 2 通过tradeId拿到trade的信息
+        return secondHandTrades;
+    }
+
+    @Override
+    public void addByBuyerIdAndItemIdAndTrade(int buyerId, int itemId, SecondHandTrade trade) {
         // 1物品状态变为下架状态 2->3
         // 可以优化 防止多次购物，加锁，加条件判断
         itemService.changeStatusById(3,itemId);
@@ -76,13 +102,9 @@ public class SecondHandTradeServiceImpl implements SecondHandTradeService {
         tradeUser.setCreateTime(LocalDateTime.now());
         tradeUser.setUpdateTime(LocalDateTime.now());
         // 3.7 插入数据
-        tradeUserService.insertOne(tradeUser);
+        tradeUserService.add(tradeUser);
     }
 
-    @Override
-    public SecondHandTrade getOneById(int tradeId) {
-        return tradeMapper.selectOneById(tradeId);
-    }
 
     @Override
     public List<SecondHandTradeDto> getTradeDtoListByBuyerId(int buyerId) {
@@ -99,7 +121,7 @@ public class SecondHandTradeServiceImpl implements SecondHandTradeService {
     }
 
     @Override
-    public void buyerChangeTradeBuyerStatusByTradeId(int tradeId) {
+    public void changeBuyerTradeBuyerStatusByTradeId(int tradeId) {
         // 1改变关联表的状态信息 无需对订单表进行更改
         // 订单状态 创建态1 -> 取消态2 谁取消修改关联表中谁的状态值
         int buyerStatus = 2;
@@ -109,7 +131,7 @@ public class SecondHandTradeServiceImpl implements SecondHandTradeService {
     }
 
     @Override
-    public void sellerChangeTradeSellerStatusByTradeId(int tradeId) {
+    public void changeSellerTradeSellerStatusByTradeId(int tradeId) {
         int sellerStatus = 2;
         tradeUserService.changeSellerStatusByTradeId(sellerStatus,tradeId);
     }

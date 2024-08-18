@@ -1,6 +1,6 @@
 package com.spz.mapper;
 
-import com.spz.entity.user.User;
+import com.spz.entity.User;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -17,10 +17,6 @@ public interface CommunicationUserMapper {
 
     @Select("select * from user where username=#{username} and password=#{password}")
     User getByInfo(User user);
-
-    void updateById(User user);
-
-    List<User> list(String username, LocalDate begin, LocalDate end);
 
     @Select("select * from user where id = #{id}")
     User selectById(Integer id);
@@ -41,5 +37,4 @@ public interface CommunicationUserMapper {
     @Select("select * from user where phone=#{phone}")
     User getByPhone(String phone);
 
-    List<User> getUsersByUserIds(List<Integer> userIds);
 }

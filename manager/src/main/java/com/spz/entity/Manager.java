@@ -1,4 +1,4 @@
-package com.spz.entity.manager;
+package com.spz.entity;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;

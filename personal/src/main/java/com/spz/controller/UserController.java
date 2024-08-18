@@ -1,21 +1,31 @@
 package com.spz.controller;
 
 import com.spz.common.Res;
-import com.spz.entity.user.User;
+import com.spz.entity.page.PageBean;
+import com.spz.entity.User;
 import com.spz.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 
 @RequestMapping("/spz/user")
 @RestController
 @Slf4j
 public class UserController {
 
-    @Autowired
     private UserService userService;
+
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
 
     @GetMapping
     public Res<User> getById(User user) {
@@ -29,14 +39,14 @@ public class UserController {
         String username = userMessage.getUsername();
         String password = userMessage.getPassword();
         log.info("login请求 username:{}, password{}", username, password);
-        User user = userService.getByUsernameAndPassword(username,password);
+        User user = userService.getByUsernameAndPassword(username, password);
         if(user != null) {
             log.info("user = {}", user);
             // session
             HttpSession session = request.getSession();
             // 向session设置值
             session.setAttribute("user",user);
-            // token 优化 当采用nginx 和 微服务架构时需要使用token
+            // token
             return Res.success(user);
         }
         return Res.error("用户名或密码错误");
@@ -44,12 +54,24 @@ public class UserController {
 
     @PostMapping("/logout")
     //HttpServletRequest request,
-    public Res<String> logout(@RequestBody User user) {
+    public Res<String> logout(HttpServletRequest request) {
         // 清理session中保存的管理员id
-//        request.getSession().removeAttribute("user");
+        request.getSession().removeAttribute("user");
         return Res.success("退出成功");
     }
 
+
+
+    @GetMapping("/page")
+    public Res<PageBean> page(@RequestParam(defaultValue = "1")Integer page,
+                              @RequestParam(defaultValue = "10")Integer pageSize,
+                              String username,
+                              @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate begin,
+                              @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate end) {
+        log.info("分页查询中，第{}页，{}条,其他参数：{},{},{}", page, pageSize, username, begin, end);
+        PageBean pageBean = userService.page(page, pageSize, username, begin, end);
+        return Res.success(pageBean);
+    }
 
     @GetMapping("/{id}")
     public Res<User> getByIdNumber(@PathVariable Integer id) {
@@ -72,8 +94,7 @@ public class UserController {
         userId = User.getUserIdBySession(userId,request);
         user.setId(userId);
         log.info("userMessage{}", user);
-        userService.updateById(user);
+        userService.changeById(user);
         return Res.success("用户更新成功");
     }
-
 }

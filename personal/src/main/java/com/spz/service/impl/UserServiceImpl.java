@@ -3,7 +3,7 @@ package com.spz.service.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.spz.entity.page.PageBean;
-import com.spz.entity.user.User;
+import com.spz.entity.User;
 import com.spz.mapper.UserMapper;
 import com.spz.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +11,19 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
 
+    private UserMapper userMapper;
+
+
     @Autowired
-    UserMapper userMapper;
+    public void setUserMapper(UserMapper userMapper) {
+        this.userMapper = userMapper;
+    }
 
 
     @Override
@@ -27,11 +33,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateById(User user) {
+    public void changeById(User user) {
         user.setUpdateTime(LocalDateTime.now());
         userMapper.updateById(user);
     }
 
+    @Override
+    public PageBean page(Integer page, Integer pageSize, String username, LocalDate begin, LocalDate end) {
+        //1、设置分页参数
+        PageHelper.startPage(page,pageSize);
+
+        //2、正常查询
+        List<User> userList = userMapper.selectByUsernameOrBeginAndEnd(username, begin, end);
+
+        //为了获取total
+        Page<User> userPage = (Page<User>) userList;
+
+        //3、封装pageBean对象
+        return new PageBean(userPage.getTotal(), userPage.getResult());
+    }
 
     @Override
     public User getById(Integer id) {
@@ -46,13 +66,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> list(String username, LocalDate begin, LocalDate end) {
-        return userMapper.selectByUsernameOrBeginAndEnd(username,begin,end);
+    public ArrayList<User> getList() {
+        return userMapper.selectByAll();
     }
 
     @Override
-    public List<User> getByLikeUsername(String likeUsername) {
-        return userMapper.selectByLikeUsername(likeUsername);
+    public List<User> getByLikeUsername(String info) {
+        return userMapper.selectListByLikeUsername(info);
     }
 
     @Override
@@ -61,8 +81,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getUsersByUserIds(List<Integer> userIds) {
-        return userMapper.selectUsersByUserIds(userIds);
+    public List<User> getListByUsernameOrBeginAndEnd(String username, LocalDate begin, LocalDate end) {
+        return userMapper.selectByUsernameOrBeginAndEnd(username, begin, end);
     }
 
+    @Override
+    public List<User> getUsersByUserIds(List<Integer> userId2s) {
+        return userMapper.selectUsersByUserIds(userId2s);
+    }
 }

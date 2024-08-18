@@ -4,7 +4,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Update;
 
 @Mapper
-public interface ChangeMapper {
+public interface UserChangeMapper {
 
     @Update("update user set username=#{username} where id=#{id}")
     void changeUserName(Integer id ,String username);

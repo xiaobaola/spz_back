@@ -1,10 +1,10 @@
 package com.spz.controller;
 
 import com.spz.common.Res;
-import com.spz.entity.dto.UserDto;
+import com.spz.entity.dto.MessageUserDto;
 import com.spz.entity.page.PageBean;
 import com.spz.entity.relationship.Relationship;
-import com.spz.entity.user.User;
+import com.spz.entity.User;
 import com.spz.service.CommunicationUserService;
 import com.spz.service.MessageTradeService;
 import com.spz.service.RelationshipService;
@@ -48,7 +48,7 @@ public class CommunicationUserController {
         // 20240808安全优化 session->userid
         userId = User.getUserIdBySession(userId,request);
         log.info("get 好友列表, userId:{}",userId);
-        return Res.success(messageTradeService.getUserMessage(userId));
+        return Res.success(messageTradeService.getUsersByUserId(userId));
     }
 
     @PostMapping("/friend/add")
@@ -65,17 +65,17 @@ public class CommunicationUserController {
     }
 
     @GetMapping("/search")
-    public Res<List<UserDto>> getUserDtoListByInfo(@RequestParam String info, @RequestParam Integer userId,HttpServletRequest request){
+    public Res<List<MessageUserDto>> getUserDtoListByInfo(@RequestParam String info, @RequestParam Integer userId, HttpServletRequest request){
         // 20240809安全优化 session->userId
         userId = User.getUserIdBySession(userId,request);
         log.info("用户搜索, 参数:{},{}",info,userId);
-        List<UserDto> userDtoListByInfo = communicationUserService.getUserDtoListByInfo(info, userId);
-        log.info("返回,{}",userDtoListByInfo);
-        return Res.success(userDtoListByInfo);
+        List<MessageUserDto> messageUserDtoListByInfo = communicationUserService.getUserDtoListByInfo(info, userId);
+        log.info("返回,{}", messageUserDtoListByInfo);
+        return Res.success(messageUserDtoListByInfo);
     }
 
     @GetMapping("/newFriendList")
-    public Res<List<UserDto>> getUserDtoListByUserId(@RequestParam Integer userId,HttpServletRequest request) {
+    public Res<List<MessageUserDto>> getUserDtoListByUserId(@RequestParam Integer userId, HttpServletRequest request) {
         // 20240809安全优化 session->userId
         userId = User.getUserIdBySession(userId,request);
         log.info("查询好友验证, 参数{}", userId);

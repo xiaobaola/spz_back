@@ -1,9 +1,9 @@
 package com.spz.controller;
 
 import com.spz.common.Res;
-import com.spz.entity.secondhand.SecondHandTrade;
+import com.spz.entity.SecondHandTrade;
 import com.spz.entity.dto.SecondHandTradeDto;
-import com.spz.entity.user.User;
+import com.spz.entity.User;
 import com.spz.entity.wrapper.SecondHandWrapper;
 import com.spz.service.SecondHandTradeService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,8 +17,13 @@ import java.util.List;
 @RequestMapping("/spz/secondHand/trade")
 @Slf4j
 public class SecondHandTradeController {
-    @Autowired
+
     private SecondHandTradeService tradeService;
+
+    @Autowired
+    public void setTradeService(SecondHandTradeService tradeService) {
+        this.tradeService = tradeService;
+    }
 
     @GetMapping("/buyer")
     public Res<List<SecondHandTrade>> buyerList(@RequestParam int userId, HttpServletRequest request){
@@ -40,7 +45,7 @@ public class SecondHandTradeController {
         userId = User.getUserIdBySession(userId, request);
         int itemId = secondHandWrapper.getItemId();
         // 流程比较负责 涉及到订单的uuid创建， item的status，订单的status
-        tradeService.createByBuyerIdAndItemIdAndTrade(userId,itemId,trade);
+        tradeService.addByBuyerIdAndItemIdAndTrade(userId,itemId,trade);
         return Res.success("购买成功");
     }
 
@@ -57,14 +62,14 @@ public class SecondHandTradeController {
         return Res.success(tradeService.getTradeDtoListBySellerId(userId));
     }
     @PutMapping("/buyer")
-    public Res<String> buyerCancelTradeByBuyerIdAndTradeId(@RequestBody SecondHandWrapper wrapper, HttpServletRequest request){
+    public Res<String> buyerCancelTradeByBuyerIdAndTradeId(@RequestBody SecondHandWrapper wrapper){
 //        int userId = wrapper.getUserId();
 //        userId = User.getUserIdBySession(userId,request);
         // 实际上只需要一个tradeId，userId是用作安全校验，校验订单是否来源与买家
         int tradeId = wrapper.getTradeId();
 //        log.info("买家取消订单，参数userId:{},tradeId:{}",userId,tradeId);
         log.info("买家取消订单，参数tradeId:{}",tradeId);
-        tradeService.buyerChangeTradeBuyerStatusByTradeId(tradeId);
+        tradeService.changeBuyerTradeBuyerStatusByTradeId(tradeId);
         return Res.success("已经取消买进");
     }
 
@@ -73,7 +78,7 @@ public class SecondHandTradeController {
         // 与buyerCancel同理，可以进行优化
         int tradeId = wrapper.getTradeId();
         log.info("卖家取消订单，参数tradeId:{}",tradeId);
-        tradeService.sellerChangeTradeSellerStatusByTradeId(tradeId);
+        tradeService.changeSellerTradeSellerStatusByTradeId(tradeId);
         return Res.success("已经取消卖出");
     }
 }

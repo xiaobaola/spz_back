@@ -1,9 +1,9 @@
 package com.spz.service.impl;
 
-import com.spz.entity.scrap.ScrapTrade;
+import com.spz.entity.ScrapTrade;
 import com.spz.mapper.MessageScrapTradeMapper;
-import com.spz.mapper.ScrapTradeMapper;
 import com.spz.service.MessageScrapTradeService;
+import com.spz.service.ScrapTradeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,34 +14,45 @@ import java.util.List;
 @Service
 @Slf4j
 public class MessageScrapTradeServiceImpl implements MessageScrapTradeService {
-    @Autowired
+
     private MessageScrapTradeMapper messageScrapTradeMapper;
+    private ScrapTradeService scrapTradeService;
 
     @Autowired
-    private ScrapTradeMapper scrapTradeMapper;
+    public void setMessageScrapTradeMapper(MessageScrapTradeMapper messageScrapTradeMapper) {
+        this.messageScrapTradeMapper = messageScrapTradeMapper;
+    }
+
+    @Autowired
+    public void setScrapTradeService(ScrapTradeService scrapTradeService) {
+        this.scrapTradeService = scrapTradeService;
+    }
+
+
+
 
     @Override
     public List<Integer> getMessageTradeIdById(Integer id) {
-        return messageScrapTradeMapper.getMessageTradeIdById(id);
+        return messageScrapTradeMapper.selectMessageTradeIdsByUserId(id);
     }
 
     @Override
     public List<Integer> getScrapTradeIdById(Integer id) {
-        return messageScrapTradeMapper.getScrapTradeIdById(id);
+        return messageScrapTradeMapper.selectScrapTradeIdsByUserId(id);
     }
 
     @Override
-    public void insertByid(List<Integer> scrapTradeIds, Integer messageTradeId) {
+    public void addById(List<Integer> scrapTradeIds, Integer messageTradeId) {
         List<ScrapTrade> list1 = new ArrayList<>();
         for (Integer scrapTradeId : scrapTradeIds){
-            ScrapTrade scrapTradeMapperById = scrapTradeMapper.getById(scrapTradeId);
+            ScrapTrade scrapTradeMapperById = scrapTradeService.getById(scrapTradeId);
             list1.add(scrapTradeMapperById);
         }
         for (ScrapTrade element:list1){
             if(element.getStatus() == 0){
-                messageScrapTradeMapper.insertById(messageTradeId,element.getId(),0);
+                messageScrapTradeMapper.insert(messageTradeId,element.getId(),0);
                 element.setStatus(1);
-                scrapTradeMapper.updateStatus(element);
+                scrapTradeService.changeStatus(element);
             }
         }
     }
@@ -49,26 +60,31 @@ public class MessageScrapTradeServiceImpl implements MessageScrapTradeService {
     @Override
     public Integer getTotalByMessageScrapTrade(Integer userId) {
         // 获取 scrapTradeIds
-        List<Integer> scrapTradeIds = scrapTradeMapper.getIdsByUserId(userId);
+        List<Integer> scrapTradeIds = scrapTradeService.getIdsByUserId(userId);
         if(scrapTradeIds.isEmpty()) {
             log.info("total: {}", 0);
             return 0;
         }
         // 根据 scrapTradeId 统计status
-        Integer total = messageScrapTradeMapper.getStatusCountByScrapTradeIdsAndStatus(scrapTradeIds, 0);
+        Integer total = messageScrapTradeMapper.selectStatusCountByScrapTradeIdsAndStatus(scrapTradeIds, 0);
         log.info("total: {}", total);
         return total;
     }
 
     @Override
-    public void updateStatusByUserId(Integer userId) {
+    public void changeStatusByUserId(Integer userId) {
         // 1.根据userId 获取 scrapTradeIds
-        List<Integer> scrapTradeIds = scrapTradeMapper.getIdsByUserId(userId);
+        List<Integer> scrapTradeIds = scrapTradeService.getIdsByUserId(userId);
         // 2.根据ids 更新 关联表的status
         for(Integer scrapTradeId : scrapTradeIds) {
             messageScrapTradeMapper.updateStatusByScrapTradeId(scrapTradeId, 1);
         }
 //        messageScrapTradeMapper.updateStatusByScrapTradeIdsAndStatus(scrapTradeIds, 1);
+    }
+
+    @Override
+    public List<Integer> getMessageTradeIdsByScrapTradeId(Integer id) {
+        return getMessageTradeIdById(id);
     }
 
 }

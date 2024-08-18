@@ -1,6 +1,6 @@
 package com.spz.service.impl;
 
-import com.spz.entity.secondhand.SecondHandTradeUser;
+import com.spz.entity.SecondHandTradeUser;
 import com.spz.mapper.SecondHandTradeUserMapper;
 import com.spz.service.SecondHandTradeUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +10,16 @@ import java.util.List;
 
 @Service
 public class SecondHandTradeUserServiceImpl implements SecondHandTradeUserService {
-    @Autowired
+
     private SecondHandTradeUserMapper tradeUserMapper;
+
+    @Autowired
+    public void setTradeUserMapper(SecondHandTradeUserMapper tradeUserMapper) {
+        this.tradeUserMapper = tradeUserMapper;
+    }
+
     @Override
-    public void insertOne(SecondHandTradeUser tradeUser) {
+    public void add(SecondHandTradeUser tradeUser) {
         tradeUserMapper.insertOne(tradeUser);
     }
 

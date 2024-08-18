@@ -1,6 +1,6 @@
 package com.spz.mapper;
 
-import com.spz.entity.scrap.Scrap;
+import com.spz.entity.Scrap;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -14,13 +14,13 @@ import java.util.List;
 public interface ScrapMapper {
 
     @Select("select * from scrap where scrap_type_id = #{id}")
-    ArrayList<Scrap> listByTypeId(Integer id);
+    ArrayList<Scrap> selectListByTypeId(Integer id);
 
     //xml文档映射
-    List<Scrap> list(String name, LocalDate begin, LocalDate end);
+    List<Scrap> selectList(String name, LocalDate begin, LocalDate end);
 
     @Select("select * from scrap where id = #{id}")
-    Scrap getById(Integer id);
+    Scrap selectById(Integer id);
 
 //    @Insert("insert into scrap(id, name, price, image, scrap_type_id, type, count, size, other, create_time, update_time) ")
     @Update("update scrap set name=#{name}, scrap_type_id=#{scrapTypeId}, price=#{price}, other=#{other}," +

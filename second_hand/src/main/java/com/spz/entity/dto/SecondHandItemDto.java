@@ -1,6 +1,6 @@
 package com.spz.entity.dto;
 
-import com.spz.entity.secondhand.SecondHandItem;
+import com.spz.entity.SecondHandItem;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

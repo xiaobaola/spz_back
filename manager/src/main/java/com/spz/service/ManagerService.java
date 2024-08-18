@@ -1,13 +1,13 @@
 package com.spz.service;
 
-import com.spz.entity.manager.Manager;
+import com.spz.entity.Manager;
 import com.spz.entity.page.PageBean;
 
 import java.time.LocalDate;
 
 public interface ManagerService {
 
-    Manager getByUN(Manager manager);
+    Manager getByUsernameAndPassword(String username, String password);
 
     PageBean page(Integer page, Integer pageSize, String name, LocalDate begin, LocalDate end);
 
@@ -15,5 +15,5 @@ public interface ManagerService {
 
     void updateById(Manager manager);
 
-    void insert(Manager manager);
+    void add(Manager manager);
 }

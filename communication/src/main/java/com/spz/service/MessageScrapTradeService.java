@@ -10,9 +10,11 @@ public interface MessageScrapTradeService {
 
     List<Integer> getScrapTradeIdById(Integer id);
 
-    void insertByid(List<Integer> scrapTradeIds,Integer messageTradeId);
+    void addById(List<Integer> scrapTradeIds, Integer messageTradeId);
 
     Integer getTotalByMessageScrapTrade(Integer userId);
 
-    void updateStatusByUserId(Integer userId);
+    void changeStatusByUserId(Integer userId);
+
+    List<Integer> getMessageTradeIdsByScrapTradeId(Integer id);
 }

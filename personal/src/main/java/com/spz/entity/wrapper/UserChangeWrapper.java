@@ -4,7 +4,7 @@ package com.spz.entity.wrapper;
 import lombok.Data;
 
 @Data
-public class ChangeWrapper {
+public class UserChangeWrapper {
     private Integer userId;
     private String userName;
     private String phone;

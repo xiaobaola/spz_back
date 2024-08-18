@@ -1,18 +1,17 @@
 package com.spz.service;
 
-import com.spz.entity.page.PageBean;
-import com.spz.entity.scrap.ScrapType;
+import com.spz.entity.ScrapType;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 public interface ScrapTypeService {
-    public void insert2(ScrapType scrapType);
+    void add(ScrapType scrapType);
 
-    public ArrayList<ScrapType> list2();
+    ArrayList<ScrapType> getList();
 
-    void updateById(ScrapType scrapType);
+    void changeById(ScrapType scrapType);
 
     void deleteById(Integer id);
 
+    ScrapType getById(int scrapTypeId);
 }

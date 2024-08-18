@@ -37,7 +37,7 @@
         where id = #{id}
     </update>
 
-    <select id="selectByUsernameOrBeginAndEnd" resultType="com.spz.entity.user.User">
+    <select id="selectByUsernameOrBeginAndEnd" resultType="com.spz.entity.User">
         select *
         from user
         <where>
@@ -51,7 +51,7 @@
         order by update_time desc
     </select>
 
-    <select id="selectUsersByUserIds" resultType="com.spz.entity.user.User">
+    <select id="selectUsersByUserIds" resultType="com.spz.entity.User">
         select *
         from user
         where id in

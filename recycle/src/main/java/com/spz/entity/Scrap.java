@@ -1,4 +1,4 @@
-package com.spz.entity.scrap;
+package com.spz.entity;
 
 
 

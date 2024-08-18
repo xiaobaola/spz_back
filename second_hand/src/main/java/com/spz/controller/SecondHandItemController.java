@@ -1,10 +1,10 @@
 package com.spz.controller;
 
 import com.spz.common.Res;
-import com.spz.entity.secondhand.SecondHandItem;
+import com.spz.entity.SecondHandItem;
 import com.spz.entity.dto.SecondHandItemDto;
 import com.spz.entity.wrapper.SecondHandWrapper;
-import com.spz.entity.user.User;
+import com.spz.entity.User;
 import com.spz.service.SecondHandItemService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -17,8 +17,13 @@ import java.util.List;
 @RequestMapping("/spz/secondHand/item")
 @Slf4j
 public class SecondHandItemController {
-    @Autowired
+
     private SecondHandItemService itemService;
+
+    @Autowired
+    public void setItemService(SecondHandItemService itemService) {
+        this.itemService = itemService;
+    }
 
     @GetMapping("/list")
     public Res<List<SecondHandItemDto>> listStatus2(){
@@ -44,7 +49,7 @@ public class SecondHandItemController {
         item.setInformation(wrapper.getInformation());
         item.setUserId(wrapper.getUserId());
         log.info("卖家发布二手物品，物品{}",item);
-        itemService.createItem(item);
+        itemService.addItem(item);
         return Res.success("发布成功");
     }
     @GetMapping("/seller")
