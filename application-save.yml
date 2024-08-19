@@ -9,10 +9,16 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
+    #    url: jdbc:mysql://localhost:3306/blog-hibernate?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=Asia/Shanghai
     url: jdbc:mysql://localhost:3306/spz
+    type: com.alibaba.druid.pool.DruidDataSource
     username: root
-    #    password:  #服务器
+    #        password: #服务器
     password: 1234 #本机
+    druid:
+      initialSize: 5 #初始连接数
+      maxActive: 10 #最大连接数
+      maxWait: 3000 #最大等待时间
 
   #  redis数据库配置
   data:
@@ -28,21 +34,32 @@ spring:
           max-idle: 4 #最大空闲连接数
           min-idle: 0 #最小空闲连接数
 
-
 mybatis:
   configuration:
     #在映射实体或者属性时，将数据库中表名和字段名中的下划线去掉，按照驼峰命名法映射
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     map-underscore-to-camel-case: true
 
+mybatis-plus:
+  configuration:
+    #在映射实体或者属性时，将数据库中表名和字段名中的下划线去掉，按照驼峰命名法映射
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: AUTO
+#      id-type: ASSIGN_ID #自增 雪花 64 位的 long 型数字
+
 spzStore:
-  #  配置图片仓库，path:Tomcat服务器, save:备份仓库, 补充tomcat加载
-  #  设置图片仓库的映射路径为备份路径
-  #  path:  #服务器
-  path:  #本机
+  #  设置图片仓库的映射路径 直接映射磁盘 不需转存
+  #  path: #服务器
+  path: D:\aprogram\program_study\java\idea\project\spz_back\entrance\src\main\resources\store\image\ #本机
 
 spz:
   hasRedis: true
 #  hasRedis: false
+
+
+
 
 
