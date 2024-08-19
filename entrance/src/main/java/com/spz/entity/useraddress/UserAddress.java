@@ -1,5 +1,7 @@
 package com.spz.entity.useraddress;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,6 +28,8 @@ import java.time.LocalDateTime;
 public class UserAddress {
     private Integer userId;//联系用户id
     private String addressIp;//用户ip地址
+    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;//发布时间
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;//更新时间
 }

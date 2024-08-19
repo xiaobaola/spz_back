@@ -1,5 +1,7 @@
 package com.spz.entity.entrust;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -35,6 +37,8 @@ public class Entrust {
     private String image;//委托的图片
     private String price;//委托的价格
     private String status;//委托的状态
+    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime; //创建时间
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;//更新时间
 }

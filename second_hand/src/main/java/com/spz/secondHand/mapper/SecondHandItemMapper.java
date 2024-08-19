@@ -1,12 +1,13 @@
 package com.spz.secondHand.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.spz.secondHand.entity.SecondHandItem;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
 @Mapper
-public interface SecondHandItemMapper {
+public interface SecondHandItemMapper extends BaseMapper<SecondHandItem> {
     @Select("select * from second_hand_item where status = #{status}")
     List<SecondHandItem> selectByStatus(int status);
 
@@ -21,7 +22,7 @@ public interface SecondHandItemMapper {
 
     @Insert("insert into second_hand_item (image, status, price, information, create_time, update_time, user_id) " +
             "values (#{image},#{status},#{price},#{information},#{createTime},#{updateTime},#{userId})")
-    void insert(SecondHandItem item);
+    int insert(SecondHandItem item);
 
     @Select("select * from second_hand_item where user_id=#{userId}")
     List<SecondHandItem> selectByUserId(int userId);

@@ -1,5 +1,7 @@
 package com.spz.communication.entity.message;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -33,6 +35,8 @@ public class MessageUser {
     private Integer receiverId;//接收者id
     private String message;//内容
     private Short mesStatus;//消息类型[可以在接口定义消息类型]
+    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;//发布时间
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;//更新时间
 }

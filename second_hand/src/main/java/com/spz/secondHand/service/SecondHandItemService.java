@@ -1,11 +1,12 @@
 package com.spz.secondHand.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.spz.secondHand.entity.SecondHandItem;
 import com.spz.secondHand.entity.dto.SecondHandItemDto;
 
 import java.util.List;
 
-public interface SecondHandItemService {
+public interface SecondHandItemService extends IService<SecondHandItem> {
 
     void changeStatusById(int status, int itemId);
 
@@ -22,4 +23,6 @@ public interface SecondHandItemService {
     void deleteByItemId(int itemId);
 
     void changeItemStatusByItemId(int status, int itemId);
+
+    List<SecondHandItemDto> getItemDtoListBySearchInfo(String info);
 }

@@ -36,6 +36,7 @@ public class UserController {
     @PostMapping("/login")
     //HttpServletRequest request,
     public Res<User> login(@RequestBody User userMessage, HttpServletRequest request) {
+        // 可以考虑使用md5加密
         String username = userMessage.getUsername();
         String password = userMessage.getPassword();
         log.info("login请求 username:{}, password{}", username, password);

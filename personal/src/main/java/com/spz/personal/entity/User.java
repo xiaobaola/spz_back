@@ -1,5 +1,7 @@
 package com.spz.personal.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -51,7 +53,9 @@ public class User {
     private String headImage;//头像
     private String introduction; //自我介绍
     private String address; //简要地址
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;//更新时间
+    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime; //创建时间
 
     public static int getUserIdBySession(int userId, HttpServletRequest request) {

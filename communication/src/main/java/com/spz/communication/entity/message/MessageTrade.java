@@ -14,6 +14,8 @@ package com.spz.communication.entity.message;
 *
 * */
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,7 +31,9 @@ public class MessageTrade {
     private String message;
     private LocalDateTime tradeTimeStart;
     private LocalDateTime tradeTimeFinish;
+    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 
 }

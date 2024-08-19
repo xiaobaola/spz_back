@@ -36,10 +36,11 @@
         <mybatis.version>3.0.2</mybatis.version>
         <mysql.version>8.0.33</mysql.version>
         <lombok.version>1.18.30</lombok.version>
-        <mybastis-plus.version>3.5.1</mybastis-plus.version>
+        <mybastis-plus.version>3.5.3.1</mybastis-plus.version>
         <fastjson.version>1.2.76</fastjson.version>
         <pagehelper.version>1.4.7</pagehelper.version>
         <druid.version>1.2.6</druid.version>
+        <knife4j.version>4.4.0</knife4j.version>
     </properties>
 
     <dependencyManagement>
@@ -57,12 +58,12 @@
                 <version>${mybatis.version}</version>
             </dependency>
             <!--        hikari数据库服务 -->
-<!--            <dependency>-->
-<!--                <groupId>com.mysql</groupId>-->
-<!--                <artifactId>mysql-connector-j</artifactId>-->
-<!--                <version>${mysql.version}</version>-->
-<!--                <scope>runtime</scope>-->
-<!--            </dependency>-->
+            <!--            <dependency>-->
+            <!--                <groupId>com.mysql</groupId>-->
+            <!--                <artifactId>mysql-connector-j</artifactId>-->
+            <!--                <version>${mysql.version}</version>-->
+            <!--                <scope>runtime</scope>-->
+            <!--            </dependency>-->
             <!--        lombok实体类注解-->
             <dependency>
                 <groupId>org.projectlombok</groupId>
@@ -104,7 +105,7 @@
                 <artifactId>spring-boot-starter-aop</artifactId>
                 <version>${spring.version}</version>
             </dependency>
-<!--            redis 缓存依赖-->
+            <!--            redis 缓存依赖-->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-data-redis</artifactId>
@@ -128,6 +129,13 @@
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
                 <version>${mybastis-plus.version}</version>
+            </dependency>
+            <!--            swagger 文档依赖-->
+            <!-- swagger-ui Knife4j，只需要导入这一个依赖就好了，无需在添加spring-fox的依赖 -->
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-spring-boot-starter</artifactId>
+                <version>${knife4j.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

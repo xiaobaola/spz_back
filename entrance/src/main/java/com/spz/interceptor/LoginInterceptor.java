@@ -47,6 +47,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         HttpSession session = request.getSession();
         // 获取user
         Manager one = (Manager) session.getAttribute("manager");
+        log.info("session manager:{}",one);
         // 没有 返回未登录信息
         if(one == null) {
             // 抛异常 统一处理
@@ -54,20 +55,20 @@ public class LoginInterceptor implements HandlerInterceptor {
             return false;
         }
         // 有 去数据库中查找
-        // 先找都该用户再比较
-        Manager getOne = managerService.getById(one.getId());
-        if(getOne == null) {
-            // 抛异常 统一处理
-            log.info("非法管理员");
-            return false;
-        }
-        // 获取用户名和密码 校验
-        if(!(getOne.getUsername().equals(one.getUsername())
-                && getOne.getPassword().equals(one.getPassword()))) {
-            // 抛异常 统一处理
-            log.info("非法管理员，用户名与密码不匹配");
-            return false;
-        }
+//        // 先找都该用户再比较
+//        Manager getOne = managerService.getById(one.getId());
+//        if(getOne == null) {
+//            // 抛异常 统一处理
+//            log.info("非法管理员");
+//            return false;
+//        }
+//        // 获取用户名和密码 校验
+//        if(!(getOne.getUsername().equals(one.getUsername())
+//                && getOne.getPassword().equals(one.getPassword()))) {
+//            // 抛异常 统一处理
+//            log.info("非法管理员，用户名与密码不匹配");
+//            return false;
+//        }
         return true;
     }
 
@@ -78,7 +79,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         HttpSession session = request.getSession();
         // 获取user
         User one = (User) session.getAttribute("user");
-        log.info("{}",one);
+        log.info("session user:{}",one);
         // 没有 返回未登录信息
         if(one == null) {
             // 抛异常 统一处理
@@ -87,19 +88,19 @@ public class LoginInterceptor implements HandlerInterceptor {
         }
         // 有 去数据库中查找
         // 先找都该用户再比较
-        User getOne = userService.getById(one.getId());
-        if(getOne == null) {
-            // 抛异常 统一处理
-            log.info("非法用户");
-            return false;
-        }
-        // 获取用户名和密码 校验
-        if(!(getOne.getUsername().equals(one.getUsername())
-                && getOne.getPassword().equals(one.getPassword()))) {
-            // 抛异常 统一处理
-            log.info("非法用户，用户名与密码不匹配");
-            return false;
-        }
+//        User getOne = userService.getById(one.getId());
+//        if(getOne == null) {
+//            // 抛异常 统一处理
+//            log.info("非法用户");
+//            return false;
+//        }
+//        // 获取用户名和密码 校验
+//        if(!(getOne.getUsername().equals(one.getUsername())
+//                && getOne.getPassword().equals(one.getPassword()))) {
+//            // 抛异常 统一处理
+//            log.info("非法用户，用户名与密码不匹配");
+//            return false;
+//        }
         return true;
     }
 
