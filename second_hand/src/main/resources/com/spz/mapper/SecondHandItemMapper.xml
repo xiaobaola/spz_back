@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.spz.mapper.SecondHandItemMapper">
+<mapper namespace="com.spz.secondHand.mapper.SecondHandItemMapper">
     <update id="updateByItem">
         update second_hand_item
         <set>

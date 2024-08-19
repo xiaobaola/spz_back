@@ -1,9 +1,9 @@
 package com.spz.interceptor;
 
-import com.spz.entity.Manager;
-import com.spz.entity.User;
-import com.spz.service.ManagerService;
-import com.spz.service.UserService;
+import com.spz.manager.entity.Manager;
+import com.spz.personal.entity.User;
+import com.spz.manager.service.ManagerService;
+import com.spz.personal.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;

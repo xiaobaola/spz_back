@@ -1,0 +1,48 @@
+server:
+  port: 8080
+#  ssl:
+#    key-store: classpath:
+#    key-store-password:
+#    key-store-type: JKS
+#    enabled: true
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/spz
+    username: root
+    #    password:  #服务器
+    password: 1234 #本机
+
+  #  redis数据库配置
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      database: 0
+      #      password:
+      jedis:
+        pool:
+          max-active: 8 #最大连接数
+          max-wait: 1ms #等待时间
+          max-idle: 4 #最大空闲连接数
+          min-idle: 0 #最小空闲连接数
+
+
+mybatis:
+  configuration:
+    #在映射实体或者属性时，将数据库中表名和字段名中的下划线去掉，按照驼峰命名法映射
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+
+spzStore:
+  #  配置图片仓库，path:Tomcat服务器, save:备份仓库, 补充tomcat加载
+  #  设置图片仓库的映射路径为备份路径
+  #  path:  #服务器
+  path:  #本机
+
+spz:
+  haveRedis: true
+#  haveRedis: false
+
+

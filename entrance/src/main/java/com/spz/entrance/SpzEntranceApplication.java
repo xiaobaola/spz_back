@@ -18,7 +18,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
         @ComponentScan("com.spz.**.service"),
         @ComponentScan("com.spz.**.interceptor"),
         @ComponentScan("com.spz.**.config"),
-        @ComponentScan("com.spz.**.aop")
+        @ComponentScan("com.spz.**.aop"),
+        @ComponentScan("com.spz.**.common")
 })
 @MapperScan("com.spz.**.mapper")
 public class SpzEntranceApplication {
