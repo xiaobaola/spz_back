@@ -87,4 +87,10 @@ public class SecondHandItemController {
         itemService.changeItemStatusByItemId(status,itemId);
         return Res.success("物品下架成功");
     }
+
+    @GetMapping("/search")
+    public Res<List<SecondHandItemDto>> search(@RequestParam String info){
+        log.info("搜索物品，参数{}",info);
+        return Res.success(itemService.getItemDtoByStatus(2));
+    }
 }
