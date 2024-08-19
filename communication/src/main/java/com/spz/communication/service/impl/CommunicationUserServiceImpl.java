@@ -12,6 +12,7 @@ import com.spz.personal.service.UserService;
 import io.micrometer.common.util.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -21,10 +22,11 @@ import java.util.stream.Collectors;
 
 @Service
 public class CommunicationUserServiceImpl implements CommunicationUserService {
-    UserService userService;
+    private UserService userService;
+    private RelationshipService relationshipService;
 
-
-    RelationshipService relationshipService;
+    @Value("hasRedis")
+    private Boolean hasRedis;
     @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
@@ -36,6 +38,7 @@ public class CommunicationUserServiceImpl implements CommunicationUserService {
 
     @Override
     public PageBean page(Integer page, Integer pageSize, String username, LocalDate begin, LocalDate end) {
+        // 0用法
         //1、设置分页参数
         PageHelper.startPage(page,pageSize);
 

@@ -42,7 +42,7 @@ spzStore:
   path:  #本机
 
 spz:
-  haveRedis: true
-#  haveRedis: false
+  hasRedis: true
+#  hasRedis: false
 
 

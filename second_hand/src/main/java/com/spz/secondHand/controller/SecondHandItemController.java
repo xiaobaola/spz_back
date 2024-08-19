@@ -29,39 +29,12 @@ public class SecondHandItemController {
     }
 
 
-    private RedisTemplate redisTemplate;
-
-    @Autowired
-    public void setRedisTemplate(RedisTemplate redisTemplate) {
-        this.redisTemplate = redisTemplate;
-    }
-
     @GetMapping("/list")
     public Res<List<SecondHandItemDto>> listStatus2(){
         //返回所有二手物品信息 1:待审核 2:发布中 3:下架
         //可以优化 pageHelper 分页查询
         log.info("获取所有二手物品信息");
-        // 判断redis是否启动
-//        if(!redisTemplate.isRunning()){}
-        //从redis缓存获取 并用fastjson反序列化
-        if(redisTemplate.opsForValue().get("secondHandItemDto")!=null){
-            log.info("从redis缓存获取二手物品信息");
-            String json = (String)redisTemplate.opsForValue().get("secondHandItemDto");
-            // 假设 JSON 字符串是一个数组
-            JSONArray jsonArray = JSON.parseArray(json);
-            // 将 JSONArray 转换为 List<SecondHandItemDto>
-            List<SecondHandItemDto> secondHandItemDtoList = jsonArray.toJavaList(SecondHandItemDto.class);
-            return Res.success(secondHandItemDtoList);
-        } else {
-            log.info("从redis获取数据失败，从mysql数据库获取二手物品信息");
-            List<SecondHandItemDto> secondHandItemDtoList = itemService.getItemDtoByStatus(2);
-            // 序列化
-            String json = JSON.toJSONString(secondHandItemDtoList);
-            // 存入redis缓存
-            redisTemplate.opsForValue().set("secondHandItemDto",json);
-            return Res.success(secondHandItemDtoList);
-        }
-//        return Res.success(itemService.getItemDtoByStatus(2));
+        return Res.success(itemService.getItemDtoByStatus(2));
     }
     @GetMapping("/list/manager")
     public Res<List<SecondHandItemDto>> listStatus1(){
