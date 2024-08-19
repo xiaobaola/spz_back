@@ -58,11 +58,11 @@
             <scope>test</scope>
         </dependency>
         <!--        数据库连接池 德鲁伊 依赖-->
-        <!--                    <dependency>-->
-        <!--                        <groupId>com.alibaba</groupId>-->
-        <!--                        <artifactId>druid-spring-boot-starter</artifactId>-->
-        <!--                        <version>1.2.6</version>-->
-        <!--                    </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>com.alibaba</groupId>-->
+<!--            <artifactId>druid-spring-boot-starter</artifactId>-->
+<!--            <version>1.2.6</version>-->
+<!--        </dependency>-->
         <!--        Mybatis-plus 简化数据库操作Java代码-->
         <dependency>
             <groupId>com.baomidou</groupId>

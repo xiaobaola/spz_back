@@ -58,12 +58,6 @@
             <version>3.0.2</version>
             <scope>test</scope>
         </dependency>
-        <!--        数据库连接池 德鲁伊 依赖-->
-        <!--                    <dependency>-->
-        <!--                        <groupId>com.alibaba</groupId>-->
-        <!--                        <artifactId>druid-spring-boot-starter</artifactId>-->
-        <!--                        <version>1.2.6</version>-->
-        <!--                    </dependency>-->
         <!--        Mybatis-plus 简化数据库操作Java代码-->
         <dependency>
             <groupId>com.baomidou</groupId>
@@ -92,6 +86,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <!--        数据库连接池 德鲁伊 依赖-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+            <version>1.2.6</version>
         </dependency>
     </dependencies>
 
