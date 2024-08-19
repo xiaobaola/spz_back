@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @Slf4j
-@RequestMapping("spz/messageScrapTrade")
+@RequestMapping("/spz/messageScrapTrade")
 public class MessageScrapTradeController {
 
     private MessageScrapTradeService messageScrapTradeService;
@@ -25,6 +25,7 @@ public class MessageScrapTradeController {
 
     @GetMapping("/message/{id}")
     public Res<List<Integer>> getMessageTradeId(@PathVariable Integer id){
+        // 对于查询请求 需要考虑做缓存 但是需求量不是很大时，不需要
         return Res.success(messageScrapTradeService.getMessageTradeIdById(id));
     }
 
@@ -43,6 +44,7 @@ public class MessageScrapTradeController {
 
     @GetMapping("/total")
     public Res<Integer> getTotalByUserId(@RequestParam Integer userId, HttpServletRequest request){
+        // 频繁获取的数据需要做缓存 要确保数据一致性，要考虑好是谁去删除数据，过期时间5-10min
         // 20240809安全优化userId
         userId = User.getUserIdBySession(userId,request);
         log.info("get2 总数");

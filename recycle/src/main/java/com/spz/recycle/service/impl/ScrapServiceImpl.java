@@ -1,5 +1,7 @@
 package com.spz.recycle.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.spz.recycle.entity.dto.ScrapDto;
@@ -12,20 +14,33 @@ import com.spz.recycle.service.ScrapTypeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+
 
 @Service
 @Slf4j
 public class ScrapServiceImpl implements ScrapService {
-
+    @Value("${spz.hasRedis}")
+    private Boolean hasRedis;
     private ScrapMapper scrapMapper;
     private ScrapTypeService scrapTypeService;
+
+    private RedisTemplate redisTemplate;
+
+    @Autowired
+    public void setRedisTemplate(RedisTemplate redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
 
     @Autowired
     public void setScrapMapper(ScrapMapper scrapMapper) {
@@ -39,7 +54,23 @@ public class ScrapServiceImpl implements ScrapService {
 
     @Override
     public ArrayList<Scrap> getListByTypeId(Integer id) {
-        return scrapMapper.selectListByTypeId(id);
+        // 可以考虑做出AOP
+        // redis缓存 获取
+        if (hasRedis && redisTemplate.hasKey("scrapListByTypeId_" + id)) {
+            log.info("service 从redis缓存获取回收品信息");
+            String json = (String) redisTemplate.opsForValue().get("scrapListByTypeId_" + id); ;
+            // JSON 字符串是一个数组 将 JSONArray 转换为 List<SecondHandItemDto> 缓存命中，返回数据
+            return (ArrayList<Scrap>) JSON.parseArray(json).toJavaList(Scrap.class);
+        }
+        ArrayList<Scrap> scraps = scrapMapper.selectListByTypeId(id);
+        // redis缓存 保存 过期时间15-30min 多人访问
+        if (hasRedis) {
+            // 序列化数据为 JSON 字符串
+            String json = JSON.toJSONString(scraps);
+            // 将数据存入 Redis 缓存
+            redisTemplate.opsForValue().set("scrapListByTypeId_" + id, json, 15, TimeUnit.MINUTES);
+        }
+        return scraps;
     }
 
     @Override
@@ -85,6 +116,11 @@ public class ScrapServiceImpl implements ScrapService {
     public void changeById(Scrap scrap) {
         scrap.setUpdateTime(LocalDateTime.now());
         scrapMapper.updateById(scrap);
+        // 如果redis配置了则清理redis缓存
+        if (hasRedis) {
+            Set keys = redisTemplate.keys("scrapListByTypeId_*");
+            redisTemplate.delete(keys);
+        }
     }
 
     @Override

@@ -30,18 +30,6 @@ public class CommunicationUserController {
     @Autowired
     private RelationshipService relationshipService;
 
-
-    @GetMapping("/page")
-    public Res<PageBean> page(@RequestParam(defaultValue = "1")Integer page,
-                              @RequestParam(defaultValue = "10")Integer pageSize,
-                              String username,
-                              @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate begin,
-                              @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate end) {
-        log.info("分页查询中，第{}页，{}条,其他参数：{},{},{}", page, pageSize, username, begin, end);
-        PageBean pageBean = communicationUserService.page(page, pageSize, username, begin, end);
-        return Res.success(pageBean);
-    }
-
     /**
      * Author last
      * Param @param userId 用户 ID
@@ -68,6 +56,7 @@ public class CommunicationUserController {
      */
     @PostMapping("/friend/add")
     public Res<String> addRelationship(@RequestBody Relationship relationship, HttpServletRequest request) {
+        // 没有必要缓存，用户不同结果不同，请求不频繁
         // 20240809安全优化 session->userId 可能存在参数风险，自己一定要是userId1才行
         int userId = relationship.getUserId1();
         userId = User.getUserIdBySession(userId,request);
@@ -80,7 +69,8 @@ public class CommunicationUserController {
     }
 
     @GetMapping("/search")
-    public Res<List<MessageUserDto>> getUserDtoListByInfo(@RequestParam String info, @RequestParam Integer userId, HttpServletRequest request){
+    public Res<List<MessageUserDto>> searchUserDtoListByInfo(@RequestParam String info, @RequestParam Integer userId, HttpServletRequest request){
+        // 可以考虑做缓存，用户不同结果不同，但可以利用参数做拼接，请求频繁时可以做缓存，但要确保数据一致性
         // 20240809安全优化 session->userId
         userId = User.getUserIdBySession(userId,request);
         log.info("用户搜索, 参数:{},{}",info,userId);
@@ -91,6 +81,7 @@ public class CommunicationUserController {
 
     @GetMapping("/newFriendList")
     public Res<List<MessageUserDto>> getUserDtoListByUserId(@RequestParam Integer userId, HttpServletRequest request) {
+        // 不需要缓存，用户不同结果不同，请求不频繁
         // 20240809安全优化 session->userId
         userId = User.getUserIdBySession(userId,request);
         log.info("查询好友验证, 参数{}", userId);

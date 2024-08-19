@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 public class LogAspect {
 
     //配置切入点，即执行的位置
-    @Pointcut("execution(* com.spz.controller.*.*(..))")
+    @Pointcut("execution(* com.spz.*.controller.*.*(..))")
     public void pointCut() {
     }
 

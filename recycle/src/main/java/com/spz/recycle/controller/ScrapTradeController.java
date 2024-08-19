@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("spz/scrapTrade")
+@RequestMapping("/spz/scrapTrade")
 @Slf4j
 public class ScrapTradeController {
 

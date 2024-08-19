@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("spz/scrap")
+@RequestMapping("/spz/scrap")
 @Slf4j
 public class ScrapController {
 
@@ -33,6 +33,7 @@ public class ScrapController {
      */
     @GetMapping("/{id}/list")
     public Res<ArrayList<Scrap>> list(@PathVariable Integer id) {
+        // 获取该类型下的所有废品 需要做缓存
         log.info("查询: id:{}", id);
         ArrayList<Scrap> list = scrapService.getListByTypeId(id);
         return Res.success(list);
@@ -69,6 +70,7 @@ public class ScrapController {
     @PutMapping
     public Res<String> updateById(@RequestBody Scrap scrap) {
         log.info("更新: 回收品{}", scrap);
+        // 需要删除缓存
         scrapService.changeById(scrap);
         return Res.success("修改回收品成功");
     }

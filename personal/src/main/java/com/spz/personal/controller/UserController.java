@@ -61,7 +61,17 @@ public class UserController {
     }
 
 
-
+    /**
+     * Author last
+     * Param @param page 页
+     * Describe 为后台管理员提供用户信息的分页查询
+     * @param pageSize 页面大小
+     * @param username 用户名
+     * @param begin    开始
+     * @param end      结束
+     *                 Return @return {@link Res }<{@link PageBean }>
+     *                 Describe 页
+     */
     @GetMapping("/page")
     public Res<PageBean> page(@RequestParam(defaultValue = "1")Integer page,
                               @RequestParam(defaultValue = "10")Integer pageSize,

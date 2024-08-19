@@ -29,6 +29,7 @@ public class ScrapTypeController {
     @GetMapping("/list")
     public Res<ArrayList<ScrapType>> list2() {
         log.info("get 废品类型列表");
+        // 需要redis缓存
         ArrayList<ScrapType> scrapTypeArrayList = scrapTypeService.getList();
         return Res.success(scrapTypeArrayList);
     }
@@ -55,6 +56,7 @@ public class ScrapTypeController {
     @PostMapping
     public Res<String> createScrapType(@RequestBody ScrapType scrapType) {
         log.info("新增: {}", scrapType);
+        // 需要清理redis缓存
         scrapTypeService.add(scrapType);
         return Res.success("新增废品类型成功");
     }
@@ -67,9 +69,10 @@ public class ScrapTypeController {
      * Describe 按 ID 删除
      */
     @DeleteMapping
-    public Res<String> deleteById(@RequestParam Integer ids) {
-        log.info("删除: id:{}",ids);
-        scrapTypeService.deleteById(ids);
+    public Res<String> deleteById(@RequestParam Integer id) {
+        log.info("删除: id:{}", id);
+        // 需要清理redis缓存
+        scrapTypeService.deleteById(id);
         return Res.success("删除废品类型成功");
     }
 

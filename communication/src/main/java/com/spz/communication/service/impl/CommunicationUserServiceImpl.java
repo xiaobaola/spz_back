@@ -25,7 +25,7 @@ public class CommunicationUserServiceImpl implements CommunicationUserService {
     private UserService userService;
     private RelationshipService relationshipService;
 
-    @Value("hasRedis")
+    @Value("${spz.hasRedis}")
     private Boolean hasRedis;
     @Autowired
     public void setUserService(UserService userService) {
@@ -36,25 +36,18 @@ public class CommunicationUserServiceImpl implements CommunicationUserService {
         this.relationshipService = relationshipService;
     }
 
-    @Override
-    public PageBean page(Integer page, Integer pageSize, String username, LocalDate begin, LocalDate end) {
-        // 0用法
-        //1、设置分页参数
-        PageHelper.startPage(page,pageSize);
 
-        //2、正常查询
-        List<User> userList = userService.getListByUsernameOrBeginAndEnd(username, begin, end);
-
-        //为了获取total
-        Page<User> userPage = (Page<User>) userList;
-
-        //3、封装pageBean对象
-
-        return new PageBean(userPage.getTotal(), userPage.getResult());
-    }
-
+    /**
+     * Author last
+     * Param @param info 信息
+     * Describe 用户的搜索功能 服务对象用户 搜索目标对象用户
+     * @param userId 用户 ID
+     *               Return @return {@link List }<{@link MessageUserDto }>
+     *               Describe 按信息获取用户 DTO 列表
+     */
     @Override
     public List<MessageUserDto> getUserDtoListByInfo(String info, Integer userId) {
+        // 没有必要缓存，每个用户搜索的结果不同，次数少
         List<MessageUserDto> messageUserDtoList = new ArrayList<>();
         //空判断
         if (info.isEmpty()) {
