@@ -9,7 +9,6 @@ spz:
 server:
   port: 8080
 
-
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -69,7 +68,8 @@ knife4j:
   enable: true    #开启knife4j,无需添加@EnableKnife4j注解
   setting:
     language: zh_cn   #中文
-#    swagger-model-name: 实体类列表   #重命名SwaggerModel名称,默认
+    swagger-model-name: 实体类列表   #重命名SwaggerModel名称,默认
+
 
 
 
