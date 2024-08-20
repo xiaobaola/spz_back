@@ -1,5 +1,7 @@
 package com.spz.recycle.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -43,6 +45,8 @@ public class ScrapTrade {
     private String phone; //用户手机号
     private Integer price; //交易总金额
     private String image;//物品图片
+    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime; //创建时间
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;//更新时间
 }

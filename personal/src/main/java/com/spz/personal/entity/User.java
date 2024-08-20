@@ -2,6 +2,7 @@ package com.spz.personal.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.spz.public_resouce.common.BaseContext;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -67,4 +68,8 @@ public class User {
         return  userId;
     }
 
+    public static int getUserIdByThread(int userId){
+        int id = BaseContext.getCurrentId();
+        return id == -1 ? userId : id;
+    }
 }

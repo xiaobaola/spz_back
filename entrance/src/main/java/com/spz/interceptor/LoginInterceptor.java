@@ -4,6 +4,7 @@ import com.spz.manager.entity.Manager;
 import com.spz.personal.entity.User;
 import com.spz.manager.service.ManagerService;
 import com.spz.personal.service.UserService;
+import com.spz.public_resouce.common.BaseContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -52,8 +53,12 @@ public class LoginInterceptor implements HandlerInterceptor {
         if(one == null) {
             // 抛异常 统一处理
             log.info("管理员未登录");
+            // 设置id为-1
+            BaseContext.setCurrentId(-1);
             return false;
         }
+        // 设置id 为后续提供服务
+        BaseContext.setCurrentId(one.getId());
         // 有 去数据库中查找
 //        // 先找都该用户再比较
 //        Manager getOne = managerService.getById(one.getId());
@@ -84,8 +89,12 @@ public class LoginInterceptor implements HandlerInterceptor {
         if(one == null) {
             // 抛异常 统一处理
             log.info("用户未登录");
+            // 设置id为-1
+            BaseContext.setCurrentId(-1);
             return false;
         }
+        // 设置id 为后续提供服务
+        BaseContext.setCurrentId(one.getId());
         // 有 去数据库中查找
         // 先找都该用户再比较
 //        User getOne = userService.getById(one.getId());

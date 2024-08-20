@@ -92,7 +92,6 @@
                 <artifactId>fastjson</artifactId>
                 <version>${fastjson.version}</version>
             </dependency>
-            <!--    servlet 基础依赖 jakarta-->
             <!--        pageHelper 分页插件依赖-->
             <dependency>
                 <groupId>com.github.pagehelper</groupId>
@@ -131,11 +130,17 @@
                 <version>${mybastis-plus.version}</version>
             </dependency>
             <!--            swagger 文档依赖-->
-            <!-- swagger-ui Knife4j，只需要导入这一个依赖就好了，无需在添加spring-fox的依赖 -->
+            <!--        swagger 文档 依赖knife4j-->
             <dependency>
                 <groupId>com.github.xiaoymin</groupId>
-                <artifactId>knife4j-spring-boot-starter</artifactId>
+                <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
                 <version>${knife4j.version}</version>
+            </dependency>
+            <!--    servlet 基础依赖 jakarta-->
+            <dependency>
+                <groupId>jakarta.servlet</groupId>
+                <artifactId>jakarta.servlet-api</artifactId>
+                <version>6.0.0</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

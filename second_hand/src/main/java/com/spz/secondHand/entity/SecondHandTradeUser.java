@@ -1,5 +1,7 @@
 package com.spz.secondHand.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,7 +36,9 @@ public class SecondHandTradeUser {
     private int buyerStatus;
     private int sellerId;
     private int sellerStatus;
+    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 //    SecondHandTradeUser(int secondHandTradeId,int secondHandTradeStatus,int buyerId,int buyerStatus,
 //                        int sellerId,int sellerStatus,LocalDateTime createTime,LocalDateTime updateTime){

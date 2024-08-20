@@ -90,8 +90,8 @@ public class SecondHandItemServiceImpl extends ServiceImpl<SecondHandItemMapper,
         // 完善数据status 时间
         int status = 1; // 1:待审核 2:发布中 3:下架
         item.setStatus(status);
-        item.setCreateTime(LocalDateTime.now());
-        item.setUpdateTime(LocalDateTime.now());
+//        item.setCreateTime(LocalDateTime.now());
+//        item.setUpdateTime(LocalDateTime.now());
         itemMapper.insert(item);
     }
 

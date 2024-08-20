@@ -1,5 +1,7 @@
 package com.spz.recycle.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,6 +30,8 @@ public class ScrapType {
     private String name;//废品类型名
     private String image;//废品类型图片
     private Integer price; //默认为0 服务于前端
+    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime; //创建时间
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;//更新时间
 }

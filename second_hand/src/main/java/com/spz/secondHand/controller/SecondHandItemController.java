@@ -44,7 +44,9 @@ public class SecondHandItemController {
         item.setImage(wrapper.getImage());
         item.setPrice(wrapper.getPrice());
         item.setInformation(wrapper.getInformation());
-        item.setUserId(wrapper.getUserId());
+        int userId = wrapper.getUserId();
+        userId = User.getUserIdByThread(userId);
+        item.setUserId(userId);
         log.info("卖家发布二手物品，物品{}",item);
         itemService.addItem(item);
         return Res.success("发布成功");

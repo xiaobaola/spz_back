@@ -46,19 +46,38 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         String storePath = "file:///"+ basePath.substring(0, basePath.length()-6);
         log.info("资源路径:{}", storePath);
         registry.addResourceHandler("/store/**").addResourceLocations(storePath);
+
+        registry.addResourceHandler("doc.html")
+                .addResourceLocations("classpath:/META-INF/resources/");
+        registry.addResourceHandler("swagger-ui.html")
+                .addResourceLocations("classpath:/META-INF/resources/");
+        registry.addResourceHandler("/webjars/**")
+                .addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 
-    // 未使用
+    /**
+     * 扩展消息转换器,将日期类型从列表转换为时间戳
+     * 这个是导致knife4j不能正常显示的罪魁祸首,特别要注意添加的位置
+     * @param converters 消息转换器列表
+     */
     @Override
     protected void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
-        log.info("拓展消息转换器...");
-        // 创建消息转换器对象
-        MappingJackson2HttpMessageConverter messageConverter = new MappingJackson2HttpMessageConverter();
-        //设置对象转换器 底层使用Jackson将java对象转为json
-        messageConverter.setObjectMapper(new JacksonObjectMapper());
-        //将上面的转换器追加到MVC框架的转换器容器集合中
-        converters.add(0, messageConverter);
+        // 时间日期格式是个大问题
+        MappingJackson2HttpMessageConverter jackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
+        jackson2HttpMessageConverter.setObjectMapper(new JacksonObjectMapper());
+        converters.add(converters.size()-1,jackson2HttpMessageConverter);
     }
+    // 未使用
+//    @Override
+//    protected void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+//        log.info("拓展消息转换器...");
+//        // 创建消息转换器对象
+//        MappingJackson2HttpMessageConverter messageConverter = new MappingJackson2HttpMessageConverter();
+//        //设置对象转换器 底层使用Jackson将java对象转为json
+//        messageConverter.setObjectMapper(new JacksonObjectMapper());
+//        //将上面的转换器追加到MVC框架的转换器容器集合中
+//        converters.add(0, messageConverter);
+//    }
 
     @Override
     protected void addInterceptors(InterceptorRegistry registry) {

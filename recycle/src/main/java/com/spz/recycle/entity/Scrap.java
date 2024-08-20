@@ -2,6 +2,8 @@ package com.spz.recycle.entity;
 
 
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -42,6 +44,8 @@ Scrap {
     private Integer count;//服务于前端
     private String size;//1 度量单位 度量单位或类型 kg/斤/g
     private String other;//2其他描述 其他详细或限制描述
+    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime; //创建时间
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;//更新时间
 }
