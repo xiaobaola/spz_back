@@ -3,7 +3,7 @@ package com.spz.recycle.service.impl;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.spz.public_resouce.entity.page.PageBean;
+import com.spz.entity.page.PageBean;
 import com.spz.recycle.entity.ScrapTrade;
 import com.spz.recycle.mapper.ScrapTradeMapper;
 import com.spz.recycle.service.ScrapTradeService;

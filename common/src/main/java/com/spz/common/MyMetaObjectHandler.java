@@ -1,4 +1,4 @@
-package com.spz.public_resouce.common;
+package com.spz.common;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import lombok.extern.slf4j.Slf4j;

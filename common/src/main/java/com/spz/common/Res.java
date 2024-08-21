@@ -1,9 +1,11 @@
-package com.spz.public_resouce.common;
+package com.spz.common;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class Res<T> {
+public class Res<T> implements Serializable {
 
     private Integer code; //编码：1成功，0和其它数字为失败
 

@@ -13,7 +13,6 @@ import com.spz.personal.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -47,16 +46,16 @@ public class SecondHandItemServiceImpl extends ServiceImpl<SecondHandItemMapper,
     @Override
     public List<SecondHandItemDto> getItemDtoByStatus(int status) {
         // 判断是否配置了redis 并且redis缓存中存在
-
-        if(hasRedis && redisTemplate.opsForValue().get("secondHandItemDto")!=null){
-            // 从redis缓存获取 并用fastjson反序列化
-            log.info("service 从redis缓存获取二手物品信息");
-            String json = (String)redisTemplate.opsForValue().get("secondHandItemDto");
-            // 假设 JSON 字符串是一个数组
-            JSONArray jsonArray = JSON.parseArray(json);
-            // 将 JSONArray 转换为 List<SecondHandItemDto>
-            return jsonArray.toJavaList(SecondHandItemDto.class);
-        }
+        // 使用注解配置，无需写存储逻辑
+//        if(hasRedis && redisTemplate.opsForValue().get("secondHandItemDto")!=null){
+//            // 从redis缓存获取 并用fastjson反序列化
+//            log.info("service 从redis缓存获取二手物品信息");
+//            String json = (String)redisTemplate.opsForValue().get("secondHandItemDto");
+//            // 假设 JSON 字符串是一个数组
+//            JSONArray jsonArray = JSON.parseArray(json);
+//            // 将 JSONArray 转换为 List<SecondHandItemDto>
+//            return jsonArray.toJavaList(SecondHandItemDto.class);
+//        }
 
         List<SecondHandItemDto> itemDtos= new ArrayList<>();
         // 1获取所有物品信息 根据status
@@ -76,11 +75,11 @@ public class SecondHandItemServiceImpl extends ServiceImpl<SecondHandItemMapper,
             itemDtos.add(itemDto);
         }
 
-        if(hasRedis){
-            // 3.将itemDtos序列化后放入redis缓存
-            String json = JSON.toJSONString(itemDtos);
-            redisTemplate.opsForValue().set("secondHandItemDto",json,60, TimeUnit.MINUTES);
-        }
+//        if(hasRedis){
+//            // 3.将itemDtos序列化后放入redis缓存
+//            String json = JSON.toJSONString(itemDtos);
+//            redisTemplate.opsForValue().set("secondHandItemDto",json,60, TimeUnit.MINUTES);
+//        }
 
         return itemDtos;
     }
@@ -95,6 +94,12 @@ public class SecondHandItemServiceImpl extends ServiceImpl<SecondHandItemMapper,
         itemMapper.insert(item);
     }
 
+    /**
+     * Author last
+     * Param @param userId 用户 ID
+     * Return @return {@link List }<{@link SecondHandItem }>
+     * Describe 卖家获取自己的发布
+     */
     @Override
     public List<SecondHandItem> getSomeByUserId(int userId) {
         List<SecondHandItem> items = itemMapper.selectByUserId(userId);

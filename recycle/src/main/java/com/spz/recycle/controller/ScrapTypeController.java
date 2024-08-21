@@ -1,6 +1,6 @@
 package com.spz.recycle.controller;
 
-import com.spz.public_resouce.common.Res;
+import com.spz.common.Res;
 import com.spz.recycle.entity.ScrapType;
 import com.spz.recycle.service.ScrapTypeService;
 import lombok.extern.slf4j.Slf4j;

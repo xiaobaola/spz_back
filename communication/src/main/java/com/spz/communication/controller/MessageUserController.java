@@ -1,6 +1,6 @@
 package com.spz.communication.controller;
 
-import com.spz.public_resouce.common.Res;
+import com.spz.common.Res;
 import com.spz.communication.service.MessageUserService;
 import com.spz.communication.entity.message.MessageUser;
 import com.spz.personal.entity.User;

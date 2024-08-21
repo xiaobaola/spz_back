@@ -3,7 +3,7 @@ package com.spz.manager.service.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.spz.manager.entity.Manager;
-import com.spz.public_resouce.entity.page.PageBean;
+import com.spz.entity.page.PageBean;
 import com.spz.manager.mapper.ManagerMapper;
 import com.spz.manager.service.ManagerService;
 import lombok.extern.slf4j.Slf4j;

@@ -4,7 +4,7 @@ import com.spz.manager.entity.Manager;
 import com.spz.personal.entity.User;
 import com.spz.manager.service.ManagerService;
 import com.spz.personal.service.UserService;
-import com.spz.public_resouce.common.BaseContext;
+import com.spz.common.BaseContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;

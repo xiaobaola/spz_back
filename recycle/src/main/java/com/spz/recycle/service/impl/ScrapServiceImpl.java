@@ -1,11 +1,10 @@
 package com.spz.recycle.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.spz.recycle.entity.dto.ScrapDto;
-import com.spz.public_resouce.entity.page.PageBean;
+import com.spz.entity.page.PageBean;
 import com.spz.recycle.entity.Scrap;
 import com.spz.recycle.entity.ScrapType;
 import com.spz.recycle.mapper.ScrapMapper;

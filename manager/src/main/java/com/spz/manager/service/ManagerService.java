@@ -1,7 +1,7 @@
 package com.spz.manager.service;
 
 import com.spz.manager.entity.Manager;
-import com.spz.public_resouce.entity.page.PageBean;
+import com.spz.entity.page.PageBean;
 
 import java.time.LocalDate;
 

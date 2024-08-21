@@ -2,7 +2,7 @@ package com.spz.manager.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.spz.public_resouce.common.BaseContext;
+import com.spz.common.BaseContext;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,6 +1,6 @@
 package com.spz.config;
 
-import com.spz.public_resouce.common.JacksonObjectMapper;
+import com.spz.common.JacksonObjectMapper;
 import com.spz.interceptor.LoginInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

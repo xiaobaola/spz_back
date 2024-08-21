@@ -1,8 +1,8 @@
 package com.spz.manager.controller;
 
-import com.spz.public_resouce.common.Res;
+import com.spz.common.Res;
 import com.spz.manager.entity.Manager;
-import com.spz.public_resouce.entity.page.PageBean;
+import com.spz.entity.page.PageBean;
 import com.spz.manager.service.ManagerService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;

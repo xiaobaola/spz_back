@@ -1,7 +1,7 @@
 package com.spz.personal.controller;
 
-import com.spz.public_resouce.common.Res;
-import com.spz.public_resouce.entity.page.PageBean;
+import com.spz.common.Res;
+import com.spz.entity.page.PageBean;
 import com.spz.personal.entity.User;
 import com.spz.personal.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -107,5 +107,26 @@ public class UserController {
         log.info("userMessage{}", user);
         userService.changeById(user);
         return Res.success("用户更新成功");
+    }
+
+    @PostMapping("/login/wx")
+    //HttpServletRequest request,
+    public Res<User> wxLogin(@RequestBody String code, HttpServletRequest request) {
+        log.info("wxLogin请求 code:{}", code);
+        // 可以考虑使用md5加密
+        String username = "评委·";
+        String password = "123456";
+        log.info("login请求 username:{}, password{}", username, password);
+        User user = userService.getByUsernameAndPassword(username, password);
+        if(user != null) {
+            log.info("user = {}", user);
+            // session
+            HttpSession session = request.getSession();
+            // 向session设置值
+            session.setAttribute("user",user);
+            // token
+            return Res.success(user);
+        }
+        return Res.error("用户名或密码错误");
     }
 }

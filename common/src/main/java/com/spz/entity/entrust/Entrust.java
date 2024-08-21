@@ -1,4 +1,4 @@
-package com.spz.public_resouce.entity.entrust;
+package com.spz.entity.entrust;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;

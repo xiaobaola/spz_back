@@ -2,7 +2,7 @@ package com.spz.personal.controller;
 
 import com.spz.personal.entity.User;
 import com.spz.personal.service.UserService;
-import com.spz.public_resouce.common.Res;
+import com.spz.common.Res;
 import com.spz.personal.service.UserRegisterService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

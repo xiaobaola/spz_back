@@ -1,4 +1,4 @@
-package com.spz.public_resouce.common;
+package com.spz.common;
 
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;

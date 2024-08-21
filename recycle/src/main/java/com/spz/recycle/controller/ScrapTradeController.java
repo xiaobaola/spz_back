@@ -1,8 +1,8 @@
 package com.spz.recycle.controller;
 
-import com.spz.public_resouce.common.Res;
+import com.spz.common.Res;
 import com.spz.recycle.entity.dto.ScrapTradeDto;
-import com.spz.public_resouce.entity.page.PageBean;
+import com.spz.entity.page.PageBean;
 import com.spz.recycle.entity.ScrapTrade;
 import com.spz.recycle.entity.wrapper.ScrapWrapper;
 import com.spz.recycle.service.ScrapTradeDetailService;

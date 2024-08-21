@@ -1,6 +1,6 @@
 package com.spz.secondHand.controller;
 
-import com.spz.public_resouce.common.Res;
+import com.spz.common.Res;
 import com.spz.secondHand.entity.SecondHandTrade;
 import com.spz.secondHand.entity.dto.SecondHandTradeDto;
 import com.spz.personal.entity.User;

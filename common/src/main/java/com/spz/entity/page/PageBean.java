@@ -1,4 +1,4 @@
-package com.spz.public_resouce.entity.page;
+package com.spz.entity.page;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

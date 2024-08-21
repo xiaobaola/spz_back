@@ -1,10 +1,7 @@
 package com.spz.communication.service.impl;
 
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
 import com.spz.communication.service.RelationshipService;
 import com.spz.communication.entity.dto.MessageUserDto;
-import com.spz.public_resouce.entity.page.PageBean;
 import com.spz.communication.entity.relationship.Relationship;
 import com.spz.personal.entity.User;
 import com.spz.communication.service.CommunicationUserService;
@@ -15,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;

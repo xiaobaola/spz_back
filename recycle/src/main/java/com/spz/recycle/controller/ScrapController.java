@@ -1,7 +1,7 @@
 package com.spz.recycle.controller;
 
-import com.spz.public_resouce.common.Res;
-import com.spz.public_resouce.entity.page.PageBean;
+import com.spz.common.Res;
+import com.spz.entity.page.PageBean;
 import com.spz.recycle.entity.Scrap;
 import com.spz.recycle.service.ScrapService;
 import lombok.extern.slf4j.Slf4j;

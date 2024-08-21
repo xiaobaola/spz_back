@@ -1,6 +1,6 @@
 package com.spz.personal.service;
 
-import com.spz.public_resouce.entity.page.PageBean;
+import com.spz.entity.page.PageBean;
 import com.spz.personal.entity.User;
 
 import java.time.LocalDate;

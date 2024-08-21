@@ -1,4 +1,4 @@
-package com.spz.public_resouce.common;
+package com.spz.common;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;

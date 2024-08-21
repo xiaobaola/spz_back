@@ -4,7 +4,7 @@ import com.spz.personal.entity.User;
 import com.spz.personal.entity.wrapper.UserChangeWrapper;
 import com.spz.personal.service.UserChangeUserService;
 import com.spz.personal.service.UserService;
-import com.spz.public_resouce.common.Res;
+import com.spz.common.Res;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

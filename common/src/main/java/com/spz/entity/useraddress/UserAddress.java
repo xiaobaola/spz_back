@@ -1,4 +1,4 @@
-package com.spz.public_resouce.entity.useraddress;
+package com.spz.entity.useraddress;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;

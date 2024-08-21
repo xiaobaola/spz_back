@@ -1,6 +1,6 @@
 package com.spz.recycle.service;
 
-import com.spz.public_resouce.entity.page.PageBean;
+import com.spz.entity.page.PageBean;
 import com.spz.recycle.entity.ScrapTrade;
 
 import java.util.List;
