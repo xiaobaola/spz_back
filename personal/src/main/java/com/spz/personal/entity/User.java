@@ -15,17 +15,21 @@ import java.time.LocalDateTime;
  * Date: 2023/10/02 19:43
  * Description:用户的身份信息
  * -- 用户信息表
- * create table userMessage
+ * create table user
  * (
- *     id          int primary key auto_increment comment '用户id',
- *     username    varchar(20)  default 'momo' comment '用户名',
- *     phone       varchar(12) not null unique comment '电话号码',
- *     `password`  varchar(32) not null comment '密码',
- *     gender      tinyint unsigned comment '性别 , 1 男, 2 女',
- *     image       varchar(300) comment '图像',
- *     head_image  varchar(300) default '' comment '头像',
- *     create_time datetime comment '创建时间',
- *     update_time datetime comment '更新时间'
+ *   id           int primary key auto_increment comment '用户id',
+ *   username     varchar(20)          default 'momo' comment '用户名',
+ *   nickname     varchar(20) comment '昵称',
+ *   open_id      varchar(100) unique comment '微信openid 唯一', # 微信openid 目前唯一 后面可能限制只有3个 唯一可以提高查询速度
+ *   phone        varchar(12)  comment '电话号码',
+ *   password     varchar(32) not null default '123456' comment '密码',
+ *   gender       tinyint unsigned comment '性别 , 1 男, 2 女',
+ *   image        varchar(300) default '/images/mine/cat.jpeg' comment '头像',
+ *   head_image   varchar(300)         ,
+ *   introduction varchar(300) comment '自我介绍',
+ *   address      varchar(300) comment '简要地址',
+ *   update_time  datetime comment '更新时间',
+ *   create_time  datetime comment '创建时间'
  * );
  *
  */
@@ -36,16 +40,20 @@ import java.time.LocalDateTime;
 public class User {
 //    id           int primary key auto_increment comment '用户id',
 //    username     varchar(20)          default 'momo' comment '用户名',
-//    phone        varchar(12) not null unique comment '电话号码',
+//    nickname     varchar(20) comment '昵称',
+//    open_id      varchar(100) unique comment '微信openid 唯一', # 微信openid 目前唯一 后面可能限制只有3个 唯一可以提高查询速度
+//    phone        varchar(12)  comment '电话号码',
 //    password     varchar(32) not null default '123456' comment '密码',
 //    gender       tinyint unsigned comment '性别 , 1 男, 2 女',
-//    image        varchar(300) comment '图像',
-//    head_image   varchar(300)         default '' comment '头像',
+//    image        varchar(300) default '/images/mine/cat.jpeg' comment '头像',
+//    head_image   varchar(300)         ,
 //    introduction varchar(300) comment '自我介绍',
 //    address      varchar(300) comment '简要地址',
 //    update_time  datetime comment '更新时间',
 //    create_time  datetime comment '创建时间'
     private Integer id; //ID
+    private String openId; //微信openid
+    private String nickname; // 昵称
     private String username; //用户名
     private String phone;//电话
     private String password; //密码

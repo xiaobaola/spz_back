@@ -1,12 +1,17 @@
 package com.spz.personal.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.spz.api.weixin.WechatApi;
+import com.spz.common.ExceptionMessageConstant;
+import com.spz.common.GlobalException;
 import com.spz.entity.page.PageBean;
 import com.spz.personal.entity.User;
 import com.spz.personal.mapper.UserMapper;
 import com.spz.personal.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -15,15 +20,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService {
+@RequiredArgsConstructor
+@Slf4j
+public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
-    private UserMapper userMapper;
-
-
-    @Autowired
-    public void setUserMapper(UserMapper userMapper) {
-        this.userMapper = userMapper;
-    }
+    private final UserMapper userMapper;
+    private final WechatApi wechatApi;
 
 
     @Override
@@ -35,7 +37,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void changeById(User user) {
         user.setUpdateTime(LocalDateTime.now());
-        userMapper.updateById(user);
+        userMapper.updateUserById(user);
     }
 
     @Override
@@ -58,11 +60,8 @@ public class UserServiceImpl implements UserService {
         return userMapper.selectById(id);
     }
 
-    @Override
-    public void insert(User user) {
-        user.setUpdateTime(LocalDateTime.now());
-        user.setCreateTime(LocalDateTime.now());
-        userMapper.insert(user);
+    public void insertUser(User user) {
+        userMapper.insertWithUsernameAndPhoneAndGender(user);
     }
 
     @Override
@@ -89,4 +88,30 @@ public class UserServiceImpl implements UserService {
     public List<User> getUsersByUserIds(List<Integer> userId2s) {
         return userMapper.selectUsersByUserIds(userId2s);
     }
+
+    @Override
+    public User wxLogin(String code) {
+        // 将数据处理逻辑写到controller中
+        // 1 从授权码中获取openid 等数据
+        // 1.1 调用api模块中的微信登录接口
+        String openid = wechatApi.getOpenIdByCode(code);
+        log.info("openid:{}", openid);
+        // 2 数据处理 null 返回错误信息 用户未授权失败
+        if (openid == null) {
+            throw new GlobalException(ExceptionMessageConstant.LOGIN_FAILURE_USER);
+        }
+        // 业务处理逻辑写到service中
+        // 1.1 通过openid查询用户
+        User user = userMapper.selectByOpenId(openid);
+        // 1 如果openid在数据库中不存在，则创建用户
+        if (user == null) {
+            user = new User();
+            // 用户后期自主配置 用户名和密码
+            user.setOpenId(openid);
+            userMapper.insert(user);
+        }
+        // 2 如果openid存在，则查询用户id
+        return userMapper.selectByOpenId(openid);
+    }
+
 }

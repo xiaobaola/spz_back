@@ -1,5 +1,6 @@
 package com.spz.personal.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.spz.personal.entity.User;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Mapper
-public interface UserMapper {
+public interface UserMapper extends BaseMapper<User> {
 
     @Select("select * from user")
     ArrayList<User> selectByAll();
@@ -18,7 +19,7 @@ public interface UserMapper {
     @Select("select * from user where username=#{username} and password=#{password}")
     User selectByUsernameAndPassword(String username,String password);
 
-    void updateById(User user);
+    void updateUserById(User user);
 
     List<User> selectByUsernameOrBeginAndEnd(String username, LocalDate begin, LocalDate end);
 
@@ -27,7 +28,7 @@ public interface UserMapper {
 
     @Insert("insert into user(username, phone, gender, create_time, update_time) " +
             "VALUES(#{username}, #{phone}, #{gender}, #{createTime}, #{updateTime}) ")
-    void insert(User user);
+    void insertWithUsernameAndPhoneAndGender(User user);
 
     @Select("select * from user where username like CONCAT('%', #{info}, '%')")
     List<User> selectListByLikeUsername(String info);
@@ -42,4 +43,7 @@ public interface UserMapper {
     User selectByPhone(String phone);
 
     List<User> selectUsersByUserIds(List<Integer> userIds);
+
+    @Select("select * from user where open_id=#{openid}")
+    User selectByOpenId(String openid);
 }

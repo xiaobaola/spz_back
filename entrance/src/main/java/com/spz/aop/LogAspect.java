@@ -21,13 +21,14 @@ public class LogAspect {
 
     //使用环绕通知，在方法的执行前后分别记录一个时间相减
     @Around("pointCut()")
-    public Object doLog(ProceedingJoinPoint proceedingJoinPoint) {
+    public Object doLog(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         long startTime = System.currentTimeMillis();
         Object object = null;
         try {
             object = proceedingJoinPoint.proceed();
         } catch (Throwable throwable) {
-            throwable.printStackTrace();
+//            throwable.printStackTrace();
+            throw throwable;
         } finally {
             long endTime = System.currentTimeMillis();
             log.info(proceedingJoinPoint.getSignature().toShortString() + "方法执行了：" + (endTime - startTime) + "ms");

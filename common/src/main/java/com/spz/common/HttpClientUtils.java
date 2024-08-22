@@ -17,9 +17,12 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * HttpClient工具类
@@ -35,7 +38,6 @@ public class HttpClientUtils {
      *
      * @param url  url地址
      * @param jsonParam 参数
-     * @return
      */
     public static JSONObject httpPost(String url, JSONObject jsonParam) {
         // post请求返回结果
@@ -188,6 +190,48 @@ public class HttpClientUtils {
                 // 把json字符串转换成json对象
                 jsonResult = JSONObject.parseObject(strResult);
             } else {
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            request.releaseConnection();
+        }
+        return jsonResult;
+    }
+
+    public static JSONObject httpGet(String url, Map<String, String> params) {
+        // 如果有参数，将它们附加到URL的查询字符串中
+        if (params != null && !params.isEmpty()) {
+            String queryString = params.entrySet().stream()
+                    .map(entry -> {
+                        try {
+                            return entry.getKey() + "=" + URLEncoder.encode(entry.getValue().toString(), "UTF-8");
+                        } catch (UnsupportedEncodingException e) {
+                            throw new RuntimeException(e);
+                        }
+                    })
+                    .collect(Collectors.joining("&"));
+            if (!url.contains("?")) {
+                url += "?" + queryString;
+            } else {
+                url += "&" + queryString;
+            }
+        }
+
+        // 接下来的代码与原始方法类似
+        JSONObject jsonResult = null;
+        CloseableHttpClient client = HttpClients.createDefault();
+//        System.out.println("url:" + url);
+        HttpGet request = new HttpGet(url);
+        request.setConfig(requestConfig);
+
+        try {
+            CloseableHttpResponse response = client.execute(request);
+
+            if (response.getStatusLine().getStatusCode() == 200) {
+                HttpEntity entity = response.getEntity();
+                String strResult = EntityUtils.toString(entity, "utf-8");
+                jsonResult = JSONObject.parseObject(strResult);
             }
         } catch (IOException e) {
             e.printStackTrace();

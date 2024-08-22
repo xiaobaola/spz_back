@@ -1,5 +1,6 @@
 package com.spz.personal.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.spz.entity.page.PageBean;
 import com.spz.personal.entity.User;
 
@@ -7,7 +8,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public interface UserService {
+public interface UserService extends IService<User> {
 
     User getByUsernameAndPassword(String username, String password);
 
@@ -17,7 +18,7 @@ public interface UserService {
 
     User getById(Integer id);
 
-    void insert(User user);
+    void insertUser(User user);
     
     ArrayList<User> getList();
 
@@ -28,4 +29,6 @@ public interface UserService {
     List<User> getListByUsernameOrBeginAndEnd(String username, LocalDate begin, LocalDate end);
 
     List<User> getUsersByUserIds(List<Integer> userId2s);
+
+    User wxLogin(String code);
 }

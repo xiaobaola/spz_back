@@ -1,10 +1,12 @@
 package com.spz.manager.controller;
 
+import com.spz.common.JWTUtils;
 import com.spz.common.Res;
 import com.spz.manager.entity.Manager;
 import com.spz.entity.page.PageBean;
 import com.spz.manager.service.ManagerService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -32,12 +34,15 @@ public class ManagerController {
      * Describe 管理员登录请求
      */
     @PostMapping("/login")
-    public Res<Manager> login(HttpServletRequest request, @RequestBody Manager manager) {
+    public Res<Manager> login(HttpServletRequest request, HttpServletResponse response, @RequestBody Manager manager) {
         log.info("login: manager{}", manager);
         Manager one = managerService.getByUsernameAndPassword(manager.getUsername(),manager.getPassword());
         if(one != null) {
             //把信息写入session中
             request.getSession().setAttribute("manager", one);
+            // token
+            String token = JWTUtils.generateTokenById(one.getId());
+            response.setHeader("token",token);
             return Res.success(one);
         }
         return Res.error("用户名或密码错误");

@@ -1,5 +1,6 @@
 package com.spz.interceptor;
 
+import com.spz.common.JWTUtils;
 import com.spz.manager.entity.Manager;
 import com.spz.personal.entity.User;
 import com.spz.manager.service.ManagerService;
@@ -57,6 +58,8 @@ public class LoginInterceptor implements HandlerInterceptor {
             BaseContext.setCurrentId(-1);
             return false;
         }
+        int id = JWTUtils.getIdByToken(request.getHeader("token"));
+        log.info("Token ManagerId:"+id);
         // 设置id 为后续提供服务
         BaseContext.setCurrentId(one.getId());
         // 有 去数据库中查找
@@ -93,6 +96,9 @@ public class LoginInterceptor implements HandlerInterceptor {
             BaseContext.setCurrentId(-1);
             return false;
         }
+        // token方案 非空判断，token校验
+        int id = JWTUtils.getIdByToken(request.getHeader("token"));
+        log.info("Token UserId:"+id);
         // 设置id 为后续提供服务
         BaseContext.setCurrentId(one.getId());
         // 有 去数据库中查找

@@ -1,13 +1,17 @@
 package com.spz.personal.controller;
 
-import com.spz.common.Res;
+import com.spz.common.*;
 import com.spz.entity.page.PageBean;
 import com.spz.personal.entity.User;
+import com.spz.personal.entity.wrapper.UserWrapper;
 import com.spz.personal.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,15 +20,11 @@ import java.time.LocalDate;
 @RequestMapping("/spz/user")
 @RestController
 @Slf4j
+@Tag(name = "用户模块")
+@RequiredArgsConstructor
 public class UserController {
 
-    private UserService userService;
-
-
-    @Autowired
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
+    private final UserService userService;
 
 
     @GetMapping
@@ -35,7 +35,7 @@ public class UserController {
     }
     @PostMapping("/login")
     //HttpServletRequest request,
-    public Res<User> login(@RequestBody User userMessage, HttpServletRequest request) {
+    public Res<User> login(@RequestBody User userMessage, HttpServletRequest request, HttpServletResponse response) {
         // 可以考虑使用md5加密
         String username = userMessage.getUsername();
         String password = userMessage.getPassword();
@@ -48,6 +48,8 @@ public class UserController {
             // 向session设置值
             session.setAttribute("user",user);
             // token
+            String token = JWTUtils.generateTokenById(user.getId());
+            response.setHeader("token",token);
             return Res.success(user);
         }
         return Res.error("用户名或密码错误");
@@ -94,7 +96,7 @@ public class UserController {
     @PostMapping
     public Res<String> insert(@RequestBody User user) {
         log.info("新增: {}", user);
-        userService.insert(user);
+        userService.insertUser(user);
         return Res.success("新增用户成功");
     }
 
@@ -110,23 +112,17 @@ public class UserController {
     }
 
     @PostMapping("/login/wx")
+    @Operation(description = "微信小程序登录")
     //HttpServletRequest request,
-    public Res<User> wxLogin(@RequestBody String code, HttpServletRequest request) {
+    public Res<User> wxLogin(@RequestBody UserWrapper wrapper,HttpServletRequest request, HttpServletResponse response) {
+        String code = wrapper.getCode();
         log.info("wxLogin请求 code:{}", code);
-        // 可以考虑使用md5加密
-        String username = "评委·";
-        String password = "123456";
-        log.info("login请求 username:{}, password{}", username, password);
-        User user = userService.getByUsernameAndPassword(username, password);
-        if(user != null) {
-            log.info("user = {}", user);
-            // session
-            HttpSession session = request.getSession();
-            // 向session设置值
-            session.setAttribute("user",user);
-            // token
-            return Res.success(user);
-        }
-        return Res.error("用户名或密码错误");
+        // 微信已经校验过用户的合法性了 直接放行 有则直接返回数据，无则创建用户
+        User user = userService.wxLogin(code);
+        // 设置session 和 token 后期进行选择
+        request.getSession().setAttribute("user",user);
+        // token
+        response.setHeader("token",JWTUtils.generateTokenById(user.getId()));
+        return Res.success(user);
     }
 }

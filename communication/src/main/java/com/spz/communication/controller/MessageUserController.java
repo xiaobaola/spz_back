@@ -15,6 +15,7 @@ import java.util.List;
 @RequestMapping("/spz/messageUser")
 @Slf4j
 public class MessageUserController {
+    // 用webSocket实现 把实时通信的人加到webSocket中,不是实时通信的人就用http实现
 
     MessageUserService messageUserService;
     @Autowired

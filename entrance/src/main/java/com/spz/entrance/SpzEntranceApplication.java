@@ -20,10 +20,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
         @ComponentScan("com.spz.**.interceptor"),
         @ComponentScan("com.spz.**.config"),
         @ComponentScan("com.spz.**.aop"),
-        @ComponentScan("com.spz.common")
+        @ComponentScan("com.spz.common"),
+        @ComponentScan("com.spz.api")
 })
 @MapperScan("com.spz.**.mapper")
-@EnableCaching //开启缓存
+//@EnableCaching //开启缓存
 public class SpzEntranceApplication {
 
     public static void main(String[] args) {
