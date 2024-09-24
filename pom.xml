@@ -181,9 +181,12 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring.version}</version>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
+<!--                <configuration>-->
+<!--                    <skip>true</skip>-->
+<!--                </configuration>-->
+<!--                <configuration>-->
+<!--                    <mainClass>com.spz.entrance.SpzEntranceApplication</mainClass>-->
+<!--                </configuration>-->
             </plugin>
         </plugins>
     </build>

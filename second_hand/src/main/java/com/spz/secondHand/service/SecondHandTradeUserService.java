@@ -14,4 +14,6 @@ public interface SecondHandTradeUserService {
     void changeBuyerStatusByTradeId(int buyerStatus, int tradeId);
 
     void changeSellerStatusByTradeId(int sellerStatus, int tradeId);
+
+    void changeTradeStatusByTradeId(int tradeStatus, int tradeId);
 }

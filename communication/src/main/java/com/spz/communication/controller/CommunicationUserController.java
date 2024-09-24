@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping("/spz/communication")
+@RequestMapping("/spz/user")
 @RestController
 @Slf4j
 public class CommunicationUserController {

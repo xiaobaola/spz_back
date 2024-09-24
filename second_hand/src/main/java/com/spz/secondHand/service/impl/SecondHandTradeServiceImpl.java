@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -109,6 +110,7 @@ public class SecondHandTradeServiceImpl implements SecondHandTradeService {
     @Override
     public List<SecondHandTradeDto> getTradeDtoListByBuyerId(int buyerId) {
         List<SecondHandTradeUser> tradeUsers = tradeUserService.getSomeByBuyerId(buyerId);
+        System.out.println(tradeUsers);
         // 抽成一个方法
         return getTradeDtosByTradeUsers(tradeUsers);
     }
@@ -121,19 +123,24 @@ public class SecondHandTradeServiceImpl implements SecondHandTradeService {
     }
 
     @Override
-    public void changeBuyerTradeBuyerStatusByTradeId(int tradeId) {
+    public void changeBuyerTradeBuyerStatusByTradeId(int status, int tradeId) {
         // 1改变关联表的状态信息 无需对订单表进行更改
         // 订单状态 创建态1 -> 取消态2 谁取消修改关联表中谁的状态值
-        int buyerStatus = 2;
+//        int buyerStatus = 2;
         // 2根据tradeId获取订单关联表的数据 如果要进行安全优化的话
         // 3修改关联表的数据
-        tradeUserService.changeBuyerStatusByTradeId(buyerStatus,tradeId);
+        tradeUserService.changeBuyerStatusByTradeId(status,tradeId);
+        if( status == 2) {
+            tradeUserService.changeTradeStatusByTradeId(status,tradeId);
+        }
     }
 
     @Override
-    public void changeSellerTradeSellerStatusByTradeId(int tradeId) {
-        int sellerStatus = 2;
-        tradeUserService.changeSellerStatusByTradeId(sellerStatus,tradeId);
+    public void changeSellerTradeSellerStatusByTradeId(int status, int tradeId) {
+        tradeUserService.changeSellerStatusByTradeId(status,tradeId);
+        if( status == 2) {
+            tradeUserService.changeTradeStatusByTradeId(status,tradeId);
+        }
     }
 
     private List<SecondHandTradeDto> getTradeDtosByTradeUsers(List<SecondHandTradeUser> tradeUsers) {
@@ -158,12 +165,14 @@ public class SecondHandTradeServiceImpl implements SecondHandTradeService {
             User buyer = userService.getById(tradeUser.getBuyerId());
             tradeDto.setBuyerImage(buyer.getImage());
             tradeDto.setBuyerUsername(buyer.getUsername());
-            tradeDto.setBuyerStatus(tradeUser.getSellerStatus());
+            tradeDto.setBuyerStatus(tradeUser.getBuyerStatus());
             // 2.7设置tradeStatus
             tradeDto.setTradeStatus(tradeUser.getSecondHandTradeStatus());
             // 2.8 加入到list中
             secondHandTradeDtos.add(tradeDto);
         }
+        // 按updateTime降序排序
+        secondHandTradeDtos.sort(Comparator.comparing(SecondHandTradeDto::getUpdateTime).reversed());
         return secondHandTradeDtos;
     }
 }

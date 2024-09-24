@@ -41,7 +41,13 @@ public class SecondHandItemController {
         log.info("获取所有二手物品信息");
         return Res.success(itemService.getItemDtoByStatus(1));
     }
-    @PostMapping()
+    @GetMapping
+    public Res<SecondHandItem> getOneById(@RequestParam int itemId){
+        // 根据itemId获取一个二手物品信息
+        log.info("获取一个二手物品信息，参数{}",itemId);
+        return Res.success(itemService.getOneById(itemId));
+    }
+    @PostMapping
     public Res<String> sellerUploadItem(@RequestBody SecondHandWrapper wrapper) {
 //        log.info("卖家发布二手物品，物品wrapper{}",wrapper);
         // 对传输的数据进行传递
@@ -50,12 +56,20 @@ public class SecondHandItemController {
         item.setPrice(wrapper.getPrice());
         item.setInformation(wrapper.getInformation());
         int userId = wrapper.getUserId();
-        userId = User.getUserIdByThread(userId);
+//        userId = User.getUserIdByThread(userId);
         item.setUserId(userId);
         log.info("卖家发布二手物品，物品{}",item);
         itemService.addItem(item);
         return Res.success("发布成功");
     }
+
+    @PutMapping
+    public Res<String> modifyItem(@RequestBody SecondHandItem item){
+        log.info("卖家修改物品，参数{}",item);
+        itemService.changeItemByItem(item);
+        return Res.success("修改物品信息成功");
+    }
+
     @Cacheable(value = "itemListSeller",key = "'userId'+#userId")
     @GetMapping("/seller")
     public Res<List<SecondHandItem>> itemListSeller(@RequestParam int userId, HttpServletRequest request){
@@ -64,11 +78,19 @@ public class SecondHandItemController {
         return Res.success(itemService.getSomeByUserId(userId));
     }
 
-    @PutMapping
-    public Res<String> modifyItem(@RequestBody SecondHandItem item){
-        log.info("卖家修改物品，参数{}",item);
-        itemService.changeItemByItem(item);
-        return Res.success("修改物品信息成功");
+    @PutMapping("/seller/up")
+    public Res<String> sellerApplyItem(@RequestBody SecondHandItem item){
+        log.info("卖家申请审核，参数{}",item);
+        int status = 1; // 1:待审核 2:发布中 3:下架
+        itemService.changeItemStatusByItemId(status,item.getId());
+        return Res.success("审核中");
+    }
+    @PutMapping("/seller/down")
+    public Res<String> sellerOffItem(@RequestBody SecondHandItem item){
+        log.info("卖家下架物品，参数{}",item);
+        int status = 3; // 1:待审核 2:发布中 3:下架
+        itemService.changeItemStatusByItemId(status,item.getId());
+        return Res.success("已下架");
     }
 
     @CacheEvict(value = "getSomeByUserId",allEntries = true)

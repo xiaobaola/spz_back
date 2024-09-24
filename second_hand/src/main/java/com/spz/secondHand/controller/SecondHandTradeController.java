@@ -53,7 +53,9 @@ public class SecondHandTradeController {
     public Res<List<SecondHandTradeDto>> listBuyer(@RequestParam int userId, HttpServletRequest request) {
         userId = User.getUserIdBySession(userId,request);
         log.info("买家查询买入订单信息，参数buyerId:{}",userId);
-        return Res.success(tradeService.getTradeDtoListByBuyerId(userId));
+        List<SecondHandTradeDto> tradeDtoListByBuyerId = tradeService.getTradeDtoListByBuyerId(userId);
+        log.info("买家查询买入订单信息，返回结果:{}",tradeDtoListByBuyerId);
+        return Res.success(tradeDtoListByBuyerId);
     }
     @GetMapping("/list/seller")
     public Res<List<SecondHandTradeDto>> listSeller(@RequestParam int userId,HttpServletRequest request) {
@@ -61,6 +63,8 @@ public class SecondHandTradeController {
         log.info("买家查询买入订单信息，参数buyerId:{}",userId);
         return Res.success(tradeService.getTradeDtoListBySellerId(userId));
     }
+
+
     @PutMapping("/buyer")
     public Res<String> buyerCancelTradeByBuyerIdAndTradeId(@RequestBody SecondHandWrapper wrapper){
 //        int userId = wrapper.getUserId();
@@ -69,7 +73,8 @@ public class SecondHandTradeController {
         int tradeId = wrapper.getTradeId();
 //        log.info("买家取消订单，参数userId:{},tradeId:{}",userId,tradeId);
         log.info("买家取消订单，参数tradeId:{}",tradeId);
-        tradeService.changeBuyerTradeBuyerStatusByTradeId(tradeId);
+        int status = 2;
+        tradeService.changeBuyerTradeBuyerStatusByTradeId(status,tradeId);
         return Res.success("已经取消买进");
     }
 
@@ -78,7 +83,28 @@ public class SecondHandTradeController {
         // 与buyerCancel同理，可以进行优化
         int tradeId = wrapper.getTradeId();
         log.info("卖家取消订单，参数tradeId:{}",tradeId);
-        tradeService.changeSellerTradeSellerStatusByTradeId(tradeId);
+        int status = 2;
+        tradeService.changeSellerTradeSellerStatusByTradeId(status, tradeId);
         return Res.success("已经取消卖出");
+    }
+
+    @DeleteMapping("/buyer")
+    public Res<String> buyerDeleteTradeBySTradeId(@RequestBody SecondHandWrapper wrapper) {
+        // 与buyerCancel同理，可以进行优化
+        int tradeId = wrapper.getTradeId();
+        log.info("买家删除订单，参数tradeId:{}",tradeId);
+        int status = 4;
+        tradeService.changeBuyerTradeBuyerStatusByTradeId(status, tradeId);
+        return Res.success("已经删除订单");
+    }
+
+    @DeleteMapping("/seller")
+    public Res<String> sellerDeleteTradeBySTradeId(@RequestBody SecondHandWrapper wrapper) {
+        // 与buyerCancel同理，可以进行优化
+        int tradeId = wrapper.getTradeId();
+        log.info("卖家删除订单，参数tradeId:{}",tradeId);
+        int status = 4;
+        tradeService.changeSellerTradeSellerStatusByTradeId(status,tradeId);
+        return Res.success("已经删除订单");
     }
 }

@@ -27,4 +27,7 @@ public interface SecondHandTradeUserMapper {
 
     @Update("update second_hand_trade_user set seller_status=#{sellerStatus} where second_hand_trade_id=#{tradeId}")
     void updateSellerStatusByTradeId(int sellerStatus, int tradeId);
+
+    @Update("update second_hand_trade_user set second_hand_trade_status=#{tradeStatus} where second_hand_trade_id=#{tradeId}")
+    void updateTradeStatusByTradeId(int tradeStatus, int tradeId);
 }

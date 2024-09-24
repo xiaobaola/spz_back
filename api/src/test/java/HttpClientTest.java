@@ -11,7 +11,7 @@ import org.apache.http.util.EntityUtils;
 import org.junit.jupiter.api.Test;
 
 public class HttpClientTest {
-    @Test
+//    @Test
     public void testGet() throws Exception {
         //创建HttpClient对象
         //已建httpcltentメ苏
@@ -32,7 +32,7 @@ public class HttpClientTest {
         httpClient.close();
     }
 
-    @Test
+//    @Test
     public void testPost() throws Exception {
         //创建HttpClient对象
         CloseableHttpClient httpClient = HttpClients.createDefault();

@@ -42,4 +42,9 @@ public class SecondHandTradeUserServiceImpl implements SecondHandTradeUserServic
     public void changeSellerStatusByTradeId(int sellerStatus, int tradeId) {
         tradeUserMapper.updateSellerStatusByTradeId(sellerStatus, tradeId);
     }
+
+    @Override
+    public void changeTradeStatusByTradeId(int tradeStatus, int tradeId) {
+        tradeUserMapper.updateTradeStatusByTradeId(tradeStatus, tradeId);
+    }
 }

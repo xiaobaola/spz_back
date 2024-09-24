@@ -17,9 +17,10 @@ public class SecondHandTradeDto extends SecondHandTrade {
 
     @Override
     public String toString() {
+
         return "SecondHandTradeDto{" +
                 super.toString()+
-                ", buyerUsername='" + buyerUsername + '\'' +
+                "buyerUsername='" + buyerUsername + '\'' +
                 ", buyerImage='" + buyerImage + '\'' +
                 ", buyerStatus=" + buyerStatus +
                 ", sellerUsername='" + sellerUsername + '\'' +
