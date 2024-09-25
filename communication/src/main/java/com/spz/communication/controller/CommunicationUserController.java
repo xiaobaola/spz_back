@@ -6,7 +6,7 @@ import com.spz.communication.entity.relationship.Relationship;
 import com.spz.communication.service.CommunicationUserService;
 import com.spz.communication.service.MessageTradeService;
 import com.spz.communication.service.RelationshipService;
-import com.spz.personal.entity.User;
+import com.spz.personal_extend.entity.User;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

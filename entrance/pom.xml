@@ -41,6 +41,11 @@
             <artifactId>recycle</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.spz</groupId>
+            <artifactId>personal_extend</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
 
         <!--        spring启动框架-->
         <dependency>

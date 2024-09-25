@@ -27,6 +27,8 @@
         <module>second_hand</module>
         <module>manager</module>
         <module>api</module>
+        <module>personal_extend</module>
+        <module>tag</module>
     </modules>
 
     <properties>

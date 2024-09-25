@@ -2,9 +2,9 @@ package com.spz.interceptor;
 
 import com.spz.common.JWTUtils;
 import com.spz.manager.entity.Manager;
-import com.spz.personal.entity.User;
+import com.spz.personal_extend.entity.User;
 import com.spz.manager.service.ManagerService;
-import com.spz.personal.service.UserService;
+import com.spz.personal_extend.service.UserService;
 import com.spz.common.BaseContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

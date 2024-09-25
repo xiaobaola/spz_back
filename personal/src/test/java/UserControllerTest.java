@@ -1,27 +1,10 @@
-
-import java.util.*;
-import java.math.*;
-
-import com.spz.common.Res;
-import com.spz.personal.controller.UserController;
-import com.spz.personal.entity.User;
-import com.spz.personal.service.UserService;
-import org.junit.jupiter.api.BeforeEach;
+import com.spz.personal_extend.entity.User;
+import com.spz.personal_extend.service.UserService;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 public class UserControllerTest {

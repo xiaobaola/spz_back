@@ -1,6 +1,6 @@
 package com.spz.communication.mapper;
 
-import com.spz.personal.entity.User;
+import com.spz.personal_extend.entity.User;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;

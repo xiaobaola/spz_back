@@ -1,12 +1,11 @@
 package com.spz.secondHand.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.spz.common.GlobalException;
 import com.spz.common.Res;
 import com.spz.secondHand.entity.SecondHandItem;
 import com.spz.secondHand.entity.dto.SecondHandItemDto;
 import com.spz.secondHand.entity.wrapper.SecondHandWrapper;
-import com.spz.personal.entity.User;
+import com.spz.personal_extend.entity.User;
 import com.spz.secondHand.service.SecondHandItemService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
