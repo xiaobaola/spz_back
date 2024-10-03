@@ -3,12 +3,14 @@ package com.spz.api.weixin;
 import com.alibaba.fastjson.JSONObject;
 import com.spz.common.HttpClientUtils;
 import com.spz.common.WeChatProperties;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@Tag(name = "微信登录模块")
 @Component
 public class WechatApi {
     @Autowired

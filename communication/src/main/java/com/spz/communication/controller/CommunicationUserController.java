@@ -7,6 +7,7 @@ import com.spz.communication.service.CommunicationUserService;
 import com.spz.communication.service.MessageTradeService;
 import com.spz.communication.service.RelationshipService;
 import com.spz.personal_extend.entity.User;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import java.util.List;
 @RequestMapping("/spz/user")
 @RestController
 @Slf4j
+@Tag(name = "用户交友模块")
 public class CommunicationUserController {
     @Autowired
     private CommunicationUserService communicationUserService;

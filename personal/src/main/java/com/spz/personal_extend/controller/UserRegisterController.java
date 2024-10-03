@@ -4,6 +4,7 @@ import com.spz.personal_extend.entity.User;
 import com.spz.personal_extend.service.UserService;
 import com.spz.common.Res;
 import com.spz.personal_extend.service.UserRegisterService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 @RequestMapping("/spz/user/register")
 @Slf4j
 @RequiredArgsConstructor
+@Tag(name = "用户注册模块")
 public class UserRegisterController {
 
 

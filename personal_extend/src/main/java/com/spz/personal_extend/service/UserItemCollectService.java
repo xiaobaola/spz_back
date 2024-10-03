@@ -14,4 +14,6 @@ import java.util.List;
 public interface UserItemCollectService extends IService<UserItemCollect> {
 
     List<SecondHandItem> listByUserId(int userId);
+
+    Integer hasOneByUserIdAndItemId(int userId, int itemId);
 }

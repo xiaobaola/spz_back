@@ -11,5 +11,5 @@ import java.util.List;
 public class SecondHandItemDto extends SecondHandItem {
     private String sellerUsername;
     private String sellerImage;
-//    标签列表 图片列表
+//    标签列表 图片列表 浏览量 评论量 收藏量
 }

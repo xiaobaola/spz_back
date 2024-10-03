@@ -24,7 +24,9 @@ public class UserItemBrowseController {
     @GetMapping("/list")
     public Res<List<SecondHandBrowseDto>> list(@RequestParam int userId) {
         log.info("用户查询浏览物品记录，参数{}", userId);
-        return Res.success(browseService.listByUserId(userId));
+        List<SecondHandBrowseDto> browseDtoList = browseService.listByUserId(userId);
+//        log.info("用户查询浏览物品记录，结果{}", browseDtoList);
+        return Res.success(browseDtoList);
     }
 
     // 新增浏览记录或count+1

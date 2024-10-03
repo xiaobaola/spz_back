@@ -32,11 +32,29 @@ public class UserItemCollectServiceImpl extends ServiceImpl<UserItemCollectMappe
         // 1 查找userId浏览记录中的itemIds
         List<Integer> itemIds = userItemCollectMapper.getItemIdsByUserId(userId);
 
+        if (itemIds.isEmpty()) {
+            return null;
+        }
+
+
         // 2 根据itemIds 查找 所有二手物品
         LambdaQueryWrapper<SecondHandItem> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.in(SecondHandItem::getId, itemIds);
-        queryWrapper.orderByDesc(SecondHandItem::getUpdateTime);
+
+        // 3 排序 按collect的updateTime降序 比较困难
         return secondHandItemService.list(queryWrapper);
+    }
+
+    @Override
+    public Integer hasOneByUserIdAndItemId(int userId, int itemId) {
+        LambdaQueryWrapper<UserItemCollect> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(UserItemCollect::getUserId, userId);
+        queryWrapper.eq(UserItemCollect::getItemId, itemId);
+        UserItemCollect item = getOne(queryWrapper);
+        if (item != null) {
+            return 1;
+        }
+        return 0;
     }
 }
 

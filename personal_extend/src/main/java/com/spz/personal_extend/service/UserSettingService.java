@@ -10,4 +10,5 @@ import com.spz.personal_extend.entity.UserSetting;
 */
 public interface UserSettingService extends IService<UserSetting> {
 
+    void saveOrUpdateByUserId(UserSetting setting);
 }

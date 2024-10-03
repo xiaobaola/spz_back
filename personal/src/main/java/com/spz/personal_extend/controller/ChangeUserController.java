@@ -5,6 +5,7 @@ import com.spz.personal_extend.entity.wrapper.UserChangeWrapper;
 import com.spz.personal_extend.service.UserChangeUserService;
 import com.spz.personal_extend.service.UserService;
 import com.spz.common.Res;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 @RequestMapping("/spz/user")
 @Slf4j
 @RequiredArgsConstructor
+@Tag( name ="用户信息修改管理")
 // 20240715改变用户信息的接口为什么不放在用户信息的接口中
 // 为了方便维护？
 public class ChangeUserController {

@@ -1,12 +1,10 @@
 package com.spz.personal_extend.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -16,15 +14,11 @@ import java.util.Date;
 @TableName(value ="user_setting")
 @Data
 public class UserSetting implements Serializable {
-    /**
-     * 设置ID
-     */
-    @TableId(type = IdType.AUTO)
-    private Integer id;
 
     /**
-     * 用户ID
+     * 用户ID 主键
      */
+    @TableId(type = IdType.AUTO)
     private Integer userId;
 
     /**
@@ -37,15 +31,10 @@ public class UserSetting implements Serializable {
      */
     private Integer message;
 
-    /**
-     * 创建时间
-     */
-    private Date createTime;
-
-    /**
-     * 更新时间
-     */
-    private Date updateTime;
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private LocalDateTime updateTime;
+    @TableField(fill = FieldFill.INSERT)
+    private LocalDateTime createTime;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

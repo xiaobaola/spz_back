@@ -4,6 +4,7 @@ import com.spz.common.Res;
 import com.spz.communication.service.MessageUserService;
 import com.spz.communication.entity.message.MessageUser;
 import com.spz.personal_extend.entity.User;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/spz/messageUser")
 @Slf4j
+@Tag( name ="用户消息管理")
 public class MessageUserController {
     // 用webSocket实现 把实时通信的人加到webSocket中,不是实时通信的人就用http实现
 

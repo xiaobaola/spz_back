@@ -7,6 +7,7 @@ import com.spz.secondHand.entity.dto.SecondHandItemDto;
 import com.spz.secondHand.entity.wrapper.SecondHandWrapper;
 import com.spz.personal_extend.entity.User;
 import com.spz.secondHand.service.SecondHandItemService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/spz/secondHand/item")
 @Slf4j
+@Tag(name = "二手物品模块")
 @RequiredArgsConstructor
 public class SecondHandItemController {
 

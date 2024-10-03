@@ -7,6 +7,7 @@ import com.spz.recycle.entity.ScrapTrade;
 import com.spz.recycle.entity.wrapper.ScrapWrapper;
 import com.spz.recycle.service.ScrapTradeDetailService;
 import com.spz.recycle.service.ScrapTradeService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/spz/scrapTrade")
 @Slf4j
+@Tag(name = "回收交易模块")
 public class ScrapTradeController {
 
     ScrapTradeService scrapTradeService;

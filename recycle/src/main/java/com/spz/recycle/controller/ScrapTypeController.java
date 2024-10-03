@@ -3,6 +3,7 @@ package com.spz.recycle.controller;
 import com.spz.common.Res;
 import com.spz.recycle.entity.ScrapType;
 import com.spz.recycle.service.ScrapTypeService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 @RequestMapping("/spz/scrapType")
 @RestController
 @Slf4j
+@Tag(name = "废品类型管理")
 public class ScrapTypeController {
 
     private ScrapTypeService scrapTypeService;

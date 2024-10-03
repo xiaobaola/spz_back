@@ -4,6 +4,7 @@ import com.spz.common.Res;
 import com.spz.entity.page.PageBean;
 import com.spz.recycle.entity.Scrap;
 import com.spz.recycle.service.ScrapService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -16,6 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/spz/scrap")
 @Slf4j
+@Tag(name = "回收品模块")
 public class ScrapController {
 
     private ScrapService scrapService;

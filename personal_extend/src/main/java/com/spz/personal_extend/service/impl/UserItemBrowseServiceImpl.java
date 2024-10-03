@@ -1,5 +1,7 @@
 package com.spz.personal_extend.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.ListUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.spz.personal_extend.entity.dto.SecondHandBrowseDto;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.spz.personal_extend.entity.UserItemBrowse;
 import com.spz.personal_extend.service.UserItemBrowseService;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,16 +37,24 @@ public class UserItemBrowseServiceImpl extends ServiceImpl<UserItemBrowseMapper,
         // 1 查找userId浏览记录中的itemIds
         LambdaQueryWrapper<UserItemBrowse> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(UserItemBrowse::getUserId, userId);
-        List<UserItemBrowse> itemIds = list(queryWrapper);
-
+        // 3 按更新日期降序排序
+        queryWrapper.orderByDesc(UserItemBrowse::getUpdateTime);
+        List<UserItemBrowse> userItemBrowseList = list(queryWrapper);
         // 2 根据 关联类 查找 所有二手物品
         List<SecondHandBrowseDto> itemDtoList = new ArrayList<>();
-        for (UserItemBrowse itemId : itemIds) {
+        // 用hutool工具类做非空判断
+//        if(userItemBrowseList.isEmpty()) {
+//            return itemDtoList;
+//        }
+        for (UserItemBrowse browse : userItemBrowseList) {
             SecondHandBrowseDto itemDto = new SecondHandBrowseDto();
             // 对象拷贝
-            SecondHandItem item = secondHandItemService.getOneById(itemId.getItemId());
+            SecondHandItem item = secondHandItemService.getOneById(browse.getItemId());
+            if(BeanUtil.isEmpty(item)) {
+                continue;
+            }
             BeanUtils.copyProperties(item,itemDto);
-            itemDto.setCount(itemId.getCount());
+            itemDto.setCount(browse.getCount());
             itemDtoList.add(itemDto);
         }
         return itemDtoList;
@@ -59,6 +70,7 @@ public class UserItemBrowseServiceImpl extends ServiceImpl<UserItemBrowseMapper,
         if (item != null) {
             // 2.1 有记录 count+1 更新操作
             item.setCount(item.getCount() + 1);
+//            item.setUpdateTime(LocalDateTime.now());
             updateById(item);
         } else {
             // 2.2 无记录 新增操作
@@ -66,6 +78,8 @@ public class UserItemBrowseServiceImpl extends ServiceImpl<UserItemBrowseMapper,
             userItemBrowse.setUserId(userId);
             userItemBrowse.setItemId(itemId);
             userItemBrowse.setCount(1);
+//            userItemBrowse.setUpdateTime(LocalDateTime.now());
+//            userItemBrowse.setCreateTime(LocalDateTime.now());
             save(userItemBrowse);
         }
     }

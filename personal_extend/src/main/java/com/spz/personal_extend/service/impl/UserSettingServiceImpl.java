@@ -1,5 +1,6 @@
 package com.spz.personal_extend.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.spz.personal_extend.mapper.UserSettingMapper;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,12 @@ import com.spz.personal_extend.service.UserSettingService;
 public class UserSettingServiceImpl extends ServiceImpl<UserSettingMapper, UserSetting>
     implements UserSettingService {
 
+    @Override
+    public void saveOrUpdateByUserId(UserSetting setting) {
+        LambdaQueryWrapper<UserSetting> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(UserSetting::getUserId, setting.getUserId());
+        saveOrUpdate(setting, queryWrapper);
+    }
 }
 
 

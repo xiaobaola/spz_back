@@ -38,10 +38,10 @@ public class SecondHandTrade {
     private String place;
     private String approach;
     private LocalDateTime tradeTime;
-    @TableField(fill = FieldFill.INSERT)
-    private LocalDateTime createTime;
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
+    @TableField(fill = FieldFill.INSERT)
+    private LocalDateTime createTime;
 
 //    SecondHandTrade(String number,String itemImage,int itemPrice,String itemInformation,String place,String approach,
 //                    LocalDateTime tradeTime,LocalDateTime createTime,LocalDateTime updateTime){

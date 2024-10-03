@@ -6,6 +6,7 @@ import com.spz.secondHand.entity.dto.SecondHandTradeDto;
 import com.spz.personal_extend.entity.User;
 import com.spz.secondHand.entity.wrapper.SecondHandWrapper;
 import com.spz.secondHand.service.SecondHandTradeService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/spz/secondHand/trade")
 @Slf4j
+@Tag(name = "二手交易模块")
 public class SecondHandTradeController {
 
     private SecondHandTradeService tradeService;

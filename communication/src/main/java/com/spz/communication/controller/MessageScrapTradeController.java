@@ -4,6 +4,7 @@ import com.spz.common.Res;
 import com.spz.communication.entity.wrapper.MessageScrapTradeWrapper;
 import com.spz.communication.service.MessageScrapTradeService;
 import com.spz.personal_extend.entity.User;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import java.util.List;
 @RestController
 @Slf4j
 @RequestMapping("/spz/messageScrapTrade")
+@Tag(name = "回收消息模块")
 public class MessageScrapTradeController {
 
     private MessageScrapTradeService messageScrapTradeService;

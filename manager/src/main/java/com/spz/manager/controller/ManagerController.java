@@ -5,6 +5,7 @@ import com.spz.common.Res;
 import com.spz.manager.entity.Manager;
 import com.spz.entity.page.PageBean;
 import com.spz.manager.service.ManagerService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +18,7 @@ import java.time.LocalDate;
 @Slf4j
 @RestController
 @RequestMapping("/spz/manager")
+@Tag( name ="管理员管理模块")
 public class ManagerController {
 
 
