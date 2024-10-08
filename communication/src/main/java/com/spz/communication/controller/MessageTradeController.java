@@ -72,7 +72,7 @@ public class MessageTradeController {
         // 可以考虑做缓存 同一用户在一个时间段内，可能会频繁访问，可以设置过期时间5-10min
         log.info("get 信息列表 userId:{}",userId);
         // 20240809安全优化userId
-        userId = User.getUserIdByThread(userId);
+//        userId = User.getUserIdByThread(userId);
         return Res.success(messageTradeService.getMessageTradeDtosByUserId(userId));
     }
 
