@@ -3,7 +3,7 @@ package com.spz.communication.controller;
 import com.spz.common.Res;
 import com.spz.communication.entity.wrapper.MessageScrapTradeWrapper;
 import com.spz.communication.service.MessageScrapTradeService;
-import com.spz.personal_extend.entity.User;
+import com.spz.personal.entity.User;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;

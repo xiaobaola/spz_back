@@ -3,7 +3,7 @@ package com.spz.secondHand.controller;
 import com.spz.common.Res;
 import com.spz.secondHand.entity.SecondHandTrade;
 import com.spz.secondHand.entity.dto.SecondHandTradeDto;
-import com.spz.personal_extend.entity.User;
+import com.spz.personal.entity.User;
 import com.spz.secondHand.entity.wrapper.SecondHandWrapper;
 import com.spz.secondHand.service.SecondHandTradeService;
 import io.swagger.v3.oas.annotations.tags.Tag;

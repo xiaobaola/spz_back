@@ -1,6 +1,6 @@
 package com.spz.communication.entity.dto;
 
-import com.spz.personal_extend.entity.User;
+import com.spz.personal.entity.User;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;

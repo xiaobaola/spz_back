@@ -25,7 +25,6 @@ public class CommonController {
     @GetMapping("/download")
     public void download(String name, HttpServletResponse response) {
         log.info("name={}",name);
-
         try {
             // 从Tomcat服务器中读取文件 相对路径
             //通过输入流读取文件内容

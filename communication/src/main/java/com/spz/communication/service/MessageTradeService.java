@@ -2,7 +2,7 @@ package com.spz.communication.service;
 
 import com.spz.communication.entity.message.MessageTrade;
 import com.spz.communication.entity.dto.MessageTradeDto;
-import com.spz.personal_extend.entity.User;
+import com.spz.personal.entity.User;
 
 import java.util.List;
 

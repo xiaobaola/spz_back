@@ -1,5 +1,5 @@
-import com.spz.personal_extend.entity.User;
-import com.spz.personal_extend.service.UserService;
+import com.spz.personal.entity.User;
+import com.spz.personal.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 

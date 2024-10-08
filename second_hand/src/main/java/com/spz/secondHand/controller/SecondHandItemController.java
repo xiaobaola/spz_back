@@ -5,7 +5,7 @@ import com.spz.common.Res;
 import com.spz.secondHand.entity.SecondHandItem;
 import com.spz.secondHand.entity.dto.SecondHandItemDto;
 import com.spz.secondHand.entity.wrapper.SecondHandWrapper;
-import com.spz.personal_extend.entity.User;
+import com.spz.personal.entity.User;
 import com.spz.secondHand.service.SecondHandItemService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;

@@ -4,7 +4,7 @@ package com.spz.communication.controller;
 import com.spz.common.Res;
 import com.spz.communication.entity.message.MessageTrade;
 import com.spz.communication.entity.dto.MessageTradeDto;
-import com.spz.personal_extend.entity.User;
+import com.spz.personal.entity.User;
 import com.spz.communication.service.MessageTradeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

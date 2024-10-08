@@ -1,16 +1,22 @@
+spzStore:
+  #  设置图片仓库的映射路径 直接映射磁盘 不需转存
+  path: D:\aprogram\program_study\java\idea\project\spz_back\entrance\src\main\resources\store\image\ #本机
 
 spz:
-  hasRedis: true
-#  hasRedis: false
-  store:
-    #  设置图片仓库的映射路径 直接映射磁盘 不需转存
-    path: D:\aprogram\program_study\java\idea\project\spz_back\entrance\src\main\resources\store\image\ #本机
-
+  #  hasRedis: true
+  hasRedis: false
+#  wechat:
+#    appid: ${spz.wechat.appid}
+#    secret: ${spz.wechat.secret}
 
 server:
   port: 8080
 
 spring:
+  #  部署时激活
+  #  profiles:
+  #    active: dev  # 默认激活开发环境配置
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     #    url: jdbc:mysql://localhost:3306/blog-hibernate?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=Asia/Shanghai
@@ -36,6 +42,9 @@ spring:
           max-wait: 1ms #等待时间
           max-idle: 4 #最大空闲连接数
           min-idle: 0 #最小空闲连接数
+  cache:
+    redis:
+      time-to-live: 1800000 #过期时间 30分钟
 
 mybatis-plus:
   configuration:
@@ -70,7 +79,6 @@ knife4j:
   setting:
     language: zh_cn   #中文
     swagger-model-name: 实体类列表   #重命名SwaggerModel名称,默认
-
 
 
 
