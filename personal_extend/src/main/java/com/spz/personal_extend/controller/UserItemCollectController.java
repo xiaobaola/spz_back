@@ -1,9 +1,9 @@
-package com.spz.personal.controller;
+package com.spz.personal_extend.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.spz.common.Res;
-import com.spz.personal.entity.UserItemCollect;
-import com.spz.personal.service.UserItemCollectService;
+import com.spz.personal_extend.entity.UserItemCollect;
+import com.spz.personal_extend.service.UserItemCollectService;
 import com.spz.secondHand.entity.SecondHandItem;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

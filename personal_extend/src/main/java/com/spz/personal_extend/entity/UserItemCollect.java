@@ -1,4 +1,4 @@
-package com.spz.personal.entity;
+package com.spz.personal_extend.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;

@@ -1,7 +1,7 @@
-package com.spz.personal.service;
+package com.spz.personal_extend.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.spz.personal.entity.UserSetting;
+import com.spz.personal_extend.entity.UserSetting;
 
 /**
 * @author 86134

@@ -1,17 +1,17 @@
-package com.spz.personal.service.impl;
+package com.spz.personal_extend.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.spz.personal.entity.dto.SecondHandBrowseDto;
-import com.spz.personal.mapper.UserItemBrowseMapper;
+import com.spz.personal_extend.entity.dto.SecondHandBrowseDto;
+import com.spz.personal_extend.mapper.UserItemBrowseMapper;
 import com.spz.secondHand.entity.SecondHandItem;
 import com.spz.secondHand.service.SecondHandItemService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.spz.personal.entity.UserItemBrowse;
-import com.spz.personal.service.UserItemBrowseService;
+import com.spz.personal_extend.entity.UserItemBrowse;
+import com.spz.personal_extend.service.UserItemBrowseService;
 
 import java.util.ArrayList;
 import java.util.List;

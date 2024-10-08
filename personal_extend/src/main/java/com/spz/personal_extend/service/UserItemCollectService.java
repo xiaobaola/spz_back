@@ -1,7 +1,7 @@
-package com.spz.personal.service;
+package com.spz.personal_extend.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.spz.personal.entity.UserItemCollect;
+import com.spz.personal_extend.entity.UserItemCollect;
 import com.spz.secondHand.entity.SecondHandItem;
 
 import java.util.List;

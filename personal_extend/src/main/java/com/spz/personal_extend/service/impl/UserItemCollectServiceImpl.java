@@ -1,10 +1,10 @@
-package com.spz.personal.service.impl;
+package com.spz.personal_extend.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.spz.personal.entity.UserItemCollect;
-import com.spz.personal.mapper.UserItemCollectMapper;
-import com.spz.personal.service.UserItemCollectService;
+import com.spz.personal_extend.entity.UserItemCollect;
+import com.spz.personal_extend.mapper.UserItemCollectMapper;
+import com.spz.personal_extend.service.UserItemCollectService;
 import com.spz.secondHand.entity.SecondHandItem;
 import com.spz.secondHand.service.SecondHandItemService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,12 +1,12 @@
-package com.spz.personal.controller;
+package com.spz.personal_extend.controller;
 
 import com.spz.common.Res;
-import com.spz.personal.entity.UserSetting;
+import com.spz.personal_extend.entity.UserSetting;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import com.spz.personal.service.UserSettingService;
+import com.spz.personal_extend.service.UserSettingService;
 
 @RequestMapping("/spz/user/setting")
 @RestController

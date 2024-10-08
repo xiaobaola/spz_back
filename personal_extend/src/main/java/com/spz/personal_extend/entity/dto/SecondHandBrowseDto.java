@@ -1,4 +1,4 @@
-package com.spz.personal.entity.dto;
+package com.spz.personal_extend.entity.dto;
 
 import com.spz.secondHand.entity.SecondHandItem;
 import lombok.Data;

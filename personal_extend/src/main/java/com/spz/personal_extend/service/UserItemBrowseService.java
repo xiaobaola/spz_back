@@ -1,8 +1,8 @@
-package com.spz.personal.service;
+package com.spz.personal_extend.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.spz.personal.entity.UserItemBrowse;
-import com.spz.personal.entity.dto.SecondHandBrowseDto;
+import com.spz.personal_extend.entity.UserItemBrowse;
+import com.spz.personal_extend.entity.dto.SecondHandBrowseDto;
 
 import java.util.List;
 

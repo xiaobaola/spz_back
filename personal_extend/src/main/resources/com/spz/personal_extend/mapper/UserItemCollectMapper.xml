@@ -2,19 +2,18 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.spz.personal_extend.mapper.UserSettingMapper">
+<mapper namespace="com.spz.personal_extend.mapper.UserItemCollectMapper">
 
-    <resultMap id="BaseResultMap" type="com.spz.personal.entity.UserSetting">
+    <resultMap id="BaseResultMap" type="com.spz.personal_extend.entity.UserItemCollect">
             <id property="id" column="id" jdbcType="INTEGER"/>
             <result property="userId" column="user_id" jdbcType="INTEGER"/>
-            <result property="remind" column="remind" jdbcType="TINYINT"/>
-            <result property="message" column="message" jdbcType="TINYINT"/>
+            <result property="itemId" column="item_id" jdbcType="INTEGER"/>
             <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
             <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,user_id,remind,
-        message,create_time,update_time
+        id,user_id,item_id,
+        create_time,update_time
     </sql>
 </mapper>

@@ -1,9 +1,9 @@
-package com.spz.personal.mapper;
+package com.spz.personal_extend.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
-import com.spz.personal.entity.UserItemBrowse;
+import com.spz.personal_extend.entity.UserItemBrowse;
 
 import java.util.List;
 

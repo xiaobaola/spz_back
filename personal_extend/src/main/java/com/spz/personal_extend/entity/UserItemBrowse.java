@@ -1,4 +1,4 @@
-package com.spz.personal.entity;
+package com.spz.personal_extend.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
@@ -7,28 +7,32 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * 用户的设置表
- * @TableName user_setting
+ * 用户与物品浏览关联表
+ * @TableName user_item_browse
  */
-@TableName(value ="user_setting")
+@TableName(value ="user_item_browse")
 @Data
-public class UserSetting implements Serializable {
-
+public class UserItemBrowse implements Serializable {
     /**
-     * 用户ID 主键
+     * 关联ID
      */
     @TableId(type = IdType.AUTO)
+    private Integer id;
+
+    /**
+     * 用户ID
+     */
     private Integer userId;
 
     /**
-     * 是否开启消息提醒 0:关闭 1:开启
+     * 物品ID
      */
-    private Integer remind;
+    private Integer itemId;
 
     /**
-     * 是否开启消息推送 0:关闭 1:开启
+     * 浏览次数
      */
-    private Integer message;
+    private Integer count;
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;

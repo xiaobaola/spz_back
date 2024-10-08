@@ -1,4 +1,4 @@
-package com.spz.personal.entity.wrapper;
+package com.spz.personal_extend.entity.wrapper;
 
 import lombok.Data;
 
