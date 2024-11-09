@@ -1,0 +1,20 @@
+spz:
+  wechat:
+    appid:
+    secret:
+spzStore:
+  #  设置图片仓库的映射路径 直接映射磁盘 不需转存
+  path:  #服务器
+spring:
+  datasource:
+    password:  #服务器
+server:
+  ssl:
+    key-store:
+    key-store-password:
+    key-store-type: JKS
+    enabled: true
+
+
+
+
