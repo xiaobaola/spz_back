@@ -29,6 +29,7 @@
         <module>api</module>
         <module>personal_extend</module>
         <module>tag</module>
+        <module>complaint</module>
     </modules>
 
     <properties>
