@@ -15,7 +15,8 @@ server:
 spring:
   #  部署时激活
   #  profiles:
-  #    active: dev  # 默认激活开发环境配置
+  #    active: dev1  # 默认激活上线前测试开发环境配置
+  #    active: dev  # 默认激活上线开发环境配置
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
