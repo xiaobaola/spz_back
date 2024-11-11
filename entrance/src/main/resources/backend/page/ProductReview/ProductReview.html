@@ -104,16 +104,21 @@
         },
         methods: {
             async init() {
-                // 调用接口获取商品列表数据
+                调用接口获取商品列表数据
                 try {
                     const response = await getSecondHandItems({ page: 1, size: 10 });
                     this.tableData = response.data.items;
                 } catch (error) {
                     console.error('获取商品列表失败:', error);
                 }
+                // this.tableData = [
+                //     // 示例数据
+                //     {id: 1, name: '二手手机', image: 'phone.jpg', user: '用户A', publishTime: '2024-11-11'},
+                //     {id: 2, name: '二手电脑', image: 'laptop.jpg', user: '用户B', publishTime: '2024-11-10'}
+                // ];
             },
             async viewDetail(row) {
-                // 显示商品详情弹窗并调用接口获取详情数据
+                显示商品详情弹窗并调用接口获取详情数据
                 try {
                     const response = await querySecondHandItemDetailById(row.id);
                     if (response.data) {
@@ -122,6 +127,17 @@
                 } catch (error) {
                     console.error('获取商品详情失败:', error);
                 }
+                // // 示例数据
+                // this.detailData.id = row.id;
+                // this.detailData.name = row.name;
+                // this.detailData.description = '这是商品的详细描述'; // 示例描述
+                // this.detailData.image = row.image;
+                // this.detailData.user = row.user;
+                // this.detailData.userId = '12345'; // 示例用户ID
+                // this.detailData.publishTime = row.publishTime;
+                // this.detailData.dialogVisible = true;
+                // this.showRejectReason = false;
+                // this.rejectReason = '';
             },
             async approveItem() {
                 // 通过审核操作
