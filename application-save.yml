@@ -1,3 +1,4 @@
+
 spzStore:
   #  设置图片仓库的映射路径 直接映射磁盘 不需转存
   path: D:\aprogram\program_study\java\idea\project\spz_back\entrance\src\main\resources\store\image\ #本机

@@ -4,6 +4,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 !src/main/resources/ssl
+!entrance/src/main/resources/ssl/spz.spzlast.fun
 
 !src/main/resources/application.yml
 !entrance/src/main/resources/application.yml
