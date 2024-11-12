@@ -99,24 +99,34 @@
             this.loadComplaints();
         },
         methods: {
-            loadComplaints() {
-                try{}catch (error){
-                    console.error('获取投诉列表失败:', error);
-                };
-                //示例数据
-                this.complaintData = [
-                    {complaintId: 1, orderId: '2024111101', buyer: '买家A', complaintTime: '2024-11-11', description: '商品描述不符', images: ['/path/to/image1.jpg'], status: '待处理'},
-                    {complaintId: 2, orderId: '2024111102', buyer: '买家B', complaintTime: '2024-11-10', description: '物流延迟', images: ['/path/to/image2.jpg'], status: '待处理'}
-                ];
-
+                async loadComplaints(){
+                    try{const response = await getComplainList({ page: 1, size: 10 });
+                    this.complaintData=response.data.items;
+                    }catch (error){
+                        console.error('获取投诉列表失败:', error);
+                    };
+                // //示例数据
+                // this.complaintData = [
+                //     {complaintId: 1, orderId: '2024111101', buyer: '买家A', complaintTime: '2024-11-11', description: '商品描述不符', status: '待处理'},
+                //     {complaintId: 2, orderId: '2024111102', buyer: '买家B', complaintTime: '2024-11-10', description: '物流延迟', status: '待处理'}
+                // ];
             },
-            viewComplaint(row) {
-                // 显示投诉详情窗口并初始化数据
-                this.complaintDetail = { ...row };
-                this.complaintDialogVisible = true;
-                this.activeStep = 1;
-                this.feedback = '';
-                this.finalResolution = '';
+            async viewComplaint(row) {
+                // 示例数据
+                // this.complaintDetail = { ...row };
+                // this.complaintDialogVisible = true;
+                // this.activeStep = 1;
+                // this.feedback = '';
+                // this.finalResolution = '';
+
+                try {
+                    const response = await queryComplainDetailById(row.id);
+                    if (response.data) {
+                        this.complaintDetail = { ...this.complaintDetail, ...response.data, complaintDialogVisible: true };
+                    }
+                } catch (error) {
+                    console.error('获取投诉详情失败:', error);
+                }
             },
             sendToSeller() {
                 // 提交初步处理建议，并将状态设置为“等待卖家处理中”
