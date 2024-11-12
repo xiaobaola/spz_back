@@ -76,6 +76,7 @@
 </div>
 <script src="../../plugins/vue/vue.js"></script>
 <script src="../../plugins/element-ui/index.js"></script>
+<!-- 引入axios -->
 <script src="../../plugins/axios/axios.min.js"></script>
 <script src="../../api/productReview.js"></script>
 <script src="../../js/request.js"></script>
@@ -105,13 +106,22 @@
         },
         methods: {
             async init() {
+                await getSecondHandItems().then(res => {
+                    if (String(res.code) === '1') {
+                        this.tableData = res.data
+                    } else {
+                        this.$message.error(res.msg || '操作失败')
+                    }
+                }).catch(err => {
+                    this.$message.error('请求出错了：' + err)
+                })
                 // 调用接口获取商品列表数据
-                try {
-                    const response = await getSecondHandItems({ page: 1, size: 10 });
-                    this.tableData = response.data.items;
-                } catch (error) {
-                    console.error('获取商品列表失败:', error);
-                }
+                // try {
+                //     const response = await getSecondHandItems({ page: 1, size: 10 });
+                //     this.tableData = response.data.items;
+                // } catch (error) {
+                //     console.error('获取商品列表失败:', error);
+                // }
                 // this.tableData = [
                 //     // 示例数据
                 //     {id: 1, name: '二手手机', image: 'phone.jpg', user: '用户A', publishTime: '2024-11-11'},
