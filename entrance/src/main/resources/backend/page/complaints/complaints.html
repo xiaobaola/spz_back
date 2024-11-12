@@ -22,15 +22,17 @@
             <el-table-column prop="status" label="状态"></el-table-column>
             <el-table-column label="操作" width="120" align="center">
                 <template slot-scope="scope">
-                    <el-button v-if="scope.row.status === '待处理'" type="text" size="small" @click="viewComplaint(scope.row)">处理</el-button>
-                    <el-button v-else type="text" size="small" disabled>处理中</el-button>
+                    <el-button v-if="scope.row.status==='1'" type="text" size="small" @click="viewComplaint(scope.row)">第一步处理</el-button>
+                    <el-button v-if="scope.row.status==='2'" type="text" size="small" disabled>商家处理中</el-button>
+                    <el-button v-if="scope.row.status==='3'" type="text" size="small" @click="viewComplaint(scope.row)">第二步处理</el-button>
+                    <el-button v-if="scope.row.status==='4'" type="text" size="small" disabled>已完成</el-button>
                 </template>
             </el-table-column>
         </el-table>
 
         <!-- 投诉处理详情窗口 -->
-        <el-dialog :title="`投诉详情 - ${activeStep === 1 ? '客服分析投诉' : '客服反馈结果'}`" :visible.sync="complaintDialogVisible" width="40%">
-            <el-form v-if="activeStep === 1" label-width="120px" :z-index="3000">
+        <el-dialog :title="`投诉详情 - ${row.status === 1 ? '客服分析投诉' : '客服反馈结果'}`" :visible.sync="complaintDialogVisible" width="40%">
+            <el-form v-if="row.status == 1" label-width="120px" :z-index="3000">
                 <!-- 客服分析投诉步骤 -->
                 <el-form-item label="订单编号">
                     <span>{{complaintDetail.orderId}}</span>
@@ -52,7 +54,7 @@
                 </el-form-item>
             </el-form>
 
-            <el-form v-if="activeStep === 2" label-width="120px" :z-index="3000">
+            <el-form v-if="row.status === 3" label-width="120px" :z-index="3000">
                 <!-- 客服反馈结果步骤 -->
                 <el-form-item label="订单编号">
                     <span>{{complaintDetail.orderId}}</span>
@@ -72,8 +74,8 @@
             </el-form>
                 <span slot="footer" class="dialog-footer">
                     <el-button size="medium" @click="complaintDialogVisible = false">取消</el-button>
-                    <el-button type="primary" size="medium" v-if="activeStep === 1" @click="sendToSeller()">提交并等待卖家反馈</el-button>
-                    <el-button type="primary" size="medium" v-if="activeStep === 2" @click="submitResolution()">提交反馈</el-button>
+                    <el-button type="primary" size="medium" v-if="row.status === 1" @click="sendToSeller()">提交并等待卖家反馈</el-button>
+                    <el-button type="primary" size="medium" v-if="row.status === 3" @click="submitResolution()">提交反馈</el-button>
                 </span>
         </el-dialog>
     </div>
@@ -82,6 +84,8 @@
 <script src="../../plugins/vue/vue.js"></script>
 <script src="../../plugins/element-ui/index.js"></script>
 <script src="../../plugins/axios/axios.min.js"></script>
+<script src="../../js/request.js"></script>
+<script src="../../api/complaints.js"></script>
 <script>
     new Vue({
         el: '#customer-service-app',
@@ -92,7 +96,7 @@
                 feedback: '', // 客服反馈建议
                 finalResolution: '', // 最终反馈结果
                 complaintDialogVisible: false, // 控制详情窗口显示
-                activeStep: 1 // 当前步骤，1表示分析投诉，2表示反馈结果
+               // status,当前步骤，1表示客服第一步处理,2表示等待商家处理,3表示客服第二次处理,4表示处理完毕
             }
         },
         created() {
@@ -107,59 +111,44 @@
                     };
                 // //示例数据
                 // this.complaintData = [
-                //     {complaintId: 1, orderId: '2024111101', buyer: '买家A', complaintTime: '2024-11-11', description: '商品描述不符', status: '待处理'},
-                //     {complaintId: 2, orderId: '2024111102', buyer: '买家B', complaintTime: '2024-11-10', description: '物流延迟', status: '待处理'}
+                //     {complaintId: 1, orderId: '2024111101', buyer: '买家A', complaintTime: '2024-11-11', description: '商品描述不符', status:1},
+                //     {complaintId: 2, orderId: '2024111102', buyer: '买家B', complaintTime: '2024-11-10', description: '物流延迟', status:2}
                 // ];
             },
             async viewComplaint(row) {
-                // 示例数据
-                // this.complaintDetail = { ...row };
-                // this.complaintDialogVisible = true;
-                // this.activeStep = 1;
-                // this.feedback = '';
-                // this.finalResolution = '';
-
-                try {
-                    const response = await queryComplainDetailById(row.id);
-                    if (response.data) {
-                        this.complaintDetail = { ...this.complaintDetail, ...response.data, complaintDialogVisible: true };
-                    }
-                } catch (error) {
-                    console.error('获取投诉详情失败:', error);
-                }
+                this.complaintId=row.complaintId;
+                this.orderId=row.orderId;
+                this.buyer=row.buyer;
+                this.complaintTime=row.complaintTime;
+                this.description=row.description;
+                this.status=row.status;
+                this.complaintDialogVisible = true;
+                this.feedback ='';
+                this.sellerResponse=row.sellerResponse;
+                this.finalResolution = '';
             },
-            sendToSeller() {
+            async sendToSeller() {
                 // 提交初步处理建议，并将状态设置为“等待卖家处理中”
-                this.complaintDetail.status = '等待卖家处理中';
-                this.updateComplaintStatus(this.complaintDetail.complaintId, '等待卖家处理中');
-                this.$message.success('已提交处理建议，等待卖家反馈');
-                this.complaintDialogVisible = false;
-                this.loadComplaints();
-            },
-            receiveSellerFeedback(complaintId, sellerResponse) {
-                // 模拟接收卖家反馈，将反馈内容填入详情中
-                const complaint = this.complaintData.find(item => item.complaintId === complaintId);
-                if (complaint) {
-                    complaint.sellerResponse = sellerResponse;
-                    complaint.status = '卖家已反馈';
+                try {
+                    await updateComplaintStatus({complaintId: this.complaintDetail.complaintId,status:2,feedback:this.complaintDetail.feedback}); // 通过价格审核
+                    this.$message.success('已提交处理建议，等待卖家反馈');
+                    this.complaintDialogVisible = false;
                     this.loadComplaints();
+                } catch (error) {
+                    console.error('提交处理建议失败:', error);
                 }
             },
-            prevStep() {
-                // 返回上一步
-                this.activeStep = 1;
-            },
-            submitResolution() {
+             async submitResolution() {
                 // 提交最终反馈结果并关闭窗口
-                this.$message.success('投诉处理反馈已提交');
-                this.complaintDialogVisible = false;
-                this.loadComplaints();
+                try {
+                    await updateComplaintStatus({complaintId: this.complaintDetail.complaintId,status:4,finalResolution:this.complaintDetail.finalResolution}); // 通过价格审核
+                    this.$message.success('投诉处理反馈已提交');
+                    this.complaintDialogVisible = false;
+                    this.loadComplaints();
+                } catch (error) {
+                    console.error('提交投诉处理反馈失败:', error);
+                }
             },
-            updateComplaintStatus(complaintId, status) {
-                // 更新投诉状态（模拟后端操作）
-                const complaint = this.complaintData.find(item => item.complaintId === complaintId);
-                if (complaint) complaint.status = status;
-            }
         }
     });
 </script>
