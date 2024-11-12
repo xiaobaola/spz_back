@@ -1,7 +1,7 @@
 // 获取商品列表接口（价格审核用）
 const getSecondHandItemsForPriceReview = (params) => {
     return $axios({
-        url: '/api/priceReview/item',
+        url: '/spz/priceReview/item',
         method: 'get',
         params
     });
@@ -10,7 +10,7 @@ const getSecondHandItemsForPriceReview = (params) => {
 // 获取商品详情接口（价格审核用）
 const querySecondHandItemPriceDetailById = (id) => {
     return $axios({
-        url: `/api/priceReview/item/detail/${id}`,
+        url: `/spz/priceReview/item/detail/${id}`,
         method: 'get'
     });
 }
@@ -18,7 +18,7 @@ const querySecondHandItemPriceDetailById = (id) => {
 // 通过价格审核接口
 const approveSecondHandItemPrice = (params) => {
     return $axios({
-        url: '/api/priceReview/item/approve',
+        url: '/spz/priceReview/item/approve',
         method: 'post',
         data: { ...params }
     });
@@ -27,7 +27,7 @@ const approveSecondHandItemPrice = (params) => {
 // 不通过价格审核接口
 const rejectSecondHandItemPrice = (params) => {
     return $axios({
-        url: '/api/priceReview/item/reject',
+        url: '/spz/priceReview/item/reject',
         method: 'post',
         data: { ...params }
     });
