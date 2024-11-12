@@ -124,5 +124,51 @@ public class SecondHandItemController {
         // 运用mybatisPlus技术可以大大地提升开发效率
         return Res.success(itemService.getItemDtoListBySearchInfo(info));
     }
+
+    // knife4j 接口说明
+//    @ApiOperation(value = "获取所有待商品内容审核的信息",tags = "二手模块")
+    @GetMapping("/list/productReview")
+    public Res<List<SecondHandItemDto>> listProductReview(){
+        // 获取所有待商品内容审核的信息
+        // 包含获取详细信息
+        log.info("获取所有待商品内容审核的信息");
+        return Res.success(itemService.getItemDtoByStatus(1));
+    }
+    @GetMapping("/list/priceReview")
+    public Res<List<SecondHandItemDto>> listPriceReview(){
+        // 获取所有待商品内容审核的信息
+        // 包含获取详细信息
+        log.info("获取所有待商品内容审核的信息");
+        return Res.success(itemService.getItemDtoByStatus(4));
+    }
+
+    // 修改商品状态 内容审核通过
+    // http://localhost:8080/spz/secondHand/item/{itemId}/review
+    @PutMapping("/{itemId}/review")
+    public Res<String> itemProductReviewApproved(@PathVariable int itemId){
+        log.info("商品内容审核通过，参数{}",itemId);
+        int status = 4;
+        itemService.changeStatusById(status,itemId);
+        return Res.success("商品内容审核通过");
+    }
+    // 修改商品状态 价格审核通过
+    // http://localhost:8080/spz/secondHand/item/{itemId}/review
+    @PutMapping("/{itemId}/review")
+    public Res<String> itemPriceReviewApproved(@PathVariable int itemId){
+        log.info("价格审核通过，参数{}",itemId);
+        int status = 2;
+        itemService.changeStatusById(status,itemId);
+        return Res.success("商品内容审核通过");
+    }
+
+    // 商品审核不通过 body中有message
+    @PutMapping("/{itemId}/review")
+    public Res<String> itemReviewNotApproved(@PathVariable int itemId,@RequestBody String message){
+        log.info("商品审核不通过，参数{}",itemId);
+        int status = 3;
+        itemService.changeStatusById(status,itemId);
+        // 需要建立关联表，关联商品id和审核不通过原因
+        return Res.success("商品审核不通过");
+    }
 }
 

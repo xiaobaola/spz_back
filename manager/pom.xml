@@ -95,6 +95,7 @@
             <artifactId>mybatis-plus-boot-starter</artifactId>
         </dependency>
         <!--        swagger 文档 依赖knife4j-->
+        <!-- Knife4j Swagger Enhancement -->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>

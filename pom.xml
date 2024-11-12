@@ -45,6 +45,7 @@
         <pagehelper.version>1.4.7</pagehelper.version>
         <druid.version>1.2.6</druid.version>
         <knife4j.version>4.4.0</knife4j.version>
+        <springdoc.version>1.6.14</springdoc.version>
         <hutool.version>5.8.21</hutool.version>
         <jakarta.version>6.0.0</jakarta.version>
         <httpclient.version>4.5.13</httpclient.version>
