@@ -143,18 +143,18 @@ public class SecondHandItemController {
     }
 
     // 修改商品状态 内容审核通过
-    // http://localhost:8080/spz/secondHand/item/{itemId}/review
-    @PutMapping("/{itemId}/productReview")
-    public Res<String> itemProductReviewApproved(@PathVariable int itemId){
+    @PutMapping("/productReview/approve")
+    public Res<String> itemProductReviewApproved(@RequestBody SecondHandWrapper wrapper){
+        int itemId = wrapper.getItemId();
         log.info("商品内容审核通过，参数{}",itemId);
         int status = 4;
         itemService.changeStatusById(status,itemId);
         return Res.success("商品内容审核通过");
     }
     // 修改商品状态 价格审核通过
-    // http://localhost:8080/spz/secondHand/item/{itemId}/review
-    @PutMapping("/{itemId}/priceReview")
-    public Res<String> itemPriceReviewApproved(@PathVariable int itemId){
+    @PutMapping("/priceReview/approve")
+    public Res<String> itemPriceReviewApproved(@RequestBody SecondHandWrapper wrapper){
+        int itemId = wrapper.getItemId();
         log.info("价格审核通过，参数{}",itemId);
         int status = 2;
         itemService.changeStatusById(status,itemId);
@@ -162,8 +162,10 @@ public class SecondHandItemController {
     }
 
     // 商品审核不通过 body中有message
-    @PutMapping("/{itemId}/refuse")
-    public Res<String> itemReviewNotApproved(@PathVariable int itemId,@RequestBody String message){
+//    url: '/spz/productReview/item/reject',
+    @PutMapping("/reject")
+    public Res<String> itemReviewNotApproved(@RequestBody SecondHandWrapper wrapper){
+        int itemId = wrapper.getItemId();
         log.info("商品审核不通过，参数{}",itemId);
         int status = 3;
         itemService.changeStatusById(status,itemId);

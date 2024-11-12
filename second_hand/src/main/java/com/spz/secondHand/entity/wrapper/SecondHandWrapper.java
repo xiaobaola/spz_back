@@ -19,4 +19,6 @@ public class SecondHandWrapper {
     private String image;
     private int price;
     private String information;
+    private int managerId;
+    private String message;
 }

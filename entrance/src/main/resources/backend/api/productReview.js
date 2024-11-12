@@ -1,7 +1,7 @@
 // 查询二手商品列表接口
 const getSecondHandItems = (params) => {
     return $axios({
-        url: '/spz/productReview/items',
+        url: '/spz/secondHand/item/list/productReview',
         method: 'get',
         params
     })
@@ -10,7 +10,7 @@ const getSecondHandItems = (params) => {
 // 查看商品详情接口
 const querySecondHandItemDetailById = (id) => {
     return $axios({
-        url: `/spz/productReview/item/${id}`,
+        url: `/spz/secondHand/item/${id}`,
         method: 'get'
     })
 }
@@ -18,7 +18,7 @@ const querySecondHandItemDetailById = (id) => {
 // 通过审核接口
 const approveSecondHandItem = (params) => {
     return $axios({
-        url: '/spz/productReview/item/approve',
+        url: '/spz/secondHand/item/productReview/approve',
         method: 'put',
         data: {...params}
     })
@@ -27,7 +27,7 @@ const approveSecondHandItem = (params) => {
 // 不通过审核接口
 const rejectSecondHandItem = (params) => {
     return $axios({
-        url: '/spz/productReview/item/reject',
+        url: '/spz/secondHand/item/reject',
         method: 'put',
         data: {...params}
     })
