@@ -104,7 +104,7 @@
                     userId: '',
                     publishTime: ''
                 },
-                showRejectReason: false,
+                showRejectReason:true,
                 rejectReason: ''
             }
         },
@@ -123,14 +123,17 @@
             },
             async viewDetail(row) {
                 // 获取商品详情
-                try {
-                    const response = await querySecondHandItemPriceDetailById(row.id); // 获取商品详情
-                    if (response.data) {
-                        this.detailData = { ...this.detailData, ...response.data, dialogVisible: true };
-                    }
-                } catch (error) {
-                    console.error('获取商品详情失败:', error);
-                }
+                this.detailData.id = row.id;
+                this.detailData.name = row.name;
+                this.detailData.price=row.price;
+                this.detailData.description =row.description;
+                this.detailData.image = row.image;
+                this.detailData.user = row.user;
+                this.detailData.userId =row.userId;
+                this.detailData.publishTime = row.publishTime;
+                this.detailData.dialogVisible = true;
+                this.showRejectReason =true;
+                this.rejectReason = '';
             },
             async approveItem() {
                 // 通过审核操作

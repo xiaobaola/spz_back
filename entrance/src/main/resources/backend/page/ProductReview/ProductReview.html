@@ -119,26 +119,16 @@
                 // ];
             },
             async viewDetail(row) {
-                // 显示商品详情弹窗并调用接口获取详情数据
-                try {
-                    const response = await querySecondHandItemDetailById(row.id);
-                    if (response.data) {
-                        this.detailData = { ...this.detailData, ...response.data, dialogVisible: true };
-                    }
-                } catch (error) {
-                    console.error('获取商品详情失败:', error);
-                }
-                // 示例数据
-                // this.detailData.id = row.id;
-                // this.detailData.name = row.name;
-                // this.detailData.description = '这是商品的详细描述'; // 示例描述
-                // this.detailData.image = row.image;
-                // this.detailData.user = row.user;
-                // this.detailData.userId = '12345'; // 示例用户ID
-                // this.detailData.publishTime = row.publishTime;
-                // this.detailData.dialogVisible = true;
-                // this.showRejectReason = false;
-                // this.rejectReason = '';
+                this.detailData.id = row.id;
+                this.detailData.name = row.name;
+                this.detailData.description =row.description;
+                this.detailData.image = row.image;
+                this.detailData.user = row.user;
+                this.detailData.userId =row.userId;
+                this.detailData.publishTime = row.publishTime;
+                this.detailData.dialogVisible = true;
+                this.showRejectReason =true;
+                this.rejectReason = '';
             },
             async approveItem() {
                 // 通过审核操作
