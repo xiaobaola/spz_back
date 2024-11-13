@@ -143,7 +143,7 @@
             async approveItem() {
                 // 通过审核操作
                 try {
-                    await approveSecondHandItem({ id: this.detailData.id });
+                    await approveSecondHandItem({ itemId: this.detailData.id });
                     this.$message.success('审核通过');
                     this.detailData.dialogVisible = false;
                     this.init(); // 重新加载列表数据
@@ -164,7 +164,7 @@
                 }
                 // 不通过审核操作
                 try {
-                    await rejectSecondHandItem({ id: this.detailData.id, reason: this.rejectReason });
+                    await rejectSecondHandItem({ itemId: this.detailData.id, reason: this.rejectReason });
                     this.$message.success('审核不通过');
                     this.detailData.dialogVisible = false;
                     this.init(); // 重新加载列表数据

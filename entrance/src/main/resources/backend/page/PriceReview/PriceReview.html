@@ -84,6 +84,7 @@
 <script src="../../plugins/vue/vue.js"></script>
 <script src="../../plugins/element-ui/index.js"></script>
 <script src="../../plugins/axios/axios.min.js"></script>
+<script src="../../js/request.js"></script>
 <script src="../../api/priceReview.js"></script>
 
 <script>
@@ -138,7 +139,7 @@
             async approveItem() {
                 // 通过审核操作
                 try {
-                    await approveSecondHandItemPrice({ id: this.detailData.id }); // 通过价格审核
+                    await approveSecondHandItemPrice({ itemId: this.detailData.id }); // 通过价格审核
                     this.$message.success('审核通过');
                     this.detailData.dialogVisible = false;
                     this.init(); // 重新加载商品列表
@@ -159,7 +160,7 @@
                 }
                 // 不通过审核操作
                 try {
-                    await rejectSecondHandItemPrice({ id: this.detailData.id, reason: this.rejectReason }); // 不通过价格审核
+                    await rejectSecondHandItemPrice({ itemId: this.detailData.id, reason: this.rejectReason }); // 不通过价格审核
                     this.$message.success('审核不通过');
                     this.detailData.dialogVisible = false;
                     this.init(); // 重新加载商品列表

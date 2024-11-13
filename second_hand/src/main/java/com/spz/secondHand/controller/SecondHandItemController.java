@@ -166,6 +166,7 @@ public class SecondHandItemController {
     @PutMapping("/reject")
     public Res<String> itemReviewNotApproved(@RequestBody SecondHandWrapper wrapper){
         int itemId = wrapper.getItemId();
+        String message = wrapper.getMessage();
         log.info("商品审核不通过，参数{}",itemId);
         int status = 3;
         itemService.changeStatusById(status,itemId);
