@@ -3,9 +3,11 @@ package com.spz.secondHand.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.spz.common.Res;
 import com.spz.secondHand.entity.SecondHandItem;
+import com.spz.secondHand.entity.SecondHandItemReject;
 import com.spz.secondHand.entity.dto.SecondHandItemDto;
 import com.spz.secondHand.entity.wrapper.SecondHandWrapper;
 import com.spz.personal.entity.User;
+import com.spz.secondHand.service.SecondHandItemRejectService;
 import com.spz.secondHand.service.SecondHandItemService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,6 +27,7 @@ import java.util.List;
 public class SecondHandItemController {
 
     private final SecondHandItemService itemService;
+    private final SecondHandItemRejectService rejectService;
 
     @Cacheable(value = "itemList",key = "'status_2'")
     @GetMapping("/list")
@@ -167,10 +170,17 @@ public class SecondHandItemController {
     public Res<String> itemReviewNotApproved(@RequestBody SecondHandWrapper wrapper){
         int itemId = wrapper.getItemId();
         String message = wrapper.getMessage();
-        log.info("商品审核不通过，参数{}",itemId);
+        int managerId = wrapper.getManagerId();
+        log.info("商品审核不通过，参数{}",wrapper);
+        log.info("商品审核不通过，参数itemId:{},message:{},managerId:{}",itemId,message,managerId);
         int status = 3;
         itemService.changeStatusById(status,itemId);
         // 需要建立关联表，关联商品id和审核不通过原因
+        SecondHandItemReject itemReject = new SecondHandItemReject();
+        itemReject.setItemId(itemId).setMessage(message).setManagerId(managerId);
+        LambdaQueryWrapper<SecondHandItemReject> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SecondHandItemReject::getItemId,itemId);
+        rejectService.saveOrUpdate(itemReject, queryWrapper);
         return Res.success("商品审核不通过");
     }
 }

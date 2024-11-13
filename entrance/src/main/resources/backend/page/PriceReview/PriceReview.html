@@ -160,7 +160,7 @@
                 }
                 // 不通过审核操作
                 try {
-                    await rejectSecondHandItemPrice({ itemId: this.detailData.id, reason: this.rejectReason }); // 不通过价格审核
+                    await rejectSecondHandItemPrice({ itemId: this.detailData.id, message: this.rejectReason , managerId: 1}); // 不通过价格审核
                     this.$message.success('审核不通过');
                     this.detailData.dialogVisible = false;
                     this.init(); // 重新加载商品列表

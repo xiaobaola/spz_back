@@ -164,7 +164,7 @@
                 }
                 // 不通过审核操作
                 try {
-                    await rejectSecondHandItem({ itemId: this.detailData.id, reason: this.rejectReason });
+                    await rejectSecondHandItem({ itemId: this.detailData.id, message: this.rejectReason , managerId: 1});
                     this.$message.success('审核不通过');
                     this.detailData.dialogVisible = false;
                     this.init(); // 重新加载列表数据
