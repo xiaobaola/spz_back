@@ -119,7 +119,11 @@
                 defAct: '1',
                 menuActived: '1',
                 userInfo: {},
+                // 权限等级 1:超级管理员 2:二手物品内容审核 3:二手物品价格审核 4:回收商 5:客服
                 menuList: [
+
+                ],
+                menuList1: [
                     {
                         id: '1',
                         name: '开发管理',
@@ -180,8 +184,38 @@
                         url: 'page/PriceReview/PriceReview.html',
                         icon: 'icon-messageTrade'
                     }
-                    //   ],
-                    // },
+                ],
+                menuList2: [
+                    {
+                        id: '10',
+                        name: '商品审核',
+                        url: 'page/ProductReview/ProductReview.html',
+                        icon: 'icon-messageTrade'
+                    }
+                ],
+                menuList3: [
+                    {
+                        id: '11',
+                        name: '价格审核',
+                        url: 'page/PriceReview/PriceReview.html',
+                        icon: 'icon-messageTrade'
+                    }
+                ],
+                menuList5: [
+                    {
+                        id: '9',
+                        name: '投诉信息',
+                        url: 'page/complaints/complaints.html',
+                        icon: 'icon-messageTrade'
+                    }
+                ],
+                menuList4: [
+                    {
+                        id: '8',
+                        name: '回收详情',
+                        url: 'page/RecyclingOrders/RecyclingOrders.html',
+                        icon: 'icon-messageTrade'
+                    }
                 ],
                 iframeUrl: 'page/manager/list.html',
                 headTitle: '开发管理',
@@ -195,6 +229,21 @@
             const userInfo = window.localStorage.getItem('userInfo')
             if (userInfo) {
                 this.userInfo = JSON.parse(userInfo)
+                // console.log('userInfo', this.userInfo)
+                // console.log('authority', this.userInfo.authority)
+                if(this.userInfo.authority == 1) {
+                    this.menuList = this.menuList1
+                } else if(this.userInfo.authority == 2) {
+                    this.menuList = this.menuList2
+                } else if(this.userInfo.authority == 3) {
+                    this.menuList = this.menuList3
+                } else if(this.userInfo.authority == 4) {
+                    this.menuList = this.menuList4
+                } else if(this.userInfo.authority == 5) {
+                    this.menuList = this.menuList5
+                }
+                // console.log('menuList', this.menuList)
+                // console.log('menuList1', this.menuList1)
             }
             this.closeLoading()
         },
