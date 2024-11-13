@@ -117,7 +117,7 @@
                 // 初始化数据
                 try {
                     const response = await getSecondHandItemsForPriceReview({ page: 1, size: 10 }); // 获取商品列表
-                    this.tableData = response.data.items;
+                    this.tableData = response.data;
                 } catch (error) {
                     console.error('获取商品列表失败:', error);
                 }

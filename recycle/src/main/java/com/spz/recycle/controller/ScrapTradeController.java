@@ -1,5 +1,6 @@
 package com.spz.recycle.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.spz.common.Res;
 import com.spz.recycle.entity.dto.ScrapTradeDto;
 import com.spz.entity.page.PageBean;
@@ -83,5 +84,13 @@ public class ScrapTradeController {
     }
 
     // 回收商 查询所有已完成的回收订单
-
+    @GetMapping("/list/recycler")
+    public Res<List<ScrapTrade>> list() {
+//        LambdaQueryWrapper<ScrapTrade> queryWrapper = new LambdaQueryWrapper<>();
+//        queryWrapper.eq(ScrapTrade::getStatus, 3);
+//        List<ScrapTrade> list = scrapTradeService.list(queryWrapper);
+        int status = 3;
+        List<ScrapTrade> list = scrapTradeService.getTradeListByTradeStatus(status);
+        return Res.success(list);
+    }
 }

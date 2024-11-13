@@ -36,4 +36,7 @@ public interface ScrapTradeMapper extends BaseMapper<ScrapTrade> {
 
     @Update("update scrap_trade set status=3 where id=#{id}")
     void updateStatusById(Integer id);
+
+    @Select("select * from scrap_trade where status = #{status}")
+    List<ScrapTrade> selectListByTradeStatus(int status);
 }

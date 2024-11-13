@@ -126,5 +126,10 @@ public class ScrapTradeServiceImpl extends ServiceImpl<ScrapTradeMapper, ScrapTr
         return scrapTradeMapper.selectListByUserId(userId);
     }
 
+    @Override
+    public List<ScrapTrade> getTradeListByTradeStatus(int status) {
+        return scrapTradeMapper.selectListByTradeStatus(status);
+    }
+
 
 }

@@ -24,4 +24,6 @@ public interface ScrapTradeService extends IService<ScrapTrade> {
     List<Integer> getIdsByUserId(Integer userId);
 
     List<ScrapTrade> getListByUserId(Integer userId);
+
+    List<ScrapTrade> getTradeListByTradeStatus(int status);
 }
