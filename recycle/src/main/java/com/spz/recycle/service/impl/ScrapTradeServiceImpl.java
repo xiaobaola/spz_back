@@ -1,6 +1,7 @@
 package com.spz.recycle.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.spz.entity.page.PageBean;
@@ -21,7 +22,7 @@ import java.util.List;
 
 @Service
 @Slf4j
-public class ScrapTradeServiceImpl implements ScrapTradeService {
+public class ScrapTradeServiceImpl extends ServiceImpl<ScrapTradeMapper, ScrapTrade> implements ScrapTradeService {
 
     ScrapTradeMapper scrapTradeMapper;
     @Autowired
@@ -76,7 +77,7 @@ public class ScrapTradeServiceImpl implements ScrapTradeService {
         scrapTrade.setStatus(0);
         log.info("{}", scrapTrade);
         //3 插入数据
-        scrapTradeMapper.insert(scrapTrade);
+        scrapTradeMapper.insertOne(scrapTrade);
         return number;
     }
 

@@ -81,4 +81,7 @@ public class ScrapTradeController {
         log.info("订单创建成功，编号为{}",number);
         return Res.success("上传记录成功");
     }
+
+    // 回收商 查询所有已完成的回收订单
+
 }

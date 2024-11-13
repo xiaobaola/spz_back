@@ -1,11 +1,12 @@
 package com.spz.recycle.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.spz.entity.page.PageBean;
 import com.spz.recycle.entity.ScrapTrade;
 
 import java.util.List;
 
-public interface ScrapTradeService {
+public interface ScrapTradeService extends IService<ScrapTrade> {
     PageBean page(Integer page, Integer pageSize, String number, Integer status, String begin, String end);
 
     String add(ScrapTrade scrapTrade);

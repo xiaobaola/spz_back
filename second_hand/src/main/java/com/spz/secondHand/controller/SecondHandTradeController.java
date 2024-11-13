@@ -109,4 +109,6 @@ public class SecondHandTradeController {
         tradeService.changeSellerTradeSellerStatusByTradeId(status,tradeId);
         return Res.success("已经删除订单");
     }
+
+
 }
