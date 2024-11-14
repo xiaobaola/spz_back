@@ -22,10 +22,10 @@
             <el-table-column prop="status" label="状态"></el-table-column>
             <el-table-column label="操作" width="120" align="center">
                 <template slot-scope="scope">
-                    <el-button v-if="scope.complaintData.status===1" type="text" size="small" @click="viewComplaint(scope.row)">第一步处理</el-button>
-                    <el-button v-if="scope.complaintData.status===2" type="text" size="small" disabled>商家处理中</el-button>
-                    <el-button v-if="scope.complaintData.status===3" type="text" size="small" @click="viewComplaint(scope.row)">第二步处理</el-button>
-                    <el-button v-if="scope.complaintData.status===4" type="text" size="small" disabled>已完成</el-button>
+                    <el-button v-if="scope.row.status===1" type="text" size="small" @click="viewComplaint(scope.row)">第一步处理</el-button>
+                    <el-button v-if="scope.row.status===2" type="text" size="small" disabled>商家处理中</el-button>
+                    <el-button v-if="scope.row.status===3" type="text" size="small" @click="viewComplaint(scope.row)">第二步处理</el-button>
+                    <el-button v-if="scope.row.status===4" type="text" size="small" disabled>已完成</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -104,16 +104,16 @@
         },
         methods: {
                 async loadComplaints(){
-                    try{const response = await getComplainList({ page: 1, size: 10 });
-                    this.complaintData=response.data.items;
-                    }catch (error){
-                        console.error('获取投诉列表失败:', error);
-                    };
+                    // try{const response = await getComplainList({ page: 1, size: 10 });
+                    // this.complaintData=response.data.items;
+                    // }catch (error){
+                    //     console.error('获取投诉列表失败:', error);
+                    // };
                 // //示例数据
-                // this.complaintData = [
-                //     {complaintId: 1, orderId: '2024111101', buyer: '买家A', complaintTime: '2024-11-11', description: '商品描述不符', status:1},
-                //     {complaintId: 2, orderId: '2024111102', buyer: '买家B', complaintTime: '2024-11-10', description: '物流延迟', status:2}
-                // ];
+                this.complaintData = [
+                    {complaintId: 1, orderId: '2024111101', buyer: '买家A', complaintTime: '2024-11-11', description: '商品描述不符', status:1},
+                    {complaintId: 2, orderId: '2024111102', buyer: '买家B', complaintTime: '2024-11-10', description: '物流延迟', status:3}
+                ];
             },
             async viewComplaint(row) {
                 this.complaintDetail.complaintId=row.complaintId;
