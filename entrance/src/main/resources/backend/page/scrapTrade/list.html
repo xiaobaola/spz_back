@@ -106,9 +106,8 @@
                         接单
                     </el-button>
                     <el-divider v-if="row.status === 2" direction="vertical"></el-divider>
-                    <el-button v-if="row.status === 2" type="text" @click="changeScarpTradeStatus(3, row.id)"
-                               class="blueBug">
-                        完成
+                    <el-button v-if="row.status === 2" type="text" disabled>
+                        等待回收员确认
                     </el-button>
                 </template>
             </el-table-column>
