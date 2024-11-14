@@ -15,8 +15,8 @@
     <div class="container">
         <el-table :data="tableData" stripe class="tableBox">
             <el-table-column prop="id" label="商品ID"></el-table-column>
-            <el-table-column prop="name" label="商品名称"></el-table-column>
-            <el-table-column prop="predictPrice" label="商品价格"></el-table-column>
+            <el-table-column prop="information" label="商品描述"></el-table-column>
+            <el-table-column prop="price" label="商品价格"></el-table-column>
             <el-table-column prop="image" label="商品图片" align="center">
                 <template slot-scope="{ row }">
                     <el-image style="width: auto; height: 40px; cursor: pointer;"
@@ -28,7 +28,7 @@
                     </el-image>
                 </template>
             </el-table-column>
-            <el-table-column prop="user" label="发布用户"></el-table-column>
+            <el-table-column prop="sellerUsername" label="发布用户"></el-table-column>
             <el-table-column prop="publishTime" label="发布时间">
                 <template slot-scope="scope">
                     {{scope.row.publishTime}}
@@ -48,20 +48,17 @@
             <el-form-item label="商品ID：">
                 <span>{{detailData.id}}</span>
             </el-form-item>
-            <el-form-item label="商品名称：">
-                <span>{{detailData.name}}</span>
-            </el-form-item>
             <el-form-item label="商品价格：">
-                <span>{{detailData.predictPrice}}</span>
+                <span>{{detailData.price}}</span>
             </el-form-item>
             <el-form-item label="商品描述：">
-                <span>{{detailData.description}}</span>
+                <span>{{detailData.information}}</span>
             </el-form-item>
             <el-form-item label="商品图片：">
                 <el-image style="width: auto; height: 40px;" :src="getImage(detailData.image)"></el-image>
             </el-form-item>
             <el-form-item label="发布用户：">
-                <span>{{detailData.user}}</span>
+                <span>{{detailData.sellerUsername}}</span>
             </el-form-item>
             <el-form-item label="发布用户ID：">
                 <span>{{detailData.userId}}</span>
@@ -97,11 +94,10 @@
                     title: '商品详情',
                     dialogVisible: false,
                     id: '',
-                    name: '',
-                    predictPrice: '',
-                    description: '',
+                    price: '',
+                    information: '',
                     image: '',
-                    user: '',
+                    sellerUsername: '',
                     userId: '',
                     publishTime: ''
                 },
@@ -125,11 +121,10 @@
             async viewDetail(row) {
                 // 获取商品详情
                 this.detailData.id = row.id;
-                this.detailData.name = row.name;
-                this.detailData.predictPrice=row.predictPrice;
-                this.detailData.description =row.description;
+                this.detailData.price=row.price;
+                this.detailData.information =row.information;
                 this.detailData.image = row.image;
-                this.detailData.user = row.user;
+                this.detailData.sellerUsername = row.sellerUsername;
                 this.detailData.userId =row.userId;
                 this.detailData.publishTime = row.publishTime;
                 this.detailData.dialogVisible = true;
