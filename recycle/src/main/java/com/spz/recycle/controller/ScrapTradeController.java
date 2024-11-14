@@ -89,7 +89,7 @@ public class ScrapTradeController {
 //        LambdaQueryWrapper<ScrapTrade> queryWrapper = new LambdaQueryWrapper<>();
 //        queryWrapper.eq(ScrapTrade::getStatus, 3);
 //        List<ScrapTrade> list = scrapTradeService.list(queryWrapper);
-        int status = 3;
+        int status = 2;
         List<ScrapTrade> list = scrapTradeService.getTradeListByTradeStatus(status);
         return Res.success(list);
     }

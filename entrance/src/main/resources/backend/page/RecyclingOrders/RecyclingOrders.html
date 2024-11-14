@@ -9,12 +9,12 @@
     <link rel="stylesheet" href="../../styles/page.css"/>
 </head>
 <body>
-<div class="dashboard-container" id="second-hand-app">
+<div class="dashboard-container" id="recycling-orders-app">
     <div class="container">
         <el-table :data="tableData" stripe class="tableBox">
             <el-table-column prop="number" label="订单编号"></el-table-column>
             <el-table-column prop="address" label="地址"></el-table-column>
-            <el-table-column prop="price" label="价格"></el-table-column>
+            <el-table-column prop="predictPrice" label="价格"></el-table-column>
             <el-table-column prop="image" label="商品图片" align="center">
                 <template slot-scope="{ row }">
                     <el-image style="width: auto; height: 40px; cursor: pointer;"
@@ -48,11 +48,16 @@
                 <el-image style="width: auto; height: 40px;" :src="getImage(detailData.image)"></el-image>
             </el-form-item>
             <el-form-item label="价格：">
-                <span>{{detailData.price}}</span>
+                <span>{{detailData.predictPrice}}</span>
+            </el-form-item>
+            <el-form-item v-if="showRejectReason" label="实际价格：">
+                <el-input type="textarea" v-model="rejectReason" placeholder="请填实际价格"></el-input>
             </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
             <el-button size="medium" @click="detailData.dialogVisible = false">取消</el-button>
+<!--            <el-button type="primary" size="medium" @click="approveItem()">通过审核</el-button>-->
+            <el-button type="primary" size="medium" @click="rejectItem()">上传实际价格</el-button>
         </span>
     </el-dialog>
 </div>
@@ -64,7 +69,7 @@
 <script src="../../js/request.js"></script>
 <script>
     new Vue({
-        el: '#second-hand-app',
+        el: '#recycling-orders-app',
         data() {
             return {
                 tableData: [],
@@ -76,7 +81,7 @@
                     description: '',
                     image: '',
                     updateTime: '',
-                    price: '',
+                    predictPrice: '',
                 },
                 showRejectReason: false,
                 rejectReason: ''
@@ -115,7 +120,7 @@
                 this.detailData.description =row.description;
                 this.detailData.image = row.image;
                 this.detailData.updateTime = row.updateTime;
-                this.detailData.price = row.price;
+                this.detailData.predictPrice = row.predictPrice;
                 this.detailData.dialogVisible = true;
                 this.showRejectReason =true;
                 this.rejectReason = '';
