@@ -111,7 +111,7 @@
             async approveItem() {
                 // 通过审核操作
                 try {
-                    await approveFriend({ itemId: this.detailData.id }); // 通过好友申请审核
+                    await approveFriend({userId1:this.detailData.userId1,userId2:this.detailData.userId2}); // 通过好友申请审核
                     this.$message.success('审核通过');
                     this.detailData.dialogVisible = false;
                     this.init(); // 重新加载申请列表
@@ -132,7 +132,7 @@
                 }
                 // 不通过审核操作
                 try {
-                    await rejectFriend({ itemId: this.detailData.id, message: this.rejectReason , managerId: 1}); // 不通过价格审核
+                    await rejectFriend({userId1:this.detailData.userId1,userId2:this.detailData.userId2, message: this.rejectReason}); // 不通过价格审核
                     this.$message.success('审核不通过');
                     this.detailData.dialogVisible = false;
                     this.init(); // 重新加载好友列表
