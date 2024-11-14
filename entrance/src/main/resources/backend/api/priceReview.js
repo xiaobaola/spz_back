@@ -28,7 +28,7 @@ const approveSecondHandItemPrice = (params) => {
 const rejectSecondHandItemPrice = (params) => {
     return $axios({
         url: '/spz/secondHand/item/reject',
-        method: 'post',
+        method: 'put',
         data: { ...params }
     });
 }
