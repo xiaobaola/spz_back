@@ -19,7 +19,11 @@
             <el-table-column prop="orderId" label="订单编号"></el-table-column>
             <el-table-column prop="buyer" label="买家"></el-table-column>
             <el-table-column prop="complaintTime" label="投诉时间"></el-table-column>
-            <el-table-column prop="status" label="状态"></el-table-column>
+            <el-table-column prop="status" label="状态">
+                <template slot-scope="scope">
+                    {{ formatStatus(scope.row.status) }}
+                </template>
+            </el-table-column>
             <el-table-column label="操作" width="120" align="center">
                 <template slot-scope="scope">
                     <el-button v-if="scope.row.status===1" type="text" size="small" @click="viewComplaint(scope.row)">第一步处理</el-button>
@@ -31,8 +35,8 @@
         </el-table>
 
         <!-- 投诉处理详情窗口 -->
-        <el-dialog :title="`投诉详情 - ${complaintData.status === 1 ? '客服分析投诉' : '客服反馈结果'}`" :visible.sync="complaintDialogVisible" width="40%">
-            <el-form v-if="complaintData.status == 1" label-width="120px" :z-index="3000">
+        <el-dialog :title="`投诉详情 - ${complaintDetail.status === 1 ? '客服分析投诉' : '客服反馈结果'}`" :visible.sync="complaintDialogVisible" width="40%" append-to-body>
+            <el-form v-if="complaintDetail.status == 1" label-width="120px">
                 <!-- 客服分析投诉步骤 -->
                 <el-form-item label="订单编号">
                     <span>{{complaintDetail.orderId}}</span>
@@ -54,7 +58,7 @@
                 </el-form-item>
             </el-form>
 
-            <el-form v-if="complaintData.status === 3" label-width="120px" :z-index="3000">
+            <el-form v-if="complaintDetail.status === 3" label-width="120px">
                 <!-- 客服反馈结果步骤 -->
                 <el-form-item label="订单编号">
                     <span>{{complaintDetail.orderId}}</span>
@@ -66,7 +70,7 @@
                     <span>{{complaintDetail.sellerResponse}}</span>
                 </el-form-item>
                 <el-form-item label="客服建议">
-                    <span>{{feedback}}</span>
+                    <span>{{complaintDetail.feedback}}</span>
                 </el-form-item>
                 <el-form-item label="最终反馈结果">
                     <el-input type="textarea" v-model="finalResolution" placeholder="输入反馈给买家的最终处理结果"></el-input>
@@ -74,8 +78,8 @@
             </el-form>
                 <span slot="footer" class="dialog-footer">
                     <el-button size="medium" @click="complaintDialogVisible = false">取消</el-button>
-                    <el-button type="primary" size="medium" v-if="complaintData.status === 1" @click="sendToSeller()">提交并等待卖家反馈</el-button>
-                    <el-button type="primary" size="medium" v-if="complaintData.status === 3" @click="submitResolution()">提交反馈</el-button>
+                    <el-button type="primary" size="medium" v-if="complaintDetail.status === 1" @click="sendToSeller()">提交并等待卖家反馈</el-button>
+                    <el-button type="primary" size="medium" v-if="complaintDetail.status === 3" @click="submitResolution()">提交反馈</el-button>
                 </span>
         </el-dialog>
     </div>
@@ -103,6 +107,20 @@
             this.loadComplaints();
         },
         methods: {
+            formatStatus(status) {// 格式化状态
+                switch (status) {
+                    case 1:
+                        return '等待客服处理';
+                    case 2:
+                        return '商家处理中';
+                    case 3:
+                        return '等待最终反馈';
+                    case 4:
+                        return '投诉已完成';
+                    default:
+                        return '未知状态';
+                }
+            },
                 async loadComplaints(){
                     // try{const response = await getComplainList({ page: 1, size: 10 });
                     // this.complaintData=response.data.items;
@@ -111,21 +129,25 @@
                     // };
                 // //示例数据
                 this.complaintData = [
-                    {complaintId: 1, orderId: '2024111101', buyer: '买家A', complaintTime: '2024-11-11', description: '商品描述不符', status:1},
-                    {complaintId: 2, orderId: '2024111102', buyer: '买家B', complaintTime: '2024-11-10', description: '物流延迟', status:3}
+                    {complaintId: 1, orderId: '2024111101', buyer: '买家A', complaintTime: '2024-11-11', description: '商品描述不符', status:1,sellerResponse:'',feedback:'',finalResolution:''},
+                    {complaintId: 3, orderId: '2024111103', buyer: '买家C', complaintTime: '2024-11-12', description: '价格不符', status:2,sellerResponse:'已收到您的反馈，我们会尽快处理',feedback:'',finalResolution:''},
+                    {complaintId: 2, orderId: '2024111102', buyer: '买家B', complaintTime: '2024-11-10', description: '物流延迟', status:3,sellerResponse:'已经给用户发放赔偿金',feedback:'请加快物流处理，考虑换用运输公司，或者给出赔偿',finalResolution:''},
+                    {complaintId: 4, orderId: '2024111104', buyer: '买家D', complaintTime: '2024-11-13', description: '商品质量问题', status:4,sellerResponse:'已退款，已发货',feedback:'',finalResolution:'已退款，已发货'}
                 ];
             },
             async viewComplaint(row) {
-                this.complaintDetail.complaintId=row.complaintId;
-                this.complaintDetail.orderId=row.orderId;
-                this.complaintDetail.buyer=row.buyer;
-                this.complaintDetail.complaintTime=row.complaintTime;
-                this.complaintDetail.description=row.description;
-                this.complaintDetail.status=row.status;
-                this.complaintDetail.complaintDialogVisible = true;
-                this.complaintDetail.feedback ='';
-                this.complaintDetail.sellerResponse=row.sellerResponse;
-                this.complaintDetail.finalResolution = '';
+                this.complaintDetail = {
+                    complaintId: row.complaintId,
+                    orderId: row.orderId,
+                    buyer: row.buyer,
+                    complaintTime: row.complaintTime,
+                    description: row.description,
+                    status: row.status,
+                    sellerResponse: row.sellerResponse || '', // 确保 sellerResponse 存在
+                    feedback:row.feedback || '',
+                    finalResolution: row.finalResolution || '',
+                };
+                this.complaintDialogVisible = true; // 设置弹窗显示
             },
             async sendToSeller() {
                 // 提交初步处理建议，并将状态设置为“等待卖家处理中”
