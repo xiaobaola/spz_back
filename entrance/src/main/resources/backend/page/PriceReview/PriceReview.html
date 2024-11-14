@@ -29,9 +29,9 @@
                 </template>
             </el-table-column>
             <el-table-column prop="sellerUsername" label="发布用户"></el-table-column>
-            <el-table-column prop="publishTime" label="发布时间">
+            <el-table-column prop="createTime" label="发布时间">
                 <template slot-scope="scope">
-                    {{scope.row.publishTime}}
+                    {{scope.row.createTime}}
                 </template>
             </el-table-column>
             <el-table-column label="操作" width="160" align="center">
@@ -64,7 +64,7 @@
                 <span>{{detailData.userId}}</span>
             </el-form-item>
             <el-form-item label="发布时间：">
-                <span>{{detailData.publishTime}}</span>
+                <span>{{detailData.createTime}}</span>
             </el-form-item>
             <el-form-item v-if="showRejectReason" label="不通过原因：">
                 <el-input type="textarea" v-model="rejectReason" placeholder="请填写不通过原因"></el-input>
@@ -99,7 +99,7 @@
                     image: '',
                     sellerUsername: '',
                     userId: '',
-                    publishTime: ''
+                    createTime: ''
                 },
                 showRejectReason:true,
                 rejectReason: ''
@@ -126,7 +126,7 @@
                 this.detailData.image = row.image;
                 this.detailData.sellerUsername = row.sellerUsername;
                 this.detailData.userId =row.userId;
-                this.detailData.publishTime = row.publishTime;
+                this.detailData.createTime = row.createTime;
                 this.detailData.dialogVisible = true;
                 this.showRejectReason =true;
                 this.rejectReason = '';
