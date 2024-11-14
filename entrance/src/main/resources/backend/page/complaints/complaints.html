@@ -134,6 +134,17 @@
                     {complaintId: 2, orderId: '2024111102', buyer: '买家B', complaintTime: '2024-11-10', description: '物流延迟', status:3,sellerResponse:'已经给用户发放赔偿金',feedback:'请加快物流处理，考虑换用运输公司，或者给出赔偿',finalResolution:''},
                     {complaintId: 4, orderId: '2024111104', buyer: '买家D', complaintTime: '2024-11-13', description: '商品质量问题', status:4,sellerResponse:'已退款，已发货',feedback:'',finalResolution:'已退款，已发货'}
                 ];
+                // 转换为 JSON 格式字符串
+                // let complaintDataJson = JSON.stringify(this.complaintData, null, 2);  // 第二个参数 `null` 表示不进行任何替换，`2` 表示缩进2个空格
+
+                // 打印转换后的 JSON 字符串
+                // console.log(complaintDataJson);
+
+                // 将 JSON 字符串转换为 JavaScript 对象
+                // let complaintData1 = JSON.parse(complaintDataJson);
+
+                // 打印转换后的对象数组
+                // console.log(complaintData1);
             },
             async viewComplaint(row) {
                 this.complaintDetail = {
