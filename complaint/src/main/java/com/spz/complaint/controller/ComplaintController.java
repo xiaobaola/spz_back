@@ -35,8 +35,8 @@ public class ComplaintController {
     public Res<String> insertComplainant(@RequestBody Complaint complaint) {
         // complaint中创建number UUID
         complaint.setNumber(IdWorker.getIdStr());
-        // 设置status为0 状态 0:未处理 1:已跟踪 2:已与投诉人沟通 3:已反馈被投诉人 4:已反馈投诉人 5:已处理
-        complaint.setStatus(0);
+        // 设置status为1 状态 1:未处理 2:商家处理中 3:等待客服最终反馈 4:投诉已处理
+        complaint.setStatus(1);
         complaintService.save(complaint);
         return Res.success("投诉成功");
     }
