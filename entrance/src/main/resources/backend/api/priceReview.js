@@ -19,7 +19,7 @@ const querySecondHandItemPriceDetailById = (id) => {
 const approveSecondHandItemPrice = (params) => {
     return $axios({
         url: '/spz/secondHand/item/priceReview/approve',
-        method: 'post',
+        method: 'put',
         data: { ...params }
     });
 }
