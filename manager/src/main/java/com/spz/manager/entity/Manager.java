@@ -19,7 +19,7 @@ public class Manager {
     private String username; //管理员用户名
     private String password; //密码
     private String phone; //手机号
-    private String authority; //权限等级 1:超级管理员 2:二手物品内容审核 3:二手物品价格审核 4:回收商 5:客服
+    private String authority; //权限等级 1:超级管理员 2:二手物品内容审核 3:二手物品价格审核 4:回收员 5:客服 6:好友申请审核 7:接单员
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime; //更新时间
     @TableField(fill = FieldFill.INSERT)

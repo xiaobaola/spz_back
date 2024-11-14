@@ -207,6 +207,14 @@
                         icon: 'icon-messageTrade'
                     }
                 ],
+                menuList4: [
+                    {
+                        id: '8',
+                        name: '回收详情',
+                        url: 'page/RecyclingOrders/RecyclingOrders.html',
+                        icon: 'icon-messageTrade'
+                    }
+                ],
                 menuList5: [
                     {
                         id: '9',
@@ -215,11 +223,25 @@
                         icon: 'icon-messageTrade'
                     }
                 ],
-                menuList4: [
+                menuList6: [
                     {
-                        id: '8',
-                        name: '回收详情',
-                        url: 'page/RecyclingOrders/RecyclingOrders.html',
+                        id: '12',
+                        name: '好友申请审核',
+                        url: 'page/friendReview/friendReview.html',
+                        icon: 'icon-messageTrade'
+                    }
+                ],
+                menuList7: [
+                    {
+                        id: '6',
+                        name: '订单明细',
+                        url: 'page/scrapTrade/list.html',
+                        icon: 'icon-order'
+                    },
+                    {
+                        id: '7',
+                        name: '信息管理',
+                        url: 'page/messageTrade/list.html',
                         icon: 'icon-messageTrade'
                     }
                 ],
@@ -247,6 +269,10 @@
                     this.menuList = this.menuList4
                 } else if(this.userInfo.authority == 5) {
                     this.menuList = this.menuList5
+                } else if(this.userInfo.authority == 6) {
+                    this.menuList = this.menuList6
+                } else if(this.userInfo.authority == 7) {
+                    this.menuList = this.menuList7
                 }
                 // console.log('menuList', this.menuList)
                 // console.log('menuList1', this.menuList1)
