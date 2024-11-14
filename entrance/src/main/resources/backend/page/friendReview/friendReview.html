@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>好友申请信息页面</title>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="../../plugins/element-ui/index.css"/>
+    <link rel="stylesheet" href="../../styles/common.css"/>
+    <link rel="stylesheet" href="../../styles/page.css"/>
+</head>
+<body>
+<div class="dashboard-container" id="price-review-app">
+    <div class="container">
+        <el-table :data="tableData" stripe class="tableBox">
+            <el-table-column prop="user1" label="用户1"></el-table-column>
+            <el-table-column prop="userId1" label="用户1id"></el-table-column>
+            <el-table-column prop="user2" label="用户2"></el-table-column>
+            <el-table-column prop="userId2" label="用户2id"></el-table-column>
+            <el-table-column prop="information" label="申请信息"></el-table-column>
+            <el-table-column label="操作" width="160" align="center">
+                <template slot-scope="scope">
+                    <el-button type="text" size="small" @click="viewDetail(scope.row)">查看详情</el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+    </div>
+
+    <el-dialog :title="申请详情" :visible.sync="detailData.dialogVisible" width="30%">
+        <el-form class="demo-form-inline" label-width="100px">
+            <el-form-item label="用户1：">
+                <span>{{detailData.user1}}</span>
+            </el-form-item>
+            <el-form-item label="用户1id：">
+                <span>{{detailData.userId1}}</span>
+            </el-form-item>
+            <el-form-item label="用户2：">
+                <span>{{detailData.user2}}</span>
+            </el-form-item>
+            <el-form-item label="用户2id：">
+                <span>{{detailData.userId2}}</span>
+            </el-form-item>
+            <el-form-item label="申请信息：">
+                <span>{{detailData.information}}</span>
+            </el-form-item>
+            <el-form-item label="申请时间：">
+                <span>{{detailData.createTime}}</span>
+            </el-form-item>
+            <el-form-item v-if="showRejectReason" label="不通过原因：">
+                <el-input type="textarea" v-model="rejectReason" placeholder="请填写不通过原因"></el-input>
+            </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+            <el-button size="medium" @click="detailData.dialogVisible = false">取消</el-button>
+            <el-button type="primary" size="medium" @click="approveItem()">通过审核</el-button>
+            <el-button type="danger" size="medium" @click="rejectItem()">不通过审核</el-button>
+        </span>
+    </el-dialog>
+</div>
+
+<script src="../../plugins/vue/vue.js"></script>
+<script src="../../plugins/element-ui/index.js"></script>
+<script src="../../plugins/axios/axios.min.js"></script>
+<script src="../../js/request.js"></script>
+<script src="../../api/friendReview"></script>
+
+<script>
+    new Vue({
+        el: '#price-review-app',
+        data() {
+            return {
+                tableData: [],
+                detailData: {
+                    user1: '',
+                    userId1: '',
+                    user2: '',
+                    userId2: '',
+                    information: '',
+                    createTime: ''
+                },
+                showRejectReason:true,
+                rejectReason: ''
+            }
+        },
+        created() {
+            this.init();
+        },
+        methods: {
+            async init() {
+                // 初始化数据
+                try {
+                    const response = await getFriendReview({ page: 1, size: 10 }); // 获取商品列表
+                    this.tableData = response.data;
+                } catch (error) {
+                    console.error('获取申请表失败:', error);
+                }
+            },
+            async viewDetail(row) {
+                // 获取好友申请详情
+                this.detailData.user1 = row.user1;
+                this.detailData.userId1 = row.userId1;
+                this.detailData.user2 = row.user2;
+                this.detailData.userId2 = row.userId2;
+                this.detailData.information =row.information;
+                this.detailData.createTime = row.createTime;
+                this.detailData.dialogVisible = true;
+                this.showRejectReason =true;
+                this.rejectReason = '';
+            },
+            async approveItem() {
+                // 通过审核操作
+                try {
+                    await approveFriend({ itemId: this.detailData.id }); // 通过好友申请审核
+                    this.$message.success('审核通过');
+                    this.detailData.dialogVisible = false;
+                    this.init(); // 重新加载申请列表
+                } catch (error) {
+                    console.error('审核通过失败:', error);
+                }
+            },
+            async rejectItem() {
+                // 打开不通过原因输入框
+                if (!this.showRejectReason) {
+                    this.showRejectReason = true;
+                    return;
+                }
+                // 检查不通过原因是否填写
+                if (!this.rejectReason) {
+                    this.$message.error('请填写不通过原因');
+                    return;
+                }
+                // 不通过审核操作
+                try {
+                    await rejectFriend({ itemId: this.detailData.id, message: this.rejectReason , managerId: 1}); // 不通过价格审核
+                    this.$message.success('审核不通过');
+                    this.detailData.dialogVisible = false;
+                    this.init(); // 重新加载好友列表
+                } catch (error) {
+                    console.error('审核不通过失败:', error);
+                }
+            },
+        }
+    });
+</script>
+
+</body>
+</html>
