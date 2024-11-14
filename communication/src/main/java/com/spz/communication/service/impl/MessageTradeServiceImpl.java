@@ -87,7 +87,7 @@ public class MessageTradeServiceImpl implements MessageTradeService {
                 // 3.根据messageTradeIds 获取 messageTrade对象
                 MessageTradeDto messageTrade = messageTradeMapper.selectById(messageTradeId);
                 messageTrade.setNumber(scrapTrade.getNumber());
-                messageTrade.setPrice(scrapTrade.getPrice());
+                messageTrade.setPrice(scrapTrade.getPredictPrice());
                 list.add(messageTrade);
             }
         }

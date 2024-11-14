@@ -14,8 +14,8 @@ import java.util.List;
 public interface ScrapTradeMapper extends BaseMapper<ScrapTrade> {
     List<ScrapTrade> selectList(String number, Integer status, Date begin, Date end);
 
-    @Insert("insert into scrap_trade(number, user_id, consignee, address, phone, price, image, update_time, create_time) " +
-            "VALUES (#{number}, #{userId}, #{consignee}, #{address}, #{phone}, #{price}, #{image}, #{updateTime}, #{createTime})")
+    @Insert("insert into scrap_trade(number, user_id, consignee, address, phone, predict_price, image, update_time, create_time) " +
+            "VALUES (#{number}, #{userId}, #{consignee}, #{address}, #{phone}, #{predictPrice}, #{image}, #{updateTime}, #{createTime})")
     void insertOne(ScrapTrade scrapTrade);
 
     @Select("select * from scrap_trade where number=#{number}")

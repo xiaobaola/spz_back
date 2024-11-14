@@ -16,7 +16,7 @@
         <el-table :data="tableData" stripe class="tableBox">
             <el-table-column prop="id" label="商品ID"></el-table-column>
             <el-table-column prop="name" label="商品名称"></el-table-column>
-            <el-table-column prop="price" label="商品价格"></el-table-column>
+            <el-table-column prop="predictPrice" label="商品价格"></el-table-column>
             <el-table-column prop="image" label="商品图片" align="center">
                 <template slot-scope="{ row }">
                     <el-image style="width: auto; height: 40px; cursor: pointer;"
@@ -52,7 +52,7 @@
                 <span>{{detailData.name}}</span>
             </el-form-item>
             <el-form-item label="商品价格：">
-                <span>{{detailData.price}}</span>
+                <span>{{detailData.predictPrice}}</span>
             </el-form-item>
             <el-form-item label="商品描述：">
                 <span>{{detailData.description}}</span>
@@ -98,7 +98,7 @@
                     dialogVisible: false,
                     id: '',
                     name: '',
-                    price: '',
+                    predictPrice: '',
                     description: '',
                     image: '',
                     user: '',
@@ -126,7 +126,7 @@
                 // 获取商品详情
                 this.detailData.id = row.id;
                 this.detailData.name = row.name;
-                this.detailData.price=row.price;
+                this.detailData.predictPrice=row.predictPrice;
                 this.detailData.description =row.description;
                 this.detailData.image = row.image;
                 this.detailData.user = row.user;

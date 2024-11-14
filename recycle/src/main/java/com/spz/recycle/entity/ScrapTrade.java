@@ -43,7 +43,8 @@ public class ScrapTrade {
     private Integer status;//回收品交易状态 0: 上传 1: 接单 2: 确认 3: 完成 4: 取消
     private String address; //用户地址
     private String phone; //用户手机号
-    private Integer price; //交易总金额
+    private Integer predictPrice; //交易总金额
+    private Integer realPrice; //交易总金额
     private String image;//物品图片
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime; //创建时间
