@@ -31,6 +31,11 @@
                     {{scope.row.updateTime}}
                 </template>
             </el-table-column>
+            <el-table-column label="操作" width="160" align="center">
+                <template slot-scope="scope">
+                    <el-button type="text" size="small" @click="viewDetail(scope.row)">输入实际价格</el-button>
+                </template>
+            </el-table-column>
         </el-table>
     </div>
     <el-dialog :title="detailData.title" :visible.sync="detailData.dialogVisible" width="30%">
