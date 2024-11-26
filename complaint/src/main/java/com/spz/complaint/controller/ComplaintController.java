@@ -32,9 +32,9 @@ import java.util.List;
 public class ComplaintController {
     private final ComplaintService complaintService;
     @GetMapping("/complainant/list")
-    public Res<List<Complaint>> getComplainantById(@RequestParam Integer id) {
+    public Res<List<Complaint>> getComplainantById(@RequestParam Integer userId) {
         LambdaQueryWrapper<Complaint> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(Complaint::getComplainant, id);
+        wrapper.eq(Complaint::getComplainant, userId);
         return Res.success(complaintService.list(wrapper));
     }
     @PostMapping("/complainant")
