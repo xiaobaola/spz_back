@@ -49,9 +49,9 @@ public class Complaint implements Serializable {
     private Integer respondent;
 
     /**
-     * 客服id
+     * 投诉订单id
      */
-    private Integer clerk;
+    private Integer orderId;
 
     /**
      * 状态 0:未处理 1:已跟踪 2:已与投诉人沟通 3:已反馈被投诉人 4:已反馈投诉人 5:已处理
