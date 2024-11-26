@@ -31,6 +31,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ComplaintController {
     private final ComplaintService complaintService;
+    @GetMapping("/complainant/list")
+    public Res<List<Complaint>> getComplainantById(@RequestParam Integer id) {
+        LambdaQueryWrapper<Complaint> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Complaint::getComplainant, id);
+        return Res.success(complaintService.list(wrapper));
+    }
     @PostMapping("/complainant")
     public Res<String> insertComplainant(@RequestBody Complaint complaint) {
         // complaint中创建number UUID
