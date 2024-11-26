@@ -37,6 +37,12 @@ public class ComplaintController {
         wrapper.eq(Complaint::getComplainant, userId);
         return Res.success(complaintService.list(wrapper));
     }
+    @GetMapping("/respondent/list")
+    public Res<List<Complaint>> getRespondentById(@RequestParam Integer userId) {
+        LambdaQueryWrapper<Complaint> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Complaint::getRespondent, userId);
+        return Res.success(complaintService.list(wrapper));
+    }
     @PostMapping("/complainant")
     public Res<String> insertComplainant(@RequestBody Complaint complaint) {
         // complaint中创建number UUID
