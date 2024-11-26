@@ -158,11 +158,13 @@ public class SecondHandTradeServiceImpl implements SecondHandTradeService {
             // 2.4 通过sellerId获取seller
             User seller = userService.getById(tradeUser.getSellerId());
             // 2.5 补全tradeDto的seller信息
+            tradeDto.setSellerId(seller.getId());
             tradeDto.setSellerImage(seller.getImage());
             tradeDto.setSellerUsername(seller.getUsername());
             tradeDto.setSellerStatus(tradeUser.getSellerStatus());
             // 2.6 通过buyerId获取buyer
             User buyer = userService.getById(tradeUser.getBuyerId());
+            tradeDto.setBuyerId(buyer.getId());
             tradeDto.setBuyerImage(buyer.getImage());
             tradeDto.setBuyerUsername(buyer.getUsername());
             tradeDto.setBuyerStatus(tradeUser.getBuyerStatus());

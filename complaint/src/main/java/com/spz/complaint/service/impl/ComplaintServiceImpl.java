@@ -22,8 +22,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class ComplaintServiceImpl extends ServiceImpl<ComplaintMapper, Complaint> implements ComplaintService {
-    private final ComplaintMapper complaintMapper; // 假设有一个 ComplaintMapper 用于操作数据库
-
+    private final ComplaintMapper complaintMapper;
     public List<Complaint> listClerk(Page<Complaint> page, String number, Integer status, String begin, String end) {
         // 使用 LambdaQueryWrapper 来构造查询条件
         LambdaQueryWrapper<Complaint> queryWrapper = new LambdaQueryWrapper<>();

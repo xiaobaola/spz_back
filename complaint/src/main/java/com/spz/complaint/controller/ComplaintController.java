@@ -74,7 +74,7 @@ public class ComplaintController {
             @RequestParam(defaultValue = "10") Integer pageSize,
             @RequestParam(defaultValue = "1") String number,
             @RequestParam(defaultValue = "-1", required = false) Integer status,
-            @RequestParam(defaultValue = "2024-11-11") String begin,
+            @RequestParam(defaultValue = "2020-11-11") String begin,
             @RequestParam(defaultValue = "2024-11-11") String end) {
 
         log.info("分页查询中，第{}页，{}条,其他参数：订单编号:{}, 状态:{}, 开始:{}, 结束:{}", page, pageSize, number, status, begin, end);

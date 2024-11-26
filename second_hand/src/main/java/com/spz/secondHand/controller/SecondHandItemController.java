@@ -73,7 +73,7 @@ public class SecondHandItemController {
         itemService.changeItemByItem(item);
         return Res.success("修改物品信息成功");
     }
-
+    
     @Cacheable(value = "itemListSeller",key = "'userId'+#userId")
     @GetMapping("/seller")
     public Res<List<SecondHandItem>> itemListSeller(@RequestParam int userId, HttpServletRequest request){
