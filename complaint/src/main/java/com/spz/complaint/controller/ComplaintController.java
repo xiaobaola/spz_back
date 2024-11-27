@@ -47,24 +47,30 @@ public class ComplaintController {
     public Res<String> insertComplainant(@RequestBody Complaint complaint) {
         // complaint中创建number UUID
         complaint.setNumber(IdWorker.getIdStr());
-        // 设置status为1 状态 1:未处理 2:商家处理中 3:等待客服最终反馈 4:投诉已处理
+        // 设置status为1 状态 1:投诉创建 2:客服已处理 3:商家已处理 4:投诉已处理
         complaint.setStatus(1);
         complaintService.save(complaint);
         return Res.success("投诉成功");
     }
     @PostMapping("/respondent")
     public Res<String> insertRespondent(@RequestBody Complaint complaint) {
+        // 设置status为1 状态 1:投诉创建 2:客服已处理 3:商家已处理 4:投诉已处理
+        complaint.setStatus(3);
         complaintService.save(complaint);
         return Res.success("完成反馈");
     }
-    @PostMapping("/respondent/clerk")
+    @PostMapping("/clerk/respondent")
     public Res<String> updateRespondent(@RequestBody Complaint complaint) {
+        // 设置status为1 状态 1:投诉创建 2:客服已处理 3:商家已处理 4:投诉已处理
+        complaint.setStatus(4);
         // 更新沟通信息
         complaintService.save(complaint);
         return Res.success("完成反馈");
     }
     @PostMapping("/clerk/complainant")
     public Res<String> insertClerk(@RequestBody Complaint complaint) {
+        // 设置status为1 状态 1:投诉创建 2:客服已处理 3:商家已处理 4:投诉已处理
+        complaint.setStatus(2);
         complaintService.saveOrUpdate(complaint);
         return Res.success("处理完成");
     }
@@ -72,6 +78,7 @@ public class ComplaintController {
     // 客服跟踪这个投诉
     @PutMapping("/clerk/follow")
     public Res<String> updateClerkFollow(@RequestBody Complaint complaint) {
+        // 目前未使用
         // 根据complaint.id更新状态
         complaint.setStatus(1);
         // 在原来的基础上跟新 status,updateTime,clerk
