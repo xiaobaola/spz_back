@@ -55,14 +55,14 @@ public class ComplaintController {
     @PutMapping("/respondent")
     public Res<String> insertRespondent(@RequestBody Complaint complaint) {
         log.info("商家回复: {}", complaint);
-        // 设置status为1 状态 1:投诉创建 2:客服已处理 3:商家已处理 4:投诉已处理
+        // 设置status为3 状态 1:投诉创建 2:客服已处理 3:商家已处理 4:投诉已处理
         complaint.setStatus(3);
         complaintService.save(complaint);
         return Res.success("完成反馈");
     }
     @PutMapping("/clerk/respondent")
     public Res<String> updateRespondent(@RequestBody Complaint complaint) {
-        // 设置status为1 状态 1:投诉创建 2:客服已处理 3:商家已处理 4:投诉已处理
+        // 设置status为4 状态 1:投诉创建 2:客服已处理 3:商家已处理 4:投诉已处理
         complaint.setStatus(4);
         // 更新沟通信息
         complaintService.save(complaint);
@@ -70,7 +70,7 @@ public class ComplaintController {
     }
     @PutMapping("/clerk/complainant")
     public Res<String> insertClerk(@RequestBody Complaint complaint) {
-        // 设置status为1 状态 1:投诉创建 2:客服已处理 3:商家已处理 4:投诉已处理
+        // 设置status为2 状态 1:投诉创建 2:客服已处理 3:商家已处理 4:投诉已处理
         complaint.setStatus(2);
         complaintService.saveOrUpdate(complaint);
         return Res.success("处理完成");
