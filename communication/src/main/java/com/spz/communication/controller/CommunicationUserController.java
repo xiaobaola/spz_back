@@ -1,7 +1,9 @@
 package com.spz.communication.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.spz.common.Res;
 import com.spz.communication.entity.dto.MessageUserDto;
+import com.spz.communication.entity.dto.RelationshipDto;
 import com.spz.communication.entity.relationship.Relationship;
 import com.spz.communication.service.CommunicationUserService;
 import com.spz.communication.service.MessageTradeService;
@@ -106,4 +108,14 @@ public class CommunicationUserController {
         relationshipService.changeStatusByUserId1AndUserId2(userId1,userId2,0);
         return Res.success("已忽略");
     }
+
+    // 好友申请审核员审核好友申请信息
+    @GetMapping("/clerk/list")
+    public Res<List<RelationshipDto>> getList() {
+        // mybatis
+        log.info("获取所有待审核的信息");
+        // 4 单方面审核信息
+        int status = 4;
+        return Res.success(relationshipService.listRelationShipDtoByStatus(status));
+   }
 }

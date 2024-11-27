@@ -1,22 +1,34 @@
 package com.spz.communication.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.spz.communication.entity.dto.RelationshipDto;
 import com.spz.communication.mapper.RelationshipMapper;
 import com.spz.communication.service.RelationshipService;
 import com.spz.communication.entity.relationship.Relationship;
+import com.spz.personal.entity.User;
+import com.spz.personal.service.impl.UserServiceImpl;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
+// mybatisPlus
 @Service
-public class RelationshipServiceImpl implements RelationshipService {
+@RequiredArgsConstructor
+public class RelationshipServiceImpl extends ServiceImpl<RelationshipMapper, Relationship> implements RelationshipService{
 
     private RelationshipMapper relationshipMapper;
     @Autowired
     public void setRelationshipMapper(RelationshipMapper relationshipMapper) {
         this.relationshipMapper = relationshipMapper;
     }
+
+    private final UserServiceImpl userService;
 
     @Override
     public void addRelationship(Relationship relationship) {
@@ -34,7 +46,7 @@ public class RelationshipServiceImpl implements RelationshipService {
             relationship.setStatus(4);
             relationship.setCreateTime(LocalDateTime.now());
             relationship.setUpdateTime(LocalDateTime.now());
-            relationshipMapper.insert(relationship);
+            relationshipMapper.insertRelationship(relationship);
         }
         Integer userId1 = relationship.getUserId1();
         Integer userId2 = relationship.getUserId2();
@@ -51,7 +63,7 @@ public class RelationshipServiceImpl implements RelationshipService {
             relationship.setStatus(5);
             relationship.setCreateTime(LocalDateTime.now());
             relationship.setUpdateTime(LocalDateTime.now());
-            relationshipMapper.insert(relationship);
+            relationshipMapper.insertRelationship(relationship);
         }
 
     }
@@ -75,6 +87,29 @@ public class RelationshipServiceImpl implements RelationshipService {
     @Override
     public List<Relationship> getListByUserId1AndStatus(Integer userId, int status) {
         return relationshipMapper.selectListByUserId1AndStatus(userId, status);
+    }
+
+    @Override
+    public List<RelationshipDto> listRelationShipDtoByStatus(int status) {
+        // 1.根据status 获取所有的relationship信息
+        List<Relationship> relationships = relationshipMapper.selectListByStatus(status);
+        // 2.遍历relationship，对relationship增强，补全username1,username2信息
+        List<RelationshipDto> relationshipDtos = new ArrayList<>();
+        for(Relationship relationship : relationships) {
+            // 2.0 创建relationshipDto
+            RelationshipDto relationshipDto = new RelationshipDto();
+            // 2.0.1 对象拷贝
+            BeanUtils.copyProperties(relationship,relationshipDto);
+            // 2.1 通过userId获取user信息
+            User user1 =  userService.getById(relationship.getUserId1());
+            User user2 =  userService.getById(relationship.getUserId2());
+            // 2.2 补全username1,username2信息
+            relationshipDto.setUsername1(user1.getUsername());
+            relationshipDto.setUsername2(user2.getUsername());
+            // 2.3 放入list中
+            relationshipDtos.add(relationshipDto);
+        }
+        return relationshipDtos;
     }
 
 }

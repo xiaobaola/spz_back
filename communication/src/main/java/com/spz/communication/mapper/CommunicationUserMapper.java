@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Select;
 import java.util.ArrayList;
 import java.util.List;
 
+// mybatisPlus
 @Mapper
 public interface CommunicationUserMapper {
 
@@ -22,7 +23,7 @@ public interface CommunicationUserMapper {
 
     @Insert("insert into user(username, phone, gender, create_time, update_time) " +
             "VALUES(#{username}, #{phone}, #{gender}, #{createTime}, #{updateTime}) ")
-    void insert(User user);
+    void insertRelationship(User user);
 
     @Select("select * from user where username like CONCAT('%', #{info}, '%')")
     List<User> getByLikeUsername(String info);

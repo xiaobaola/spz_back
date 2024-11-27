@@ -1,5 +1,6 @@
 package com.spz.communication.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.spz.communication.entity.relationship.Relationship;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -9,7 +10,7 @@ import org.apache.ibatis.annotations.Update;
 import java.util.List;
 
 @Mapper
-public interface RelationshipMapper {
+public interface RelationshipMapper extends BaseMapper<Relationship> {
 
     @Select("select userId2 from relationship where userId1=#{userId1} and status=#{status}")
     List<Integer> selectUserId2sByUserId1AndStatus(Integer userId1, Integer status);
@@ -25,7 +26,7 @@ public interface RelationshipMapper {
 
     @Insert("insert relationship(userId1, userId2, status, greet, update_time, create_time) " +
             "VALUES(#{userId1},#{userId2},#{status},#{greet},#{updateTime},#{createTime}) ")
-    void insert(Relationship relationship);
+    void insertRelationship(Relationship relationship);
 
     @Select("select * from relationship where userId1=#{userId}")
     List<Relationship> selectListByUserId1(Integer userId);
@@ -36,4 +37,6 @@ public interface RelationshipMapper {
     @Update("update relationship set status=#{status} where userId1=#{userId1} and userId2=#{userId2}")
     void updateStatusByUserId1AndUserId2(Integer userId1, Integer userId2, int status);
 
+    @Select("select * from relationship where status=#{status}")
+    List<Relationship> selectListByStatus(int status);
 }
