@@ -52,14 +52,15 @@ public class ComplaintController {
         complaintService.save(complaint);
         return Res.success("投诉成功");
     }
-    @PostMapping("/respondent")
+    @PutMapping("/respondent")
     public Res<String> insertRespondent(@RequestBody Complaint complaint) {
+        log.info("商家回复: {}", complaint);
         // 设置status为1 状态 1:投诉创建 2:客服已处理 3:商家已处理 4:投诉已处理
         complaint.setStatus(3);
         complaintService.save(complaint);
         return Res.success("完成反馈");
     }
-    @PostMapping("/clerk/respondent")
+    @PutMapping("/clerk/respondent")
     public Res<String> updateRespondent(@RequestBody Complaint complaint) {
         // 设置status为1 状态 1:投诉创建 2:客服已处理 3:商家已处理 4:投诉已处理
         complaint.setStatus(4);
@@ -67,7 +68,7 @@ public class ComplaintController {
         complaintService.save(complaint);
         return Res.success("完成反馈");
     }
-    @PostMapping("/clerk/complainant")
+    @PutMapping("/clerk/complainant")
     public Res<String> insertClerk(@RequestBody Complaint complaint) {
         // 设置status为1 状态 1:投诉创建 2:客服已处理 3:商家已处理 4:投诉已处理
         complaint.setStatus(2);

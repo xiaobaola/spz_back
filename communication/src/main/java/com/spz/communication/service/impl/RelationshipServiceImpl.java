@@ -25,13 +25,13 @@ public class RelationshipServiceImpl implements RelationshipService {
         //无，则插入此条新数据
         Relationship r1 = relationshipMapper.selectByUserId1AndUserId2(relationship.getUserId1(), relationship.getUserId2());
         if(r1 != null) {
-            r1.setStatus(1);
+            r1.setStatus(4);
             r1.setGreet(relationship.getGreet());
             r1.setUpdateTime(LocalDateTime.now());
             relationshipMapper.updateStatusAndGreetByUserId1AndUserId2(r1);
         } else {
             //补充完整
-            relationship.setStatus(1);
+            relationship.setStatus(4);
             relationship.setCreateTime(LocalDateTime.now());
             relationship.setUpdateTime(LocalDateTime.now());
             relationshipMapper.insert(relationship);
@@ -42,13 +42,13 @@ public class RelationshipServiceImpl implements RelationshipService {
         relationship.setUserId2(userId1);
         Relationship r2 = relationshipMapper.selectByUserId1AndUserId2(relationship.getUserId1(), relationship.getUserId2());
         if(r2 != null) {
-            r2.setStatus(3);
+            r2.setStatus(5);
             r2.setGreet(relationship.getGreet());
             r2.setUpdateTime(LocalDateTime.now());
             relationshipMapper.updateStatusAndGreetByUserId1AndUserId2(r2);
         } else {
             //补充完整
-            relationship.setStatus(3);
+            relationship.setStatus(5);
             relationship.setCreateTime(LocalDateTime.now());
             relationship.setUpdateTime(LocalDateTime.now());
             relationshipMapper.insert(relationship);
