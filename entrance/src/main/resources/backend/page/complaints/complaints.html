@@ -15,10 +15,11 @@
     <div class="container">
         <!-- 投诉列表 -->
         <el-table :data="complaintData" stripe class="tableBox">
-            <el-table-column prop="complainant" label="投诉ID"></el-table-column>
+            <el-table-column prop="id" label="投诉ID"></el-table-column>
+            <el-table-column prop="complainant" label="买家ID"></el-table-column>
             <el-table-column prop="orderId" label="订单ID"></el-table-column>
-            <el-table-column prop="respondent" label="买家"></el-table-column>
-            <el-table-column prop="complaintTime" label="投诉时间"></el-table-column>
+            <el-table-column prop="respondent" label="卖家ID"></el-table-column>
+            <el-table-column prop="createTime" label="投诉时间"></el-table-column>
             <el-table-column prop="status" label="状态">
                 <template slot-scope="scope">
                     {{ formatStatus(scope.row.status) }}
@@ -41,11 +42,11 @@
                 <el-form-item label="订单ID">
                     <span>{{complaintDetail.orderId}}</span>
                 </el-form-item>
-                <el-form-item label="买家">
+                <el-form-item label="买家ID">
                     <span>{{complaintDetail.respondent}}</span>
                 </el-form-item>
                 <el-form-item label="投诉时间">
-                    <span>{{complaintDetail.complaintTime}}</span>
+                    <span>{{complaintDetail.createTime}}</span>
                 </el-form-item>
                 <el-form-item label="投诉内容">
                     <span>{{complaintDetail.description}}</span>
@@ -63,7 +64,7 @@
                 <el-form-item label="订单ID">
                     <span>{{complaintDetail.orderId}}</span>
                 </el-form-item>
-                <el-form-item label="买家">
+                <el-form-item label="买家ID">
                     <span>{{complaintDetail.respondent}}</span>
                 </el-form-item>
                 <el-form-item label="卖家反馈">
@@ -123,64 +124,85 @@
             },
                 async loadComplaints(){
                     try{const response = await getComplainList({ page: 1, size: 10 });
-                    this.complaintData=response.data.items;
+                    //将response.data中每一个data值都转化为对象
+                    this.complaintData = response.data.map(item => ({
+                        ...item,
+                        data: JSON.parse(item.data),
+                    }));
                     }catch (error){
                         console.error('获取投诉列表失败:', error);
                     };
-                //示例数据
-                this.complaintData = [
-                    {complainant: 1, orderId: '2024111101', respondent: '买家A', complaintTime: '2024-11-11', description: '商品描述不符', status:1,sellerResponse:'',feedback:'',finalResolution:''},
-                    {complainant: 3, orderId: '2024111103', respondent: '买家C', complaintTime: '2024-11-12', description: '价格不符', status:2,sellerResponse:'已收到您的反馈，我们会尽快处理',feedback:'',finalResolution:''},
-                    {complainant: 2, orderId: '2024111102', respondent: '买家B', complaintTime: '2024-11-10', description: '物流延迟', status:3,sellerResponse:'已经给用户发放赔偿金',feedback:'请加快物流处理，考虑换用运输公司，或者给出赔偿',finalResolution:''},
-                    {complainant: 4, orderId: '2024111104', respondent: '买家D', complaintTime: '2024-11-13', description: '商品质量问题', status:4,sellerResponse:'已退款，已发货',feedback:'',finalResolution:'已退款，已发货'}
-                ];
-                // 转换为 JSON 格式字符串
-                // let complaintDataJson = JSON.stringify(this.complaintData, null, 2);  // 第二个参数 `null` 表示不进行任何替换，`2` 表示缩进2个空格
-
-                // 打印转换后的 JSON 字符串
-                // console.log(complaintDataJson);
-
-                // 将 JSON 字符串转换为 JavaScript 对象
-                // let complaintData1 = JSON.parse(complaintDataJson);
-
-                // 打印转换后的对象数组
-                // console.log(complaintData1);
+                // 示例数据
+                // this.complaintData = [
+                //     {complainant: 1, orderId: '2024111101', respondent: '买家A', createTime: '2024-11-11', description: '商品描述不符', status:1,sellerResponse:'',feedback:'',finalResolution:''},
+                //     {complainant: 3, orderId: '2024111103', respondent: '买家C', createTime: '2024-11-12', description: '价格不符', status:2,sellerResponse:'已收到您的反馈，我们会尽快处理',feedback:'',finalResolution:''},
+                //     {complainant: 2, orderId: '2024111102', respondent: '买家B', createTime: '2024-11-10', description: '物流延迟', status:3,sellerResponse:'已经给用户发放赔偿金',feedback:'请加快物流处理，考虑换用运输公司，或者给出赔偿',finalResolution:''},
+                //     {complainant: 4, orderId: '2024111104', respondent: '买家D', createTime: '2024-11-13', description: '商品质量问题', status:4,sellerResponse:'已退款，已发货',feedback:'',finalResolution:'已退款，已发货'}
+                // ];
             },
             async viewComplaint(row) {
+                console.log(row.data)
                 this.complaintDetail = {
+                    id: row.id,
                     complainant: row.complainant,
                     orderId: row.orderId,
                     respondent: row.respondent,
-                    complaintTime: row.complaintTime,
-                    description: row.description,
+                    createTime: row.createTime,
+                    description: row.data.description,
                     status: row.status,
-                    sellerResponse: row.sellerResponse || '', // 确保 sellerResponse 存在
-                    feedback:row.feedback || '',
-                    finalResolution: row.finalResolution || '',
+                    sellerResponse: row.data.sellerResponse,
+                    feedback:row.data.feedback,
+                    finalResolution: row.data.finalResolution,
                 };
                 this.complaintDialogVisible = true; // 设置弹窗显示
             },
             async sendToSeller() {
+                // 构造 Complaint 对象
+                const complaint = {
+                    id: this.complaintDetail.id,
+                    orderId: this.complaintDetail.orderId,
+                    complainant: this.complaintDetail.complainant,
+                    respondent: this.complaintDetail.respondent,
+                    data: JSON.stringify({ // 将 data 转为 JSON 字符串
+                        description: this.complaintDetail.description,
+                        feedback: this.feedback,
+                    }),
+                };
                 // 提交初步处理建议，并将状态设置为“等待卖家处理中”
                 try {
-                    await updateComplaintStatus({complainant: this.complaintDetail.complainant,status:2,feedback:this.complaintDetail.feedback}); // 通过价格审核
+                    await treatment(complaint); //提交处理建议
                     this.$message.success('已提交处理建议，等待卖家反馈');
                     this.complaintDialogVisible = false;
                     this.loadComplaints();
                 } catch (error) {
                     console.error('提交处理建议失败:', error);
                 }
+                // 重置反馈建议
+                this.feedback = '';
             },
              async submitResolution() {
+                 const complaint = {
+                     id: this.complaintDetail.id,
+                     orderId: this.complaintDetail.orderId,
+                     complainant: this.complaintDetail.complainant,
+                     respondent: this.complaintDetail.respondent,
+                     data: JSON.stringify({ // 将 data 转为 JSON 字符串
+                         description: this.complaintDetail.description,
+                         feedback: this.complaintDetail.feedback,
+                         finalResolution:this.finalResolution,
+                     }),
+                 };
                 // 提交最终反馈结果并关闭窗口
                 try {
-                    await updateComplaintStatus({complainant: this.complaintDetail.complainant,status:4,finalResolution:this.complaintDetail.finalResolution}); // 通过价格审核
+                    await result(complaint); // 提交最终结果
                     this.$message.success('投诉处理反馈已提交');
                     this.complaintDialogVisible = false;
                     this.loadComplaints();
                 } catch (error) {
                     console.error('提交投诉处理反馈失败:', error);
                 }
+                // 重置最终反馈
+                this.finalResolution = '';
             },
         }
     });

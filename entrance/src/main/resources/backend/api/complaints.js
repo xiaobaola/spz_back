@@ -6,3 +6,18 @@ function getComplainList(params){
         params
     })
 }
+function treatment(data) {
+    return $axios({
+        url: '/spz/complaint/clerk/complainant',
+        method: 'put',
+        data
+    })
+}
+
+function result(data) {
+    return $axios({
+        url: '/spz/complaint/clerk/respondent',
+        method: 'put',
+        data
+    })
+}
