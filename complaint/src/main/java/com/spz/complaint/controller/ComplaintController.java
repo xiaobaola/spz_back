@@ -48,14 +48,7 @@ public class ComplaintController {
         // 设置status为1 状态 1:投诉创建 2:客服已处理 3:商家已处理 4:投诉已处理
         complaint.setStatus(1);
         // 更新沟通信息
-        LambdaQueryWrapper<Complaint> wrapper = new LambdaQueryWrapper<>();
-        if (complaint.getId() != null) {
-            wrapper.eq(Complaint::getId, complaint.getId());
-        }
-        if(complaint.getOrderId() != null) {
-            wrapper.eq(Complaint::getOrderId, complaint.getOrderId());
-        }
-        complaintService.saveOrUpdate(complaint,wrapper);
+        complaintService.save(complaint);
         return Res.success("投诉成功");
     }
     @PutMapping("/respondent")
@@ -71,7 +64,7 @@ public class ComplaintController {
         if(complaint.getOrderId() != null) {
             wrapper.eq(Complaint::getOrderId, complaint.getOrderId());
         }
-        complaintService.saveOrUpdate(complaint,wrapper);
+        complaintService.update(complaint,wrapper);
         return Res.success("完成反馈");
     }
     @PutMapping("/clerk/respondent")
@@ -86,7 +79,7 @@ public class ComplaintController {
         if(complaint.getOrderId() != null) {
             wrapper.eq(Complaint::getOrderId, complaint.getOrderId());
         }
-        complaintService.saveOrUpdate(complaint,wrapper);
+        complaintService.update(complaint,wrapper);
         return Res.success("完成反馈");
     }
     @PutMapping("/clerk/complainant")
@@ -100,7 +93,7 @@ public class ComplaintController {
         if(complaint.getOrderId() != null) {
             wrapper.eq(Complaint::getOrderId, complaint.getOrderId());
         }
-        complaintService.saveOrUpdate(complaint,wrapper);
+        complaintService.update(complaint,wrapper);
         return Res.success("处理完成");
     }
 
