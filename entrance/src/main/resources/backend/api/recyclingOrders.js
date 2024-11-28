@@ -24,15 +24,6 @@ const putRealPrice = (params) => {
     })
 }
 
-// 不通过审核接口
-const rejectSecondHandItem = (params) => {
-    return $axios({
-        url: '/spz/secondHand/item/reject',
-        method: 'put',
-        data: {...params}
-    })
-}
-
 // 更新商品状态接口
 const updateSecondHandItemStatus = (params) => {
     return $axios({

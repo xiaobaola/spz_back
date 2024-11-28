@@ -14,7 +14,11 @@
         <el-table :data="tableData" stripe class="tableBox">
             <el-table-column prop="number" label="订单编号"></el-table-column>
             <el-table-column prop="address" label="地址"></el-table-column>
-            <el-table-column prop="predictPrice" label="价格"></el-table-column>
+            <el-table-column prop="predictPrice" label="预测价格">
+                <template slot-scope="scope">
+                    {{scope.row.predictPrice / 100}}
+                </template>
+            </el-table-column>
             <el-table-column prop="image" label="商品图片" align="center">
                 <template slot-scope="{ row }">
                     <el-image style="width: auto; height: 40px; cursor: pointer;"
@@ -146,7 +150,7 @@
                 }
                 // 不通过审核操作
                 try {
-                    await rejectSecondHandItem({ itemId: this.detailData.id, realPrice: parseInt(this.rejectReason*100) , managerId: 1});
+                    await putRealPrice({ id: this.detailData.id, realPrice: parseInt(this.rejectReason*100)});
                     this.$message.success('真实价格上传成功');
                     this.detailData.dialogVisible = false;
                     this.init(); // 重新加载列表数据

@@ -97,6 +97,8 @@ public class ScrapTradeController {
     // 回收员上传真实价格
     @PutMapping("/recycler/price")
     public Res<String> updatePrice(@RequestBody ScrapTrade scrapTrade) {
+        //回收品交易状态 0: 上传 1: 接单 2: 确认 3: 完成 4: 取消
+        scrapTrade.setStatus(3);
         scrapTradeService.updateById(scrapTrade);
         return Res.success("上传价格成功");
     }
