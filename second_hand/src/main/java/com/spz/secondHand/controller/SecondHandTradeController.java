@@ -6,8 +6,10 @@ import com.spz.secondHand.entity.dto.SecondHandTradeDto;
 import com.spz.personal.entity.User;
 import com.spz.secondHand.entity.wrapper.SecondHandWrapper;
 import com.spz.secondHand.service.SecondHandTradeService;
+import com.spz.secondHand.service.SecondHandTradeUserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,9 +20,11 @@ import java.util.List;
 @RequestMapping("/spz/secondHand/trade")
 @Slf4j
 @Tag(name = "二手交易模块")
+@RequiredArgsConstructor
 public class SecondHandTradeController {
 
     private SecondHandTradeService tradeService;
+    private final SecondHandTradeUserService tradeUserService;
 
     @Autowired
     public void setTradeService(SecondHandTradeService tradeService) {
@@ -110,5 +114,28 @@ public class SecondHandTradeController {
         return Res.success("已经删除订单");
     }
 
+    // 卖家发货
+    @PutMapping("/seller/approve")
+    public Res<String> sellerApproveTradeBySTradeId(@RequestBody SecondHandWrapper wrapper) {
+        // 与buyerCancel同理，可以进行优化
+        int tradeId = wrapper.getTradeId();
+        log.info("卖家发货，参数tradeId:{}",tradeId);
+        int status = 3;
+        tradeService.changeSellerTradeSellerStatusByTradeId(status,tradeId);
+        int tradeStatus = 5;
+        tradeUserService.changeTradeStatusByTradeId(tradeStatus,tradeId);
+        return Res.success("已经发货");
+    }
 
+    // 买家确认收货
+    @PutMapping("/buyer/approve")
+    public Res<String> buyerApproveTradeByBuyerIdAndTradeId(@RequestBody SecondHandWrapper wrapper) {
+        int tradeId = wrapper.getTradeId();
+        log.info("买家确认收货，参数tradeId:{}",tradeId);
+        int status = 3;
+        tradeService.changeBuyerTradeBuyerStatusByTradeId(status,tradeId);
+        int tradeStatus = 3;
+        tradeUserService.changeTradeStatusByTradeId(tradeStatus,tradeId);
+        return Res.success("已经确认收货");
+    }
 }

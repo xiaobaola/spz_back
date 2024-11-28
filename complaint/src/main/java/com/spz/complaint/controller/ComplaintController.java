@@ -88,7 +88,7 @@ public class ComplaintController {
     }
 
     // 使用mybatisPlus的page
-    @GetMapping("/clerk/list")
+    @GetMapping("/clerk/page")
     public Res<Page<Complaint>> listClerk(
             @RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "10") Integer pageSize,
@@ -105,7 +105,13 @@ public class ComplaintController {
 
         // 设置查询结果到分页对象
         pageParam.setRecords(clerkList);
+        log.info("分页查询结果: {}", pageParam);
 
         return Res.success(pageParam); // 返回分页结果
+    }
+
+    @GetMapping("/clerk/list")
+    public Res<List<Complaint>> listClerk() {
+        return Res.success(complaintService.list());
     }
 }

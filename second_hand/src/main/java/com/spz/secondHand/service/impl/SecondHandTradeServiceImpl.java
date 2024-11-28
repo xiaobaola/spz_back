@@ -1,6 +1,8 @@
 package com.spz.secondHand.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.spz.secondHand.entity.SecondHandItem;
 import com.spz.secondHand.entity.SecondHandTrade;
 import com.spz.secondHand.entity.dto.SecondHandTradeDto;
@@ -21,7 +23,7 @@ import java.util.Comparator;
 import java.util.List;
 
 @Service
-public class SecondHandTradeServiceImpl implements SecondHandTradeService {
+public class SecondHandTradeServiceImpl extends ServiceImpl<SecondHandTradeMapper, SecondHandTrade> implements SecondHandTradeService {
 
     private SecondHandTradeMapper tradeMapper;
 
@@ -83,7 +85,7 @@ public class SecondHandTradeServiceImpl implements SecondHandTradeService {
         trade.setCreateTime(LocalDateTime.now());
         trade.setUpdateTime(LocalDateTime.now());
         // 2.5 插入订单信息
-        tradeMapper.insert(trade);
+        tradeMapper.insertSecondHandTrade(trade);
         // 3 创建关联信息
         // 3.1 创建关联类，完善关联类信息
         // 创建状态，所有对象状态均为1 1:创建 2:取消 3:完成 4:删除

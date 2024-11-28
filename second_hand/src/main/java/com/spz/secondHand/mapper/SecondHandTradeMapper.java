@@ -1,5 +1,6 @@
 package com.spz.secondHand.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.spz.secondHand.entity.SecondHandTrade;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -7,12 +8,12 @@ import org.apache.ibatis.annotations.Select;
 
 
 @Mapper
-public interface SecondHandTradeMapper {
+public interface SecondHandTradeMapper extends BaseMapper<SecondHandTrade> {
 
     @Insert("insert into second_hand_trade(number, item_image, item_price, item_information, place, approach, " +
             "trade_time, create_time, update_time) values (#{number},#{itemImage},#{itemPrice},#{itemInformation}," +
             "#{place},#{approach},#{tradeTime},#{createTime},#{updateTime})")
-    void insert(SecondHandTrade trade);
+    void insertSecondHandTrade(SecondHandTrade trade);
 
     @Select("select id from second_hand_trade where number=#{number}")
     int selectIdByNumber(String number);
