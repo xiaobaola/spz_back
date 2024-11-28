@@ -118,4 +118,31 @@ public class CommunicationUserController {
         int status = 4;
         return Res.success(relationshipService.listRelationShipDtoByStatus(status));
    }
+
+   // 好友申请审核通过单个好友申请信息
+    @PutMapping("/clerk/agree")
+    public Res<String> postClerkAgree(@RequestBody Relationship relationship) {
+        // 通过关系信息找到两个关系用户
+        Integer userId1 = relationship.getUserId1();
+        Integer userId2 = relationship.getUserId2();
+        log.info("同意好友申请, 参数userId1:{},userId2:{}",userId1,userId2);
+        Integer status1 = 1;
+        Integer status2 = 3;
+        relationshipService.change2StatusBy2UserId(userId1,userId2,status1,status2);
+        return Res.success("已同意");
+    }
+
+    // 好友申请审核通过单个好友申请信息
+    @PutMapping("/clerk/disagree")
+    public Res<String> postClerkDisagree(@RequestBody Relationship relationship) {
+        // 通过关系信息找到两个关系用户
+        Integer userId1 = relationship.getUserId1();
+        Integer userId2 = relationship.getUserId2();
+        log.info("同意好友申请, 参数userId1:{},userId2:{}",userId1,userId2);
+        Integer status1 = 0;
+        Integer status2 = 0;
+        relationshipService.change2StatusBy2UserId(userId1,userId2,status1,status2);
+        // 并没有存储拒绝信息，并没有展示决绝信息
+        return Res.success("已拒绝");
+    }
 }

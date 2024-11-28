@@ -1,5 +1,6 @@
 package com.spz.communication.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.spz.communication.entity.dto.RelationshipDto;
 import com.spz.communication.mapper.RelationshipMapper;
@@ -110,6 +111,13 @@ public class RelationshipServiceImpl extends ServiceImpl<RelationshipMapper, Rel
             relationshipDtos.add(relationshipDto);
         }
         return relationshipDtos;
+    }
+
+    @Override
+    public void change2StatusBy2UserId(Integer userId1, Integer userId2, Integer status1, Integer status2) {
+        // 可以做一个安全校验 优化
+        relationshipMapper.updateStatusByUserId1AndUserId2(userId1,userId2,status1);
+        relationshipMapper.updateStatusByUserId1AndUserId2(userId2,userId1,status2);
     }
 
 }

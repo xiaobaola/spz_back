@@ -18,4 +18,6 @@ public interface RelationshipService extends IService<Relationship> {
     List<Relationship> getListByUserId1AndStatus(Integer userId, int status);
 
     List<RelationshipDto> listRelationShipDtoByStatus(int status);
+
+    void change2StatusBy2UserId(Integer userId1, Integer userId2, Integer status1, Integer status2);
 }

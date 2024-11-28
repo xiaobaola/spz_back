@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Relationship {
+    private Integer id; //单条关系唯一标识
     private Integer userId1; //用户id1
     private Integer userId2; //用户id2
     private Integer status; //用户间状态
