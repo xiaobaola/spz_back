@@ -90,16 +90,15 @@ public class ComplaintController {
     public Res<Page<Complaint>> listClerk(
             @RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "10") Integer pageSize,
-            @RequestParam(defaultValue = "1") String number,
             @RequestParam(defaultValue = "-1", required = false) Integer status,
             @RequestParam(defaultValue = "2020-11-11") String begin,
             @RequestParam(defaultValue = "2024-11-11") String end) {
 
-        log.info("分页查询中，第{}页，{}条,其他参数：订单编号:{}, 状态:{}, 开始:{}, 结束:{}", page, pageSize, number, status, begin, end);
+        log.info("分页查询中，第{}页，{}条,其他参数：状态:{}, 开始:{}, 结束:{}", page, pageSize, status, begin, end);
 
         // MyBatis Plus 分页查询
         Page<Complaint> pageParam = new Page<>(page, pageSize); // 初始化分页参数
-        List<Complaint> clerkList = complaintService.listClerk(pageParam, number, status, begin, end); // 调用 service 层进行查询
+        List<Complaint> clerkList = complaintService.listClerk(pageParam, status, begin, end); // 调用 service 层进行查询
 
         // 设置查询结果到分页对象
         pageParam.setRecords(clerkList);

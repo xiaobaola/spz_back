@@ -23,10 +23,9 @@ import java.util.List;
 @Service
 public class ComplaintServiceImpl extends ServiceImpl<ComplaintMapper, Complaint> implements ComplaintService {
     private final ComplaintMapper complaintMapper;
-    public List<Complaint> listClerk(Page<Complaint> page, String number, Integer status, String begin, String end) {
+    public List<Complaint> listClerk(Page<Complaint> page, Integer status, String begin, String end) {
         // 使用 LambdaQueryWrapper 来构造查询条件
         LambdaQueryWrapper<Complaint> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.like(number != null, Complaint::getNumber, number);
         queryWrapper.eq(status != null, Complaint::getStatus, status);
         queryWrapper.between(begin != null && end != null, Complaint::getCreateTime, begin, end);
         return complaintMapper.selectPage(page, queryWrapper).getRecords();

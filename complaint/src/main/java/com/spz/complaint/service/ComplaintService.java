@@ -16,5 +16,5 @@ import java.util.List;
  */
 public interface ComplaintService extends IService<Complaint> {
 
-    List<Complaint> listClerk(Page<Complaint> pageParam, String number, Integer status, String begin, String end);
+    List<Complaint> listClerk(Page<Complaint> pageParam, Integer status, String begin, String end);
 }

@@ -61,8 +61,7 @@
         </el-form>
         <span slot="footer" class="dialog-footer">
             <el-button size="medium" @click="detailData.dialogVisible = false">取消</el-button>
-<!--            <el-button type="primary" size="medium" @click="approveItem()">通过审核</el-button>-->
-            <el-button type="primary" size="medium" @click="rejectItem()">上传实际价格</el-button>
+            <el-button type="primary" size="medium" @click="putRealPrice()">上传实际价格</el-button>
         </span>
     </el-dialog>
 </div>
@@ -134,18 +133,7 @@
                 this.showRejectReason =true;
                 this.rejectReason = '';
             },
-            async approveItem() {
-                // 通过审核操作
-                try {
-                    await approveSecondHandItem({ itemId: this.detailData.id });
-                    this.$message.success('真实价格已提交');
-                    this.detailData.dialogVisible = false;
-                    this.init(); // 重新加载列表数据
-                } catch (error) {
-                    console.error('真实价格上传失败:', error);
-                }
-            },
-            async rejectItem() {
+            async putRealPrice() {
                 // 打开不通过原因输入框
                 if (!this.showRejectReason) {
                     this.showRejectReason = true;
