@@ -47,7 +47,15 @@ public class ComplaintController {
     public Res<String> insertComplainant(@RequestBody Complaint complaint) {
         // 设置status为1 状态 1:投诉创建 2:客服已处理 3:商家已处理 4:投诉已处理
         complaint.setStatus(1);
-        complaintService.save(complaint);
+        // 更新沟通信息
+        LambdaQueryWrapper<Complaint> wrapper = new LambdaQueryWrapper<>();
+        if (complaint.getId() != null) {
+            wrapper.eq(Complaint::getId, complaint.getId());
+        }
+        if(complaint.getOrderId() != null) {
+            wrapper.eq(Complaint::getOrderId, complaint.getOrderId());
+        }
+        complaintService.saveOrUpdate(complaint,wrapper);
         return Res.success("投诉成功");
     }
     @PutMapping("/respondent")
@@ -55,7 +63,15 @@ public class ComplaintController {
         log.info("商家回复: {}", complaint);
         // 设置status为3 状态 1:投诉创建 2:客服已处理 3:商家已处理 4:投诉已处理
         complaint.setStatus(3);
-        complaintService.save(complaint);
+        // 更新沟通信息
+        LambdaQueryWrapper<Complaint> wrapper = new LambdaQueryWrapper<>();
+        if (complaint.getId() != null) {
+            wrapper.eq(Complaint::getId, complaint.getId());
+        }
+        if(complaint.getOrderId() != null) {
+            wrapper.eq(Complaint::getOrderId, complaint.getOrderId());
+        }
+        complaintService.saveOrUpdate(complaint,wrapper);
         return Res.success("完成反馈");
     }
     @PutMapping("/clerk/respondent")
@@ -63,14 +79,28 @@ public class ComplaintController {
         // 设置status为4 状态 1:投诉创建 2:客服已处理 3:商家已处理 4:投诉已处理
         complaint.setStatus(4);
         // 更新沟通信息
-        complaintService.save(complaint);
+        LambdaQueryWrapper<Complaint> wrapper = new LambdaQueryWrapper<>();
+        if (complaint.getId() != null) {
+            wrapper.eq(Complaint::getId, complaint.getId());
+        }
+        if(complaint.getOrderId() != null) {
+            wrapper.eq(Complaint::getOrderId, complaint.getOrderId());
+        }
+        complaintService.saveOrUpdate(complaint,wrapper);
         return Res.success("完成反馈");
     }
     @PutMapping("/clerk/complainant")
     public Res<String> insertClerk(@RequestBody Complaint complaint) {
         // 设置status为2 状态 1:投诉创建 2:客服已处理 3:商家已处理 4:投诉已处理
         complaint.setStatus(2);
-        complaintService.saveOrUpdate(complaint);
+        LambdaQueryWrapper<Complaint> wrapper = new LambdaQueryWrapper<>();
+        if (complaint.getId() != null) {
+            wrapper.eq(Complaint::getId, complaint.getId());
+        }
+        if(complaint.getOrderId() != null) {
+            wrapper.eq(Complaint::getOrderId, complaint.getOrderId());
+        }
+        complaintService.saveOrUpdate(complaint,wrapper);
         return Res.success("处理完成");
     }
 
@@ -81,7 +111,14 @@ public class ComplaintController {
         // 根据complaint.id更新状态
         complaint.setStatus(1);
         // 在原来的基础上跟新 status,updateTime,clerk
-        complaintService.updateById(complaint);
+        LambdaQueryWrapper<Complaint> wrapper = new LambdaQueryWrapper<>();
+        if (complaint.getId() != null) {
+            wrapper.eq(Complaint::getId, complaint.getId());
+        }
+        if(complaint.getOrderId() != null) {
+            wrapper.eq(Complaint::getOrderId, complaint.getOrderId());
+        }
+        complaintService.update(complaint,wrapper);
         return Res.success("处理完成");
     }
 

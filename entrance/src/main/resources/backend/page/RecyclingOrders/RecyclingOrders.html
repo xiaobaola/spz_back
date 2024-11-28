@@ -59,7 +59,7 @@
             <el-form-item label="价格：">
                 <span>{{detailData.predictPrice/100}}</span>
             </el-form-item>
-            <el-form-item v-if="showRejectReason" label="实际价格：">
+            <el-form-item v-if="showRejectReason" label="实价(元)：">
                 <el-input type="textarea" v-model="rejectReason" placeholder="请填实际价格"></el-input>
             </el-form-item>
         </el-form>
@@ -146,6 +146,11 @@
                 // 检查原因是否填写
                 if (!this.rejectReason) {
                     this.$message.error('请填写实际交易价格');
+                    return;
+                }
+                // 检查原因是否含有非数字或非小数点并且最多只能有两位小数
+                if (!/^[0-9]+\.?[0-9]{0,2}$/.test(this.rejectReason)) {
+                    this.$message.error('请输入正确的价格，最多两位小数');
                     return;
                 }
                 // 不通过审核操作
