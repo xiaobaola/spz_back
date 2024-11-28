@@ -53,7 +53,7 @@
                 <el-image style="width: auto; height: 40px;" :src="getImage(detailData.image)"></el-image>
             </el-form-item>
             <el-form-item label="价格：">
-                <span>{{detailData.predictPrice}}</span>
+                <span>{{detailData.predictPrice/100}}</span>
             </el-form-item>
             <el-form-item v-if="showRejectReason" label="实际价格：">
                 <el-input type="textarea" v-model="rejectReason" placeholder="请填实际价格"></el-input>
@@ -83,10 +83,12 @@
                     dialogVisible: false,
                     id: '',
                     name: '',
+                    number: '',
                     description: '',
                     image: '',
                     updateTime: '',
                     predictPrice: '',
+                    realPrice: ''
                 },
                 showRejectReason: false,
                 rejectReason: ''
@@ -121,6 +123,8 @@
             },
             async viewDetail(row) {
                 this.detailData.id = row.id;
+                this.detailData.number = row.number;
+                this.detailData.address = row.address;
                 this.detailData.name = row.name;
                 this.detailData.description =row.description;
                 this.detailData.image = row.image;
@@ -134,11 +138,11 @@
                 // 通过审核操作
                 try {
                     await approveSecondHandItem({ itemId: this.detailData.id });
-                    this.$message.success('审核通过');
+                    this.$message.success('真实价格已提交');
                     this.detailData.dialogVisible = false;
                     this.init(); // 重新加载列表数据
                 } catch (error) {
-                    console.error('审核通过失败:', error);
+                    console.error('真实价格上传失败:', error);
                 }
             },
             async rejectItem() {
@@ -149,17 +153,17 @@
                 }
                 // 检查原因是否填写
                 if (!this.rejectReason) {
-                    this.$message.error('请填写不通过原因');
+                    this.$message.error('请填写实际交易价格');
                     return;
                 }
                 // 不通过审核操作
                 try {
-                    await rejectSecondHandItem({ itemId: this.detailData.id, message: this.rejectReason , managerId: 1});
-                    this.$message.success('审核不通过');
+                    await rejectSecondHandItem({ itemId: this.detailData.id, realPrice: parseInt(this.rejectReason*100) , managerId: 1});
+                    this.$message.success('真实价格上传成功');
                     this.detailData.dialogVisible = false;
                     this.init(); // 重新加载列表数据
                 } catch (error) {
-                    console.error('审核不通过失败:', error);
+                    console.error('真实价格上传失败:', error);
                 }
             },
             getImage(image) {

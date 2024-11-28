@@ -45,8 +45,6 @@ public class ComplaintController {
     }
     @PostMapping("/complainant")
     public Res<String> insertComplainant(@RequestBody Complaint complaint) {
-        // complaint中创建number UUID
-        complaint.setNumber(IdWorker.getIdStr());
         // 设置status为1 状态 1:投诉创建 2:客服已处理 3:商家已处理 4:投诉已处理
         complaint.setStatus(1);
         complaintService.save(complaint);

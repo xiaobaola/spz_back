@@ -16,9 +16,9 @@ const querySecondHandItemDetailById = (id) => {
 }
 
 // 通过审核接口
-const approveSecondHandItem = (params) => {
+const putRealPrice = (params) => {
     return $axios({
-        url: '/spz/secondHand/item/productReview/approve',
+        url: '/spz/scrapTrade/recycler/price',
         method: 'put',
         data: {...params}
     })

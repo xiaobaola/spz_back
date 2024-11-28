@@ -93,4 +93,11 @@ public class ScrapTradeController {
         List<ScrapTrade> list = scrapTradeService.getTradeListByTradeStatus(status);
         return Res.success(list);
     }
+
+    // 回收员上传真实价格
+    @PutMapping("/recycler/price")
+    public Res<String> updatePrice(@RequestBody ScrapTrade scrapTrade) {
+        scrapTradeService.updateById(scrapTrade);
+        return Res.success("上传价格成功");
+    }
 }
