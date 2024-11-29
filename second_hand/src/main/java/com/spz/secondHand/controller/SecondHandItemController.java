@@ -2,6 +2,7 @@ package com.spz.secondHand.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.spz.common.Res;
+import com.spz.personal.service.UserService;
 import com.spz.secondHand.entity.SecondHandItem;
 import com.spz.secondHand.entity.SecondHandItemImage;
 import com.spz.secondHand.entity.SecondHandItemReject;
@@ -36,6 +37,7 @@ public class SecondHandItemController {
     private final SecondHandItemService itemService;
     private final SecondHandItemRejectService rejectService;
     private final SecondHandItemImageService itemImageService;
+    private final UserService userService;
 
     @Cacheable(value = "itemList",key = "'status_2'")
     @GetMapping("/list")
@@ -234,11 +236,15 @@ public class SecondHandItemController {
         // 2.根据itemId查询itemImage
         LambdaQueryWrapper<SecondHandItemImage> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(SecondHandItemImage::getSecondHandItemId,item.getId());
-        List<SecondHandItemImage> imageList = itemImageService.list(queryWrapper);
-        // 3.封装itemDto
+        List<String> imageList = itemImageService.list(queryWrapper).stream().map(SecondHandItemImage::getImage).toList();
+        // 3.获取sellerUsername和sellerImage
+        User seller = userService.getById(item.getUserId());
+        // 4.封装itemDto
         SecondHandItemDto itemDto = new SecondHandItemDto();
         BeanUtil.copyProperties(item,itemDto);
         itemDto.setImageList(imageList);
+        itemDto.setSellerUsername(seller.getUsername());
+        itemDto.setSellerImage(seller.getImage());
         return Res.success(itemDto);
     }
 }
