@@ -3,20 +3,27 @@ package com.spz.secondHand.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.spz.common.Res;
 import com.spz.secondHand.entity.SecondHandItem;
+import com.spz.secondHand.entity.SecondHandItemImage;
 import com.spz.secondHand.entity.SecondHandItemReject;
 import com.spz.secondHand.entity.dto.SecondHandItemDto;
 import com.spz.secondHand.entity.wrapper.SecondHandWrapper;
 import com.spz.personal.entity.User;
+import com.spz.secondHand.service.SecondHandItemImageService;
 import com.spz.secondHand.service.SecondHandItemRejectService;
 import com.spz.secondHand.service.SecondHandItemService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import cn.hutool.core.bean.BeanUtil;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -28,6 +35,7 @@ public class SecondHandItemController {
 
     private final SecondHandItemService itemService;
     private final SecondHandItemRejectService rejectService;
+    private final SecondHandItemImageService itemImageService;
 
     @Cacheable(value = "itemList",key = "'status_2'")
     @GetMapping("/list")
@@ -53,25 +61,58 @@ public class SecondHandItemController {
     }
     @PostMapping
     public Res<String> sellerUploadItem(@RequestBody SecondHandWrapper wrapper) {
-//        log.info("卖家发布二手物品，物品wrapper{}",wrapper);
-        // 对传输的数据进行传递
+// Step 1: 属性拷贝
         SecondHandItem item = new SecondHandItem();
-        item.setImage(wrapper.getImage());
-        item.setPrice(wrapper.getPrice());
-        item.setInformation(wrapper.getInformation());
-        item.setName(wrapper.getName());
+        BeanUtil.copyProperties(wrapper, item);
         int userId = wrapper.getUserId();
-//        userId = User.getUserIdByThread(userId);
         item.setUserId(userId);
-        log.info("卖家发布二手物品，物品{}",item);
+        LocalDateTime creteTime = LocalDateTime.now();
+        item.setCreateTime(creteTime);
+        log.info("卖家发布二手物品，物品信息: {}", item);
+
+        // Step 2: 保存二手物品
         itemService.addItem(item);
+
+        // Step 3: 查询保存后的物品
+        String createTimeString = creteTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        item = itemService.getByCreateTimeAndUserId(createTimeString, userId);
+
+        // Step 4: 保存图片信息
+        List<SecondHandItemImage> imageList = new ArrayList<>();
+        for (String image : wrapper.getPhotoList()) {
+            SecondHandItemImage imageItem = new SecondHandItemImage();
+            imageItem.setImage(image);
+            imageItem.setSecondHandItemId(item.getId());
+            imageList.add(imageItem);
+        }
+        itemImageService.saveBatch(imageList);
+
+        // Step 5: 返回成功响应
         return Res.success("发布成功");
     }
 
     @PutMapping
-    public Res<String> modifyItem(@RequestBody SecondHandItem item){
+    public Res<String> modifyItem(@RequestBody SecondHandWrapper wrapper){
+        // 1.对象拷贝 糊涂工具类
+        SecondHandItem item = new SecondHandItem();
+        BeanUtil.copyProperties(wrapper,item);
         log.info("卖家修改物品，参数{}",item);
+        // 1.1 修改二手物品基本信息
         itemService.changeItemByItem(item);
+        // 2 修改二手物品图片组
+        // 2.1对原来的图片组进行删除
+        LambdaQueryWrapper<SecondHandItemImage> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SecondHandItemImage::getSecondHandItemId,item.getId());
+        itemImageService.remove(queryWrapper);
+        // 2.2创建信息的图片组信息
+        List<SecondHandItemImage> imageList = new ArrayList<>();
+        for (String image : wrapper.getPhotoList()) {
+            SecondHandItemImage imageItem = new SecondHandItemImage();
+            imageItem.setImage(image);
+            imageItem.setSecondHandItemId(item.getId());
+            imageList.add(imageItem);
+        }
+        itemImageService.saveBatch(imageList);
         return Res.success("修改物品信息成功");
     }
     
@@ -183,6 +224,22 @@ public class SecondHandItemController {
         queryWrapper.eq(SecondHandItemReject::getItemId,itemId);
         rejectService.saveOrUpdate(itemReject, queryWrapper);
         return Res.success("商品审核不通过");
+    }
+    // getDto
+    @GetMapping("/dto")
+    public Res<SecondHandItemDto> getDto(@RequestParam int itemId){
+        log.info("获取物品详情，参数{}", itemId);
+        // 1.根据id查询item
+        SecondHandItem item = itemService.getById(itemId);
+        // 2.根据itemId查询itemImage
+        LambdaQueryWrapper<SecondHandItemImage> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SecondHandItemImage::getSecondHandItemId,item.getId());
+        List<SecondHandItemImage> imageList = itemImageService.list(queryWrapper);
+        // 3.封装itemDto
+        SecondHandItemDto itemDto = new SecondHandItemDto();
+        BeanUtil.copyProperties(item,itemDto);
+        itemDto.setImageList(imageList);
+        return Res.success(itemDto);
     }
 }
 

@@ -82,13 +82,13 @@ public class SecondHandItemServiceImpl extends ServiceImpl<SecondHandItemMapper,
     }
 
     @Override
-    public void addItem(SecondHandItem item) {
+    public int addItem(SecondHandItem item) {
         // 完善数据status 时间
         int status = 1; // 1:待审核 2:发布中 3:下架
         item.setStatus(status);
 //        item.setCreateTime(LocalDateTime.now());
 //        item.setUpdateTime(LocalDateTime.now());
-        itemMapper.insertSecondHandItem(item);
+        return itemMapper.insertSecondHandItem(item);
     }
 
     /**
@@ -152,6 +152,14 @@ public class SecondHandItemServiceImpl extends ServiceImpl<SecondHandItemMapper,
             itemDtoList.add(itemDto);
         }
         return itemDtoList;
+    }
+
+    @Override
+    public SecondHandItem getByCreateTimeAndUserId(String creteTime, int userId) {
+        LambdaQueryWrapper<SecondHandItem> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SecondHandItem::getCreateTime,creteTime);
+        queryWrapper.eq(SecondHandItem::getUserId,userId);
+        return this.getOne(queryWrapper);
     }
 
 }

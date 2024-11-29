@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.spz.secondHand.entity.SecondHandItem;
 import com.spz.secondHand.entity.dto.SecondHandItemDto;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface SecondHandItemService extends IService<SecondHandItem> {
@@ -14,7 +15,7 @@ public interface SecondHandItemService extends IService<SecondHandItem> {
 
     List<SecondHandItemDto> getItemDtoByStatus(int status);
 
-    void addItem(SecondHandItem item);
+    int addItem(SecondHandItem item);
 
     List<SecondHandItem> getSomeByUserId(int userId);
 
@@ -25,4 +26,6 @@ public interface SecondHandItemService extends IService<SecondHandItem> {
     void changeItemStatusByItemId(int status, int itemId);
 
     List<SecondHandItemDto> getItemDtoListBySearchInfo(String info);
+
+    SecondHandItem getByCreateTimeAndUserId(String creteTime, int userId);
 }
