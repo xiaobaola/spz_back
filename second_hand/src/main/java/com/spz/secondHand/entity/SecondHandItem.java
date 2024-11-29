@@ -34,6 +34,7 @@ public class SecondHandItem implements Serializable {
     private String image;
     private int status; //1:待审核 2:发布中 3:下架
     private int price;
+    private String name;
     private String information;
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;

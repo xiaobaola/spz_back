@@ -18,6 +18,7 @@ public class SecondHandWrapper {
     // 二手物品
     private String image;
     private int price;
+    private String name;
     private String information;
     private int managerId;
     private String message;

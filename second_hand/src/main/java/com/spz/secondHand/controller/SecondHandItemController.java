@@ -32,7 +32,7 @@ public class SecondHandItemController {
     @Cacheable(value = "itemList",key = "'status_2'")
     @GetMapping("/list")
     public Res<List<SecondHandItemDto>> listStatus2(){
-        //返回所有二手物品信息 1:待审核 2:发布中 3:下架
+        //返回所有二手物品信息 二手物品状态 1:待内容审核 2:发布中 3:下架 4待价格审核
         //可以优化 pageHelper 分页查询
         log.info("获取所有二手物品信息");
         return Res.success(itemService.getItemDtoByStatus(2));
@@ -40,7 +40,7 @@ public class SecondHandItemController {
     @Cacheable(value = "itemList",key = "'status_1'")
     @GetMapping("/list/manager")
     public Res<List<SecondHandItemDto>> listStatus1(){
-        //返回所有二手物品信息 1:待审核 2:发布中 3:下架
+        //返回所有二手物品信息 二手物品状态 1:待内容审核 2:发布中 3:下架 4待价格审核
         //可以优化 pageHelper 分页查询
         log.info("获取所有二手物品信息");
         return Res.success(itemService.getItemDtoByStatus(1));
@@ -59,6 +59,7 @@ public class SecondHandItemController {
         item.setImage(wrapper.getImage());
         item.setPrice(wrapper.getPrice());
         item.setInformation(wrapper.getInformation());
+        item.setName(wrapper.getName());
         int userId = wrapper.getUserId();
 //        userId = User.getUserIdByThread(userId);
         item.setUserId(userId);
@@ -85,14 +86,14 @@ public class SecondHandItemController {
     @PutMapping("/seller/up")
     public Res<String> sellerApplyItem(@RequestBody SecondHandItem item){
         log.info("卖家申请审核，参数{}",item);
-        int status = 1; // 1:待审核 2:发布中 3:下架
+        int status = 1; // 二手物品状态 1:待内容审核 2:发布中 3:下架 4待价格审核
         itemService.changeItemStatusByItemId(status,item.getId());
         return Res.success("审核中");
     }
     @PutMapping("/seller/down")
     public Res<String> sellerOffItem(@RequestBody SecondHandItem item){
         log.info("卖家下架物品，参数{}",item);
-        int status = 3; // 1:待审核 2:发布中 3:下架
+        int status = 3; // 二手物品状态 1:待内容审核 2:发布中 3:下架 4待价格审核
         itemService.changeItemStatusByItemId(status,item.getId());
         return Res.success("已下架");
     }

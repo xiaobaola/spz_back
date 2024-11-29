@@ -88,7 +88,7 @@ public class SecondHandItemServiceImpl extends ServiceImpl<SecondHandItemMapper,
         item.setStatus(status);
 //        item.setCreateTime(LocalDateTime.now());
 //        item.setUpdateTime(LocalDateTime.now());
-        itemMapper.insert(item);
+        itemMapper.insertSecondHandItem(item);
     }
 
     /**

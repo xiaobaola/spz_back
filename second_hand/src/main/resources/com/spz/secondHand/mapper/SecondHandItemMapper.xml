@@ -15,6 +15,9 @@
             <if test="information != null and information != ''">
                 information = #{information},
             </if>
+            <if test="name != null and name != ''">
+                `name` = #{name},
+            </if>
             <if test="price != null and price != 0">
                 price = #{price},
             </if>

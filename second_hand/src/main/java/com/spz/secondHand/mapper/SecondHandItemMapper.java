@@ -20,9 +20,9 @@ public interface SecondHandItemMapper extends BaseMapper<SecondHandItem> {
     @Select("select * from second_hand_item where id=#{itemId}")
     SecondHandItem selectById(int itemId);
 
-    @Insert("insert into second_hand_item (image, status, price, information, create_time, update_time, user_id) " +
-            "values (#{image},#{status},#{price},#{information},#{createTime},#{updateTime},#{userId})")
-    int insert(SecondHandItem item);
+    @Insert("insert into second_hand_item (name,image, status, price, information, create_time, update_time, user_id) " +
+            "values (#{name},#{image},#{status},#{price},#{information},#{createTime},#{updateTime},#{userId})")
+    int insertSecondHandItem(SecondHandItem item);
 
     @Select("select * from second_hand_item where user_id=#{userId}")
     List<SecondHandItem> selectByUserId(int userId);
