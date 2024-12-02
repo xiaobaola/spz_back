@@ -28,4 +28,28 @@
         where id = #{id}
     </update>
 
+    <select id="getItemsSortedByBrowseCount" resultType="com.spz.secondHand.entity.dto.SecondHandItemDto">
+        SELECT
+            s.*,
+            COALESCE(b.total_count, 0) AS browse_count
+        FROM
+            second_hand_item s
+                LEFT JOIN (
+                SELECT
+                    item_id,
+                    SUM(count) AS total_count
+                FROM
+                    user_item_browse
+                GROUP BY
+                    item_id
+            ) b
+                          ON
+                              s.id = b.item_id
+        WHERE
+            s.status = #{status}
+        ORDER BY
+            b.total_count DESC,
+            s.create_time DESC;
+    </select>
+
 </mapper>

@@ -13,6 +13,7 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class SecondHandItemDto extends SecondHandItem {
+    private int browseCount;
     private String sellerUsername;
     private String sellerImage;
     private List<String> imageList;

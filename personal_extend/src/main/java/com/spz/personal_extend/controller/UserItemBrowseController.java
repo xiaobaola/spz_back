@@ -1,6 +1,8 @@
 package com.spz.personal_extend.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.spz.common.Res;
+import com.spz.personal_extend.entity.UserItemBrowse;
 import com.spz.personal_extend.entity.dto.SecondHandBrowseDto;
 import com.spz.personal_extend.entity.wrapper.UserItemWrapper;
 import com.spz.personal_extend.service.UserItemBrowseService;
@@ -36,5 +38,19 @@ public class UserItemBrowseController {
         // 需要userId和itemId来定位数据信息
         browseService.insertOrUpdateByUserIdAndItemId(wrapper.getUserId(), wrapper.getItemId());
         return Res.success("新增成功");
+    }
+
+    // 获取所有用户对单个二手物品的浏览量
+    @GetMapping("/count")
+    public Res<Integer> getCount(@RequestParam int itemId) {
+        log.info("获取所有用户对单个二手物品的浏览量，参数{}", itemId);
+        LambdaQueryWrapper<UserItemBrowse> userItemBrowseLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        userItemBrowseLambdaQueryWrapper.eq(UserItemBrowse::getItemId, itemId);
+        List<UserItemBrowse> userItemBrowseList = browseService.list(userItemBrowseLambdaQueryWrapper);
+        Integer count = 0;
+        for(UserItemBrowse browse : userItemBrowseList) {
+            count += browse.getCount();
+        }
+        return Res.success(count);
     }
 }

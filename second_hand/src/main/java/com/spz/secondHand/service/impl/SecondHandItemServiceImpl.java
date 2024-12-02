@@ -162,4 +162,24 @@ public class SecondHandItemServiceImpl extends ServiceImpl<SecondHandItemMapper,
         return this.getOne(queryWrapper);
     }
 
+    @Override
+    public List<SecondHandItemDto> getItemDtoByStatusAndOrderByBrowseCount(int status) {
+        List<SecondHandItemDto> itemDtos= new ArrayList<>();
+        // 1获取所有物品信息 根据status
+        List<SecondHandItemDto> itemDtoList = itemMapper.getItemsSortedByBrowseCount(status);
+        // log.info长度
+//        log.info("itemDtoList长度:{}",itemDtoList.size());
+        // 2遍历物品，对物品增强,补全
+        for(SecondHandItemDto itemDto : itemDtoList) {
+            // 2.1 通过userId获取user信息
+            User user =  userService.getById(itemDto.getUserId());
+            // 2.2 补全seller的username和image
+            itemDto.setSellerImage(user.getImage());
+            itemDto.setSellerUsername(user.getUsername());
+            // 2.3 放入list中
+            itemDtos.add(itemDto);
+        }
+        return itemDtos;
+    }
+
 }

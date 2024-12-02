@@ -302,5 +302,13 @@ public class SecondHandItemController {
 
         return Res.success(itemDto);
     }
+
+    // 根据浏览量进行排序
+    @GetMapping("/list/browse")
+    public Res<List<SecondHandItemDto>> listStatus2OrderByBrowse() {
+        log.info("获取所有二手物品信息");
+        //返回所有二手物品信息 二手物品状态 1:待内容审核 2:发布中 3:下架 4待价格审核
+        return Res.success(itemService.getItemDtoByStatusAndOrderByBrowseCount(2));
+    }
 }
 

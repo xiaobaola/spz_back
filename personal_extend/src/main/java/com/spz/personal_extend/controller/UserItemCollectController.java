@@ -51,4 +51,13 @@ public class UserItemCollectController {
         collectService.remove(queryWrapper);
         return Res.success("取消收藏成功");
     }
+
+    // 获取单个二手物品的用户收藏数
+    @GetMapping("/count")
+    public Res<Integer> getCount(@RequestParam int itemId) {
+        log.info("获取单个物品收藏数，参数{}", itemId);
+        LambdaQueryWrapper<UserItemCollect> userItemCollectLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        userItemCollectLambdaQueryWrapper.eq(UserItemCollect::getItemId, itemId);
+        return Res.success(Math.toIntExact(collectService.count(userItemCollectLambdaQueryWrapper)));
+    }
 }
