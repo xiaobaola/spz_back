@@ -2,6 +2,7 @@ package com.spz.secondHand.entity.wrapper;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.spz.tag.entity.dto.TagTagGroupDto;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -27,7 +28,8 @@ public class SecondHandWrapper{
     private String information;
     private int managerId;
     private String message;
-    private List<String> photoList;
+    private List<String> imageList;
+    private List<TagTagGroupDto> tagList;
     private int id;
     private int status; //1:待审核 2:发布中 3:下架
 }

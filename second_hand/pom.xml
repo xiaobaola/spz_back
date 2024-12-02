@@ -18,6 +18,11 @@
             <artifactId>personal</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.spz</groupId>
+            <artifactId>tag</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
 
 
         <!--        spring启动框架-->

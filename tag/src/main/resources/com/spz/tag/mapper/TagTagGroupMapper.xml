@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spz.tag.mapper.TagTagGroupMapper">
+        <!-- 查询分组及其关联的标签 -->
+        <select id="findTagGroupsWithTags" resultType="map" parameterType="list">
+            SELECT
+            tg.id AS tagGroupId,
+            tg.name AS tagGroupName,
+            t.id AS tagId,
+            t.name AS tagName
+            FROM
+            tag_group tg
+            LEFT JOIN
+            tag_tag_group ttg ON tg.id = ttg.tag_group_id
+            LEFT JOIN
+            tag t ON ttg.tag_tag_group_id = t.id
+            WHERE
+            t.id IN
+            <foreach collection="list" item="tagId" open="(" separator="," close=")">
+                #{tagId}
+            </foreach>
+        </select>
+
+</mapper>

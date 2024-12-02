@@ -1,17 +1,25 @@
 package com.spz.secondHand.controller;
 
+import cn.hutool.core.lang.UUID;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.spz.common.Res;
 import com.spz.personal.service.UserService;
 import com.spz.secondHand.entity.SecondHandItem;
 import com.spz.secondHand.entity.SecondHandItemImage;
 import com.spz.secondHand.entity.SecondHandItemReject;
+import com.spz.secondHand.entity.SecondHandItemTag;
 import com.spz.secondHand.entity.dto.SecondHandItemDto;
 import com.spz.secondHand.entity.wrapper.SecondHandWrapper;
 import com.spz.personal.entity.User;
+import com.spz.secondHand.service.ISecondHandItemTagService;
 import com.spz.secondHand.service.SecondHandItemImageService;
 import com.spz.secondHand.service.SecondHandItemRejectService;
 import com.spz.secondHand.service.SecondHandItemService;
+import com.spz.tag.entity.TagTagGroup;
+import com.spz.tag.entity.dto.TagGroupDto;
+import com.spz.tag.entity.dto.TagTagGroupDto;
+import com.spz.tag.service.ITagService;
+import com.spz.tag.service.ITagTagGroupService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -22,8 +30,6 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +44,8 @@ public class SecondHandItemController {
     private final SecondHandItemRejectService rejectService;
     private final SecondHandItemImageService itemImageService;
     private final UserService userService;
+    private final ISecondHandItemTagService itemTagService;
+    private final ITagTagGroupService tagTagGroupService;
 
     @Cacheable(value = "itemList",key = "'status_2'")
     @GetMapping("/list")
@@ -63,25 +71,31 @@ public class SecondHandItemController {
     }
     @PostMapping
     public Res<String> sellerUploadItem(@RequestBody SecondHandWrapper wrapper) {
-// Step 1: 属性拷贝
+        // Step 1: 属性拷贝
         SecondHandItem item = new SecondHandItem();
         BeanUtil.copyProperties(wrapper, item);
         int userId = wrapper.getUserId();
-        item.setUserId(userId);
-        LocalDateTime creteTime = LocalDateTime.now();
-        item.setCreateTime(creteTime);
+        // 设置物品的uuid
+        String uuid = UUID.randomUUID().toString();
+        item.setUuid(uuid);
+        // 完善数据status 时间
+        int status = 1; // 1:待审核 2:发布中 3:下架
+        item.setStatus(status);
         log.info("卖家发布二手物品，物品信息: {}", item);
 
         // Step 2: 保存二手物品
-        itemService.addItem(item);
+        itemService.save(item);
 
         // Step 3: 查询保存后的物品
-        String createTimeString = creteTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        item = itemService.getByCreateTimeAndUserId(createTimeString, userId);
+        // 通过uuid查询 得到itemId
+        LambdaQueryWrapper<SecondHandItem> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SecondHandItem::getUuid, uuid);
+        item = itemService.getOne(queryWrapper);
+        log.info("获取物品信息: {}", item);
 
         // Step 4: 保存图片信息
         List<SecondHandItemImage> imageList = new ArrayList<>();
-        for (String image : wrapper.getPhotoList()) {
+        for (String image : wrapper.getImageList()) {
             SecondHandItemImage imageItem = new SecondHandItemImage();
             imageItem.setImage(image);
             imageItem.setSecondHandItemId(item.getId());
@@ -89,13 +103,30 @@ public class SecondHandItemController {
         }
         itemImageService.saveBatch(imageList);
 
-        // Step 5: 返回成功响应
+        // Step 5: 批量保存标签信息
+        // 3.2 创建新的标签组
+        itemTagService.savaBatchByItemIdAndTagTagGroupDtoList(item.getId(),wrapper.getTagList());
+//        List<SecondHandItemTag> tagList = new ArrayList<>();
+//        for (TagTagGroupDto tagTagGroupDto : wrapper.getTagList()) {
+//            // 通过标签id和标签组id获取标签关联对象的id
+//            int tagId = tagTagGroupDto.getTagId();
+//            int tagGroupId = tagTagGroupDto.getTagGroupId();
+//            TagTagGroup tagTagGroup = tagTagGroupService.getTagTagGroupByTagIdAndTagGroupId(tagId, tagGroupId);
+//            // 创建标签与二手物品关联对象
+//            SecondHandItemTag tagItem = new SecondHandItemTag();
+//            tagItem.setTagTagGroupId(tagTagGroup.getTagGroupId());
+//            tagItem.setSecondHandItemId(item.getId());
+//            tagList.add(tagItem);
+//        }
+//        itemTagService.saveBatch(tagList);
+
+        // Step 6: 返回成功响应
         return Res.success("发布成功");
     }
 
     @PutMapping
     public Res<String> modifyItem(@RequestBody SecondHandWrapper wrapper){
-        // 1.对象拷贝 糊涂工具类
+        // 1.对象拷贝 糊涂工具类 wrapper.id->item.id
         SecondHandItem item = new SecondHandItem();
         BeanUtil.copyProperties(wrapper,item);
         log.info("卖家修改物品，参数{}",item);
@@ -108,13 +139,20 @@ public class SecondHandItemController {
         itemImageService.remove(queryWrapper);
         // 2.2创建信息的图片组信息
         List<SecondHandItemImage> imageList = new ArrayList<>();
-        for (String image : wrapper.getPhotoList()) {
+        for (String image : wrapper.getImageList()) {
             SecondHandItemImage imageItem = new SecondHandItemImage();
             imageItem.setImage(image);
             imageItem.setSecondHandItemId(item.getId());
             imageList.add(imageItem);
         }
         itemImageService.saveBatch(imageList);
+        // 3. 修改物品标签组
+        // 3.1 删除原有的标签组
+        LambdaQueryWrapper<SecondHandItemTag> tagQueryWrapper = new LambdaQueryWrapper<>();
+        tagQueryWrapper.eq(SecondHandItemTag::getSecondHandItemId,item.getId());
+        itemTagService.remove(tagQueryWrapper);
+        // 3.2 创建新的标签组
+        itemTagService.savaBatchByItemIdAndTagTagGroupDtoList(item.getId(),wrapper.getTagList());
         return Res.success("修改物品信息成功");
     }
     
@@ -147,10 +185,20 @@ public class SecondHandItemController {
         // 卖家删除物品 物品状态更改，数据库删除数据
         // 直接删除
         log.info("卖家删除物品，参数{}",itemId);
+        // 1.删除reject信息
+        LambdaQueryWrapper<SecondHandItemReject> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SecondHandItemReject::getItemId,itemId);
+        rejectService.remove(queryWrapper);
+        // 2. 删除图片组信息
+        LambdaQueryWrapper<SecondHandItemImage> imageQueryWrapper = new LambdaQueryWrapper<>();
+        imageQueryWrapper.eq(SecondHandItemImage::getSecondHandItemId,itemId);
+        itemImageService.remove(imageQueryWrapper);
+        // 3. 删除标签组信息
+        LambdaQueryWrapper<SecondHandItemTag> tagQueryWrapper = new LambdaQueryWrapper<>();
+        tagQueryWrapper.eq(SecondHandItemTag::getSecondHandItemId,itemId);
+        itemTagService.remove(tagQueryWrapper);
+        // 4. 删除物品信息
         itemService.deleteByItemId(itemId);
-        LambdaQueryWrapper<SecondHandItem> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(SecondHandItem::getId,itemId);
-//        itemService.remove(queryWrapper);
         return Res.success("删除成功");
     }
 
@@ -239,12 +287,19 @@ public class SecondHandItemController {
         List<String> imageList = itemImageService.list(queryWrapper).stream().map(SecondHandItemImage::getImage).toList();
         // 3.获取sellerUsername和sellerImage
         User seller = userService.getById(item.getUserId());
-        // 4.封装itemDto
+        // 4.获取tagList
+        LambdaQueryWrapper<SecondHandItemTag> tagQueryWrapper = new LambdaQueryWrapper<>();
+        tagQueryWrapper.eq(SecondHandItemTag::getSecondHandItemId,itemId);
+        List<Integer> tagIdList = itemTagService.list(tagQueryWrapper).stream().map(SecondHandItemTag::getTagTagGroupId).toList();
+        List<TagTagGroupDto> tagList = tagTagGroupService.getTagTagGroupDtoListByTagTagGroupIdList(tagIdList);
+        // 5.封装itemDto
         SecondHandItemDto itemDto = new SecondHandItemDto();
         BeanUtil.copyProperties(item,itemDto);
         itemDto.setImageList(imageList);
         itemDto.setSellerUsername(seller.getUsername());
         itemDto.setSellerImage(seller.getImage());
+        itemDto.setTagList(tagList);
+
         return Res.success(itemDto);
     }
 }
