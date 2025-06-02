@@ -25,7 +25,7 @@ import java.util.List;
  * @since 2024-11-14
  */
 @RestController
-@RequestMapping("spz/complaint")
+@RequestMapping("/spz/complaint")
 @Tag(name = "投诉模块")
 @Slf4j
 @RequiredArgsConstructor
