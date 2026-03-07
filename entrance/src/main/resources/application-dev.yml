@@ -1,0 +1,20 @@
+spz:
+  wechat:
+    appid: wx088266692a65577c
+    secret: c6b7919091b0de94d6f3391c20f936da
+spzStore:
+  #  设置图片仓库的映射路径 直接映射磁盘 不需转存
+  path: /last/project/spz/store/image/ #服务器
+spring:
+  datasource:
+    password: spz03478 #服务器
+server:
+  ssl:
+    key-store: /last/project/spz/store/ssl/spz.spzlast.fun.jks
+    key-store-password: s08q7sca
+    key-store-type: JKS
+    enabled: true
+
+
+
+

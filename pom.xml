@@ -50,10 +50,19 @@
         <jakarta.version>6.0.0</jakarta.version>
         <httpclient.version>4.5.13</httpclient.version>
         <jwt.version>3.10.0</jwt.version>
+        <poi.version>5.2.3</poi.version>
+        <itext.version>7.2.5</itext.version>
+        <itext-asian.version>5.2.0</itext-asian.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <!-- 通义千问 SDK 依赖 -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>dashscope-sdk-java</artifactId>
+                <version>2.14.0</version>
+            </dependency>
             <!--        spring启动框架-->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -169,11 +178,30 @@
                 <artifactId>httpclient</artifactId>
                 <version>${httpclient.version}</version>
             </dependency>
-            <!--引入JWT-->
+            <!--引入 JWT-->
             <dependency>
                 <groupId>com.auth0</groupId>
                 <artifactId>java-jwt</artifactId>
                 <version>${jwt.version}</version>
+            </dependency>
+            <!-- Apache POI -->
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-ooxml</artifactId>
+                <version>${poi.version}</version>
+            </dependency>
+            <!-- iText PDF -->
+            <dependency>
+                <groupId>com.itextpdf</groupId>
+                <artifactId>itext7-core</artifactId>
+                <version>${itext.version}</version>
+                <type>pom</type>
+            </dependency>
+            <!-- iText 中文支持 -->
+            <dependency>
+                <groupId>com.itextpdf</groupId>
+                <artifactId>itext-asian</artifactId>
+                <version>${itext-asian.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
