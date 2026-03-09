@@ -53,6 +53,7 @@
         <poi.version>5.2.3</poi.version>
         <itext.version>7.2.5</itext.version>
         <itext-asian.version>5.2.0</itext-asian.version>
+        <slf4j.version>2.0.9</slf4j.version>
     </properties>
 
     <dependencyManagement>
@@ -202,6 +203,19 @@
                 <groupId>com.itextpdf</groupId>
                 <artifactId>itext-asian</artifactId>
                 <version>${itext-asian.version}</version>
+            </dependency>
+            <!-- SLF4J 日志框架 - 统一使用 Logback -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <!-- 排除 slf4j-simple，避免与 Logback 冲突 -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-simple</artifactId>
+                <version>${slf4j.version}</version>
+                <scope>provided</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>

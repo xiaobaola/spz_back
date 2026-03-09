@@ -7,6 +7,14 @@ const getMessageTradeList = (params) => {
     })
 }
 
+// 新增接口
+const getMessageTradeContext = () => {
+    return $axios({
+        url: '/spz/messageTrade/context',
+        method: 'get'
+    })
+}
+
 // 编辑页面反查详情接口
 const queryMessageTradeById = (id) => {
     return $axios({

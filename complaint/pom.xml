@@ -22,10 +22,17 @@
             <version>${project.version}</version>
         </dependency>
 
-        <!--        spring启动框架-->
+        <!--        spring 启动框架-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web-services</artifactId>
+            <exclusions>
+                <!-- 排除 slf4j-simple，避免与 Logback 冲突 -->
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-simple</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <!--        lombok实体类注解-->
         <dependency>
@@ -102,10 +109,17 @@
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
         </dependency>
-        <!--引入JWT-->
+        <!--引入 JWT-->
         <dependency>
             <groupId>com.auth0</groupId>
             <artifactId>java-jwt</artifactId>
+            <exclusions>
+                <!-- 排除 slf4j-simple，避免与 Logback 冲突 -->
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-simple</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 
